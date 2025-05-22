@@ -1,0 +1,10 @@
+<h2>Restaurantes Disponíveis</h2>
+
+<ul>
+  <li *ngFor="let r of restaurants">
+    <a [routerLink]="['/restaurants', r._id, 'menu']">
+      <strong>{{ r.name }}</strong> <br />
+      <em>{{ r.description }}</em>
+    </a>
+  </li>
+</ul>
