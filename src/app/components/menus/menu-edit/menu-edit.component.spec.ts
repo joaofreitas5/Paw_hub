@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideHttpClient } from '@angular/common/http';
 
 import { MenuEditComponent } from './menu-edit.component';
 
@@ -8,7 +9,8 @@ describe('MenuEditComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MenuEditComponent]
+      imports: [MenuEditComponent],
+      providers: [provideHttpClient()]
     })
     .compileComponents();
 

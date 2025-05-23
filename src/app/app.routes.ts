@@ -6,7 +6,7 @@ import { MenuListComponent } from './components/menus/menu-list/menu-list.compon
 import { MenuCreateComponent } from './components/menus/menu-create/menu-create.component';
 import { MenuDetailsComponent } from './components/menus/menu-details/menu-details.component';
 import { MenuEditComponent } from './components/menus/menu-edit/menu-edit.component';
-import { authGuard } from './core/guards/auth.guard';
+import { authGuard } from './core/guard/auth.guard';
 
 
 export const routes: Routes = [
