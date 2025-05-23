@@ -7,6 +7,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-login',
@@ -17,26 +18,17 @@ import { MatButtonModule } from '@angular/material/button';
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
-    MatButtonModule
+    MatButtonModule,
+    MatIconModule,
   ],
-  template: `
-    <mat-card>
-      <h2>Login</h2>
-      <form (ngSubmit)="onLogin()">
-        <mat-form-field>
-          <input matInput [(ngModel)]="username" name="username" placeholder="Username" required />
-        </mat-form-field>
-        <mat-form-field>
-          <input matInput [(ngModel)]="password" name="password" type="password" placeholder="Password" required />
-        </mat-form-field>
-        <button mat-raised-button color="primary" type="submit">Entrar</button>
-      </form>
-    </mat-card>
-  `
+  
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
   username = '';
   password = '';
+  email = ''; 
 
   constructor(private authService: AuthService, private router: Router) {}
 

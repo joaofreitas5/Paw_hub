@@ -1,31 +1,44 @@
-.login-form {
-  max-width: 400px;
-  margin: 48px auto;
+.login-wrapper {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #e3f2fd, #fce4ec);
 }
 
-mat-card {
+.login-card {
   width: 100%;
-  padding: 24px 16px;
-  box-sizing: border-box;
+  max-width: 400px;
+  padding: 32px 24px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  background-color: #fff;
+  text-align: center;
+}
+
+.login-icon {
+  font-size: 40px;
+  margin-right: 8px;
+}
+
+.form-field {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 12px 0;
+  font-weight: 600;
+  border-radius: 8px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
 }
 
 mat-card-title {
-  text-align: center;
-  font-size: 2rem;
-  margin-bottom: 16px;
-}
-
-mat-form-field.full-width {
-  width: 100%;
-  margin-bottom: 16px;
-}
-
-button[mat-raised-button] {
-  width: 100%;
-  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
 }
 
 mat-card-actions {

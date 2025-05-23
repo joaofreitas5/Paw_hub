@@ -1,21 +1,33 @@
-<div class="login-form" style="max-width: 400px; margin: 40px auto;">
-  <mat-card>
+<div class="login-wrapper">
+  <mat-card class="login-card">
+    <mat-card-header>
     <mat-card-title>Login</mat-card-title>
+    </mat-card-header>
+
     <mat-card-content>
       <form (ngSubmit)="onLogin()" #loginForm="ngForm">
-        <mat-form-field appearance="fill" class="full-width">
+        <mat-form-field appearance="outline" class="form-field">
           <mat-label>Email</mat-label>
-          <input matInput type="email" [(ngModel)]="email" name="email" required />
+          <input matInput type="email" name="email" [(ngModel)]="email" required />
+          <mat-icon matSuffix>alternate_email</mat-icon>
         </mat-form-field>
-        <mat-form-field appearance="fill" class="full-width">
-          <mat-label>Password</mat-label>
-          <input matInput type="password" [(ngModel)]="password" name="password" required />
+
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Senha</mat-label>
+          <input matInput type="password" name="password" [(ngModel)]="password" required />
+          <mat-icon matSuffix>lock</mat-icon>
         </mat-form-field>
-        <button mat-raised-button color="primary" type="submit" style="width: 100%;">Entrar</button>
+
+        <button mat-flat-button color="primary" class="submit-btn" type="submit">
+          Entrar
+        </button>
       </form>
     </mat-card-content>
+
     <mat-card-actions>
-      <a mat-button routerLink="/register">Criar conta</a>
+      <span>Não tem uma conta?</span>
+      <a mat-button color="accent" routerLink="/register">Criar conta</a>
     </mat-card-actions>
   </mat-card>
 </div>
+

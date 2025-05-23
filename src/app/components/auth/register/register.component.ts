@@ -7,6 +7,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-register',
@@ -17,25 +18,11 @@ import { MatButtonModule } from '@angular/material/button';
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
-    MatButtonModule
+    MatButtonModule,
+    MatIconModule,
   ],
-  template: `
-    <mat-card>
-      <h2>Registo</h2>
-      <form (ngSubmit)="onRegister()">
-        <mat-form-field>
-          <input matInput [(ngModel)]="username" name="username" placeholder="Username" required />
-        </mat-form-field>
-        <mat-form-field>
-          <input matInput [(ngModel)]="email" name="email" type="email" placeholder="Email" required />
-        </mat-form-field>
-        <mat-form-field>
-          <input matInput [(ngModel)]="password" name="password" type="password" placeholder="Password" required />
-        </mat-form-field>
-        <button mat-raised-button type="submit">Criar Conta</button>
-      </form>
-    </mat-card>
-  `
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
   username = '';
