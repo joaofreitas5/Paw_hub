@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { provideHttpClient } from '@angular/common/http';
-import { AuthService } from './services/auth-service/auth.service';
+import { AuthService } from './core/auth-service/auth.service';
 
 describe('AppComponent', () => {
   beforeEach(async () => {

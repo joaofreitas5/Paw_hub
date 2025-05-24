@@ -1,24 +1,18 @@
-// src/app/app.routes.ts
 import { Routes } from '@angular/router';
-import { LoginComponent } from './components/auth/login/login.component';
-import { RegisterComponent } from './components/auth/register/register.component';
-import { MenuListComponent } from './components/menu-management/menu-list/menu-list.component';
-import { MenuCreateComponent } from './components/menu-management/menu-create/menu-create.component';
-import { MenuDetailsComponent } from './components/menu-management/menu-details/menu-details.component';
-import { MenuEditComponent } from './components/menu-management/menu-edit/menu-edit.component';
-import { authGuard } from './core/guard/auth.guard';
-
+import { CanActivate } from '@angular/router';
+import { AuthGuard } from './core/guard/auth.guard';
+import { AdminGuard } from './core/guard/admin.guard';
+import { RestaurantGuard } from './core/guard/restaurant.guard';
+import { ClientGuard } from './core/guard/client.guard';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
-  { path: 'menus', canActivate: [authGuard], loadComponent: () => import('./components/menu-management/menu-list/menu-list.component').then(m => m.MenuListComponent) },
-  { path: 'menus/new', canActivate: [authGuard], loadComponent: () => import('./components/menu-management/menu-create/menu-create.component').then(m => m.MenuCreateComponent) },
-  { path: 'menus/:id', component: MenuDetailsComponent },
-  { path: 'menus/:id/edit', canActivate: [authGuard], loadComponent: () => import('./components/menu-management/menu-edit/menu-edit.component').then(m => m.MenuEditComponent) },
+  { path: '', loadComponent: () => import('./components/catalog/dish-catalog/dish-catalog.component').then(m => m.DishCatalogComponent) },
+  { path: 'login', loadComponent: () => import('./components/auth/login/login.component').then(m => m.LoginComponent) },
+  { path: 'register', loadComponent: () => import('./components/auth/register/register.component').then(m => m.RegisterComponent) },
+  { path: 'profile', loadComponent: () => import('./components/profile/profile.component').then(m => m.ProfileComponent), canActivate: [AuthGuard]},
+  { path: 'cart', loadComponent: () => import('./components/cart/cart/cart.component').then(m => m.CartComponent), canActivate: [ClientGuard] },
+  { path: 'checkout', loadComponent: () => import('./components/cart/checkout/checkout.component').then(m => m.CheckoutComponent), canActivate: [ClientGuard] },
+  { path: 'orders', loadComponent: () => import('./components/orders/user-orders/user-orders.component').then(m => m.UserOrdersComponent), canActivate: [ClientGuard] },
+  { path: 'restaurant/menus', loadComponent: () => import('./components/restaurant/menu-list/menu-list.component').then(m => m.MenuListComponent), canActivate: [RestaurantGuard] },
+  { path: 'admin', loadComponent: () => import('./components/admin/admin-dashboard/admin-dashboard.component').then(m => m.AdminDashboardComponent), canActivate: [AdminGuard] },
 ];
-
-
-  
-  
