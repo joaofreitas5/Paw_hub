@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { MenuService, Dish } from '../../../services/menus/menus.service';
+import { MenuService, Dish } from '../../../services/menus-service/menus.service';
 
 
 @Component({
