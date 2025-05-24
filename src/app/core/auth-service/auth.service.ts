@@ -1,33 +1,44 @@
-// src/app/features/auth/auth.service.ts
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
+import { tap } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private baseUrl = 'http://localhost:3000/api/auth';
+  private http = inject(HttpClient);
+  private router = inject(Router);
+  private userRole: 'client' | 'restaurant' | 'admin' | null = null;
 
-  constructor(private http: HttpClient) {}
-
-  login(credentials: { username: string; password: string }): Observable<any> {
-    return this.http.post('/api/auth/login', credentials);
+  login(credentials: { username: string; password: string }) {
+    return this.http
+      .post<{ role: string }>('/api/auth/login', credentials)
+      .pipe(
+        tap((res) => {
+          this.userRole = res.role as any;
+          localStorage.setItem('userRole', this.userRole);
+        })
+      );
   }
 
-  register(data: {
-    username: string;
-    email: string;
-    password: string;
-  }): Observable<any> {
-    return this.http.post(`${this.baseUrl}/register`, data);
-  }
-
-  isLoggedIn(): boolean {
-    return typeof window !== 'undefined' && !!localStorage.getItem('token');
+  register(data: any) {
+    return this.http.post('/api/auth/register', data);
   }
 
   logout() {
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem('token');
+    return this.http.post('/api/auth/logout', {}).subscribe(() => {
+      this.userRole = null;
+      localStorage.removeItem('userRole');
+      this.router.navigate(['/login']);
+    });
+  }
+
+  getRole() {
+    if (!this.userRole) {
+      this.userRole = localStorage.getItem('userRole') as any;
     }
+    return this.userRole;
+  }
+  isLoggedIn() {
+    return !!this.userRole;
   }
 }
