@@ -38,7 +38,11 @@ export class AuthService {
     }
     return this.userRole;
   }
+  
   isLoggedIn() {
+    if (!this.userRole) {
+      this.userRole = localStorage.getItem('userRole') as any;
+    }
     return !!this.userRole;
   }
 }
