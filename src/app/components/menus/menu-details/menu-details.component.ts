@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { MenuService, MenuItem } from '../../../services/menus/menus.service';
+import { MenuService, Dish } from '../../../services/menus/menus.service';
 
 
 @Component({
@@ -21,7 +21,7 @@ import { MenuService, MenuItem } from '../../../services/menus/menus.service';
   `
 })
 export class MenuDetailsComponent implements OnInit {
-  menu?: MenuItem;
+  menu?: Dish;
 
   constructor(
     private route: ActivatedRoute,
@@ -30,7 +30,7 @@ export class MenuDetailsComponent implements OnInit {
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id')!;
-    this.menuService.getMenuById(id).subscribe((data: MenuItem) => {
+    this.menuService.getMenuById(id).subscribe((data: Dish) => {
       this.menu = data;
     });
   }

@@ -1,16 +1,15 @@
-// src/app/services/menus/menus.service.ts
+// src/app/services/menu.service.ts
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-export interface MenuItem {
-  id: string;
+export interface Dish {
+  _id: string;
   name: string;
-  category: string;
-  description: string;
-  image: string;
   price: number;
-  nutritionInfo?: string;
+  category: string;
+  image?: string;
+  description?: string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -19,25 +18,29 @@ export class MenuService {
 
   constructor(private http: HttpClient) {}
 
-  getMenusByRestaurant(restaurantId: string): Observable<MenuItem[]> {
-    return this.http.get<MenuItem[]>(
-      `${this.baseUrl}/restaurant/${restaurantId}`
-    );
+  getCategories(): Observable<string[]> {
+    return this.http.get<string[]>(`${this.baseUrl}/categories`);
   }
 
-  getMenuById(id: string): Observable<MenuItem> {
-    return this.http.get<MenuItem>(`${this.baseUrl}/${id}`);
+  getDishes(filters: any = {}): Observable<Dish[]> {
+    let params = new HttpParams();
+    Object.keys(filters).forEach(key => {
+      if (filters[key]) {
+        params = params.set(key, filters[key]);
+      }
+    });
+    return this.http.get<Dish[]>(`${this.baseUrl}/dishes`, { params });
   }
 
-  createMenu(menuData: Partial<MenuItem>): Observable<MenuItem> {
-    return this.http.post<MenuItem>(this.baseUrl, menuData);
+  addDishToMenu(menuId: string, dishId: string): Observable<any> {
+    return this.http.post(`${this.baseUrl}/${menuId}/addDish`, { dishId });
   }
 
-  deleteMenu(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  removeDishFromMenu(menuId: string, dishId: string): Observable<any> {
+    return this.http.post(`${this.baseUrl}/${menuId}/removeDish`, { dishId });
   }
 
-  updateMenu(id: string, updatedData: Partial<MenuItem>): Observable<MenuItem> {
-    return this.http.put<MenuItem>(`${this.baseUrl}/${id}`, updatedData);
+  getMenuByRestaurant(restaurantId: string): Observable<{ dishes: Dish[] }> {
+    return this.http.get<{ dishes: Dish[] }>(`${this.baseUrl}/restaurant/${restaurantId}`);
   }
 }

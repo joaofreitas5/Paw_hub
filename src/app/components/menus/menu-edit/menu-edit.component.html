@@ -1,1 +1,19 @@
-<p>menu-edit works!</p>
+<!-- src/app/components/menu-edit/menu-edit.component.html -->
+<h2>Editar Menu</h2>
+
+<h3>Pratos no menu ({{menuDishes.length}} / 10)</h3>
+<ul>
+  <li *ngFor="let dish of menuDishes">
+    {{dish.name}} - {{dish.price | currency:'EUR'}}
+    <button (click)="removeDish(dish)">Remover</button>
+  </li>
+</ul>
+
+<h3>Adicionar Prato</h3>
+<div *ngIf="!canAddDish()">Limite de 10 pratos atingido. Remova um prato para adicionar outro.</div>
+<ul *ngIf="canAddDish()">
+  <li *ngFor="let dish of allDishes">
+    {{dish.name}} - {{dish.price | currency:'EUR'}}
+    <button (click)="addDish(dish)">Adicionar</button>
+  </li>
+</ul>

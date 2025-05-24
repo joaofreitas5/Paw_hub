@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { MenuService, MenuItem } from '../../../services/menus/menus.service';
+import { MenuService, Dish } from '../../../services/menus/menus.service';
 
 
 @Component({

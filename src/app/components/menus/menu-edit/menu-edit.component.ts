@@ -2,44 +2,58 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MenuService, MenuItem } from '../../../services/menus/menus.service';
+import { MenuService, Dish } from '../../../services/menus/menus.service';
 
 
 @Component({
   selector: 'app-menu-edit',
   standalone: true,
-  imports: [CommonModule, FormsModule],
-  template: `
-    <h2>Editar Menu</h2>
-    <form *ngIf="menu" (ngSubmit)="onSubmit()">
-      <input [(ngModel)]="menu.name" name="name" />
-      <input [(ngModel)]="menu.category" name="category" />
-      <textarea [(ngModel)]="menu.description" name="description"></textarea>
-      <input [(ngModel)]="menu.image" name="image" />
-      <input [(ngModel)]="menu.price" name="price" type="number" />
-      <textarea [(ngModel)]="menu.nutritionInfo" name="nutritionInfo"></textarea>
-      <button type="submit">Guardar</button>
-    </form>
-  `
+  imports: [CommonModule],
+  templateUrl: './menu-edit.component.html',
+  styleUrls: ['./menu-edit.component.css']
 })
 export class MenuEditComponent implements OnInit {
-  menu?: MenuItem;
+  private menuService = inject(MenuService);
 
-  constructor(
-    private route: ActivatedRoute,
-    private menuService: MenuService,
-    private router: Router
-  ) {}
+  restaurantId = 'id_do_restaurante_logado'; // substituir pelo valor real do AuthService
+  menuDishes: Dish[] = [];
+  allDishes: Dish[] = [];
+  maxDishes = 10;
 
-  ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id')!;
-    this.menuService.getMenuById(id).subscribe((menu: MenuItem) => (this.menu = menu));
+  ngOnInit() {
+    this.loadMenu();
+    this.loadAllDishes();
   }
 
-  onSubmit() {
-    if (!this.menu?.id) return;
-    this.menuService.updateMenu(this.menu.id, this.menu).subscribe(() => {
-      this.router.navigate(['/menus', this.menu!.id]);
+  loadMenu() {
+    this.menuService.getMenuByRestaurant(this.restaurantId).subscribe(menu => {
+      this.menuDishes = menu.dishes;
+    });
+  }
+
+  loadAllDishes() {
+    this.menuService.getDishes().subscribe(dishes => {
+      this.allDishes = dishes;
+    });
+  }
+
+  canAddDish(): boolean {
+    return this.menuDishes.length < this.maxDishes;
+  }
+
+  addDish(dish: Dish) {
+    if (!this.canAddDish()) {
+      alert('Limite de 10 pratos atingido!');
+      return;
+    }
+    this.menuService.addDishToMenu(this.restaurantId, dish._id).subscribe(() => {
+      this.loadMenu();
+    });
+  }
+
+  removeDish(dish: Dish) {
+    this.menuService.removeDishFromMenu(this.restaurantId, dish._id).subscribe(() => {
+      this.loadMenu();
     });
   }
 }
