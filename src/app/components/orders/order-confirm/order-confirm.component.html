@@ -1,0 +1,11 @@
+<h2>Confirmar Encomenda</h2>
+
+<ul>
+  <li *ngFor="let item of items">
+    <strong>{{ item.name }}</strong> × {{ item.quantity }} — {{ item.price }} €
+  </li>
+</ul>
+
+<p><strong>Total:</strong> {{ total }} €</p>
+
+<button (click)="confirmOrder()">Confirmar Encomenda</button>

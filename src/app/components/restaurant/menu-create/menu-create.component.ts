@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { MenuService, Dish } from '../../../core/services/menus-service/menus.service';
 
 
 @Component({
@@ -28,11 +27,10 @@ import { MenuService, Dish } from '../../../core/services/menus-service/menus.se
 export class MenuCreateComponent {
   menu: any = {};
 
-  constructor(private menuService: MenuService, private router: Router) {}
+  constructor(private router: Router) {}
 
   onSubmit() {
-    this.menuService.createMenu(this.menu).subscribe(() => {
-      this.router.navigate(['/menus']);
-    });
+    alert('Menu criado com sucesso (mock)!');
+    this.router.navigate(['/menus']);
   }
 }

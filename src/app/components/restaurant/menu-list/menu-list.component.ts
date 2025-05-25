@@ -1,41 +1,72 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { MenuService, Dish } from '../../../core/services/menus-service/menus.service';
+import { FormsModule } from '@angular/forms';
 
+interface MenuItem {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  imageUrl: string;
+  category?: string;
+}
 
 @Component({
   selector: 'app-menu-list',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
   templateUrl: './menu-list.component.html',
-  styleUrls: ['./menu-list.component.css']
+  imports: [CommonModule, FormsModule]
 })
 export class MenuListComponent implements OnInit {
-  private menuService = inject(MenuService);
+  menu: MenuItem[] = [
+    { id: 1, name: 'Pizza Margherita', description: 'Clássica pizza italiana', price: 8.5, imageUrl: 'https://static.image/pizza.jpg', category: 'Italiana' },
+    { id: 2, name: 'Sushi', description: 'Combo de sushi variado', price: 14, imageUrl: 'https://static.image/sushi.jpg', category: 'Japonesa' }
+  ];
 
-  dishes: Dish[] = [];
-  categories: string[] = [];
-  
   filters = {
     category: '',
-    minPrice: '',
-    maxPrice: '',
-    sort: 'name_asc'
+    minPrice: null as number | null,
+    maxPrice: null as number | null,
+    sort: ''
   };
 
-  ngOnInit() {
-    this.menuService.getCategories().subscribe(cats => this.categories = cats);
-    this.loadDishes();
-  }
+  categories: string[] = ['Italiana', 'Japonesa', 'Portuguesa', 'Vegetariana'];
 
-  loadDishes() {
-    this.menuService.getDishes(this.filters).subscribe(data => {
-      this.dishes = data;
-    });
+  constructor(private router: Router) {}
+
+  ngOnInit() {
+    this.loadMenu();
   }
 
   onFilterChange() {
-    this.loadDishes();
+    this.loadMenu();
+  }
+
+  loadMenu() {
+    let filtered = [...this.menu];
+    if (this.filters.category) {
+      filtered = filtered.filter(item => item.category === this.filters.category);
+    }
+    if (this.filters.minPrice != null) {
+      filtered = filtered.filter(item => item.price >= (this.filters.minPrice ?? 0));
+    }
+    if (this.filters.maxPrice != null) {
+      filtered = filtered.filter(item => item.price <= (this.filters.maxPrice ?? Infinity));
+    }
+    if (this.filters.sort === 'asc') {
+      filtered = filtered.sort((a, b) => a.price - b.price);
+    }
+    if (this.filters.sort === 'desc') {
+      filtered = filtered.sort((a, b) => b.price - a.price);
+    }
+    this.menu = filtered;
+  }
+
+  goToEdit(item: MenuItem) {
+    this.router.navigate(['/menus/edit', item.id]);
+  }
+
+  goToDetails(item: MenuItem) {
+    this.router.navigate(['/menus/details', item.id]);
   }
 }

@@ -1,48 +1,45 @@
-import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
-import { tap } from 'rxjs/operators';
+import { Injectable } from '@angular/core';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root'
+})
 export class AuthService {
-  private http = inject(HttpClient);
-  private router = inject(Router);
-  private userRole: 'client' | 'restaurant' | 'admin' | null = null;
-
-  login(credentials: { username: string; password: string }) {
-    return this.http
-      .post<{ role: string }>('/api/auth/login', credentials)
-      .pipe(
-        tap((res) => {
-          this.userRole = res.role as any;
-          localStorage.setItem('userRole', this.userRole);
-        })
-      );
+  register(email: string, password: string, role: string = 'client'): boolean {
+    const users = JSON.parse(localStorage.getItem('users') || '[]');
+    // Verifica se já existe
+    if (users.some((u: any) => u.email === email)) return false;
+    users.push({ email, password, role });
+    localStorage.setItem('users', JSON.stringify(users));
+    return true;
   }
 
-  register(data: any) {
-    return this.http.post('/api/auth/register', data);
+  login(email: string, password: string): boolean {
+    const users = JSON.parse(localStorage.getItem('users') || '[]');
+    const found = users.find((u: any) => u.email === email && u.password === password);
+    if (found) {
+      localStorage.setItem('token', 'loggedIn');
+      localStorage.setItem('currentUser', email);
+      localStorage.setItem('role', found.role || 'client');
+      return true;
+    }
+    return false;
   }
 
   logout() {
-    return this.http.post('/api/auth/logout', {}).subscribe(() => {
-      this.userRole = null;
-      localStorage.removeItem('userRole');
-      this.router.navigate(['/login']);
-    });
+    localStorage.removeItem('token');
+    localStorage.removeItem('currentUser');
+    localStorage.removeItem('role');
   }
 
-  getRole() {
-    if (!this.userRole) {
-      this.userRole = localStorage.getItem('userRole') as any;
-    }
-    return this.userRole;
+  isLoggedIn(): boolean {
+    return !!localStorage.getItem('token');
   }
-  
-  isLoggedIn() {
-    if (!this.userRole) {
-      this.userRole = localStorage.getItem('userRole') as any;
-    }
-    return !!this.userRole;
+
+  getCurrentUser(): string | null {
+    return localStorage.getItem('currentUser');
+  }
+
+  getRole(): string | null {
+    return localStorage.getItem('role');
   }
 }

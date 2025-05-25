@@ -1,35 +1,11 @@
-<!-- src/app/components/menu-list/menu-list.component.html -->
-<div>
-  <label>Categoria:
-    <select [(ngModel)]="filters.category" (change)="onFilterChange()">
-      <option value="">Todas</option>
-      <option *ngFor="let cat of categories" [value]="cat">{{cat}}</option>
-    </select>
-  </label>
-
-  <label>Preço mínimo:
-    <input type="number" [(ngModel)]="filters.minPrice" (input)="onFilterChange()"/>
-  </label>
-
-  <label>Preço máximo:
-    <input type="number" [(ngModel)]="filters.maxPrice" (input)="onFilterChange()"/>
-  </label>
-
-  <label>Ordenar por:
-    <select [(ngModel)]="filters.sort" (change)="onFilterChange()">
-      <option value="name_asc">Nome ↑</option>
-      <option value="name_desc">Nome ↓</option>
-      <option value="price_asc">Preço ↑</option>
-      <option value="price_desc">Preço ↓</option>
-    </select>
-  </label>
+<h2>Menu</h2>
+<button routerLink="/menus/create">Adicionar novo prato</button>
+<div *ngFor="let item of menu" style="border:1px solid #ccc;padding:10px;margin:10px 0;">
+  <img [src]="item.imageUrl" alt="{{ item.name }}" width="100">
+  <h3>{{ item.name }}</h3>
+  <p>{{ item.description }}</p>
+  <strong>{{ item.price | currency: 'EUR' }}</strong>
+  <br>
+  <button (click)="goToEdit(item)">Editar</button>
+  <button (click)="goToDetails(item)">Detalhes</button>
 </div>
-
-<div *ngIf="dishes.length === 0">Nenhum prato encontrado.</div>
-<ul>
-  <li *ngFor="let dish of dishes">
-    <img *ngIf="dish.image" [src]="dish.image" alt="{{dish.name}}" width="50" />
-    <strong>{{dish.name}}</strong> - {{dish.price | currency:'EUR'}} - {{dish.category}}
-    <p>{{dish.description}}</p>
-  </li>
-</ul>

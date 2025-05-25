@@ -1,0 +1,15 @@
+<h2>Encomendas Recebidas</h2>
+<ul>
+  <li *ngFor="let order of orders">
+    <div>
+      <strong>#{{order.id}}</strong> - {{order.clientName}} ({{order.status}})
+      <ul>
+        <li *ngFor="let item of order.items">
+          {{item.name}} x{{item.quantity}}
+        </li>
+      </ul>
+      <button *ngIf="order.status === 'pending'" (click)="updateStatus(order, 'accepted')">Aceitar</button>
+      <button *ngIf="order.status === 'accepted'" (click)="updateStatus(order, 'dispatched')">Expedir</button>
+    </div>
+  </li>
+</ul>

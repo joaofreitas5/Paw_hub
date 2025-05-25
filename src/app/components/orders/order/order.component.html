@@ -1,0 +1,21 @@
+<h2>Checkout</h2>
+<ul>
+  <li *ngFor="let item of cart">
+    {{item.name}} x{{item.quantity}} - {{item.price | currency}}
+  </li>
+</ul>
+<label>
+  Morada:
+  <input [(ngModel)]="address" required />
+</label>
+<br />
+<label>
+  Pagamento:
+  <select [(ngModel)]="payment" required>
+    <option value="mbway">MBWay</option>
+    <option value="multibanco">Multibanco</option>
+    <option value="dinheiro">Dinheiro</option>
+  </select>
+</label>
+<br />
+<button (click)="placeOrder()" [disabled]="!address || !payment">Confirmar Encomenda</button>

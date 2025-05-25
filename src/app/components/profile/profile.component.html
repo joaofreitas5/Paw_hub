@@ -1,1 +1,14 @@
-<p>profile works!</p>
+<mat-card>
+  <mat-card-title>Perfil</mat-card-title>
+  <mat-card-content>
+    <div *ngIf="email; else notLogged">
+      <p><strong>Email:</strong> {{ email }}</p>
+      <p><strong>Role:</strong> {{ role }}</p>
+      <button mat-raised-button color="primary" (click)="logout()">Logout</button>
+    </div>
+    <ng-template #notLogged>
+      <p>Não está autenticado.</p>
+      <a mat-button routerLink="/login">Fazer login</a>
+    </ng-template>
+  </mat-card-content>
+</mat-card>

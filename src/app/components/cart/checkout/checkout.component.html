@@ -1,1 +1,27 @@
-<p>checkout works!</p>
+<div class="checkout">
+  <h1>Checkout</h1>
+  <form (ngSubmit)="checkout()">
+    <label>
+      Morada de entrega:
+      <input type="text" [(ngModel)]="address" name="address" required>
+    </label>
+    <label>
+      Método de pagamento:
+      <select [(ngModel)]="paymentMethod" name="paymentMethod">
+        <option value="mbway">MB WAY</option>
+        <option value="cartao">Cartão</option>
+        <option value="dinheiro">Dinheiro</option>
+      </select>
+    </label>
+    <h2>Resumo do pedido</h2>
+    <ul>
+      <li *ngFor="let item of cart">
+        {{ item.name }} x{{ item.quantity }} - {{ item.price * item.quantity | currency }}
+      </li>
+    </ul>
+    <div>
+      <strong>Total: {{ getTotal() | currency }}</strong>
+    </div>
+    <button type="submit" [disabled]="cart.length === 0 || !address">Finalizar Encomenda</button>
+  </form>
+</div>

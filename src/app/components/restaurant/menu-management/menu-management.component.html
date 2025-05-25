@@ -1,0 +1,18 @@
+<div class="menu-management">
+  <h1>Gestão de Menus</h1>
+  <button (click)="addMenu()">Adicionar Menu</button>
+  <div *ngFor="let menu of menus">
+    <h2>
+      {{ menu.name }}
+      <button (click)="editMenu(menu)">Editar</button>
+    </h2>
+    <ul>
+      <li *ngFor="let dish of menu.dishes">
+        {{ dish.name }} ({{ dish.category }}) - {{ dish.price | currency }}
+        <button (click)="editDish(menu, dish)">Editar</button>
+        <button (click)="removeDish(menu, dish)">Remover</button>
+      </li>
+    </ul>
+    <button (click)="addDish(menu)" [disabled]="menu.dishes.length >= 10">Adicionar Prato</button>
+  </div>
+</div>

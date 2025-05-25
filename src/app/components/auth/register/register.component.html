@@ -1,25 +1,17 @@
-<div class="register-form" style="max-width: 400px; margin: 40px auto;">
-  <mat-card>
-    <mat-card-title>Registo</mat-card-title>
-    <mat-card-content>
-      <form (ngSubmit)="onRegister()" #registerForm="ngForm">
-        <mat-form-field appearance="fill" class="full-width">
-          <mat-label>Username</mat-label>
-          <input matInput [(ngModel)]="username" name="username" required />
-        </mat-form-field>
-        <mat-form-field appearance="fill" class="full-width">
-          <mat-label>Email</mat-label>
-          <input matInput type="email" [(ngModel)]="email" name="email" required />
-        </mat-form-field>
-        <mat-form-field appearance="fill" class="full-width">
-          <mat-label>Password</mat-label>
-          <input matInput type="password" [(ngModel)]="password" name="password" required />
-        </mat-form-field>
-        <button mat-raised-button color="primary" type="submit" style="width: 100%;">Criar Conta</button>
-      </form>
-    </mat-card-content>
-    <mat-card-actions>
-      <a mat-button routerLink="/login">Já tenho conta</a>
-    </mat-card-actions>
-  </mat-card>
-</div>
+<h2>Registo</h2>
+<form (ngSubmit)="onSubmit()">
+  <label>
+    Email:
+    <input type="email" [(ngModel)]="email" name="email" required />
+  </label>
+  <br />
+  <label>
+    Password:
+    <input type="password" [(ngModel)]="password" name="password" required />
+  </label>
+  <br />
+  <button type="submit">Registar</button>
+  <div *ngIf="error" style="color:red;">{{error}}</div>
+  <div *ngIf="success" style="color:green;">{{success}}</div>
+</form>
+<a routerLink="/login">Já tem conta? Login</a>

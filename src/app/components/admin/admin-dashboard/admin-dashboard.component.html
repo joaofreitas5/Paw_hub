@@ -1,1 +1,17 @@
-<p>admin-dashboard works!</p>
+<div class="dashboard">
+  <h1>Admin Dashboard</h1>
+  <section class="quick-actions">
+    <h2>Ações Rápidas</h2>
+    <button routerLink="/admin/restaurant-validation">Validar Restaurantes</button>
+    <button routerLink="/admin/menu-managment">Gerir Menus</button>
+    <button routerLink="/admin/order-managment">Gerir Encomendas</button>
+  </section>
+  <section class="stats">
+    <h2>Resumo</h2>
+    <ul>
+      <li>Total de Restaurantes: {{ totalRestaurants }}</li>
+      <li>Encomendas Pendentes: {{ pendingOrders }}</li>
+      <li>Menus Ativos: {{ activeMenus }}</li>
+    </ul>
+  </section>
+</div>

@@ -1,9 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MenuService, Dish } from '../../../core/services/menus-service/menus.service';
 
+
+interface Dish {
+  _id: string;
+  name: string;
+  price: number;
+}
 
 @Component({
   selector: 'app-menu-edit',
@@ -13,9 +17,7 @@ import { MenuService, Dish } from '../../../core/services/menus-service/menus.se
   styleUrls: ['./menu-edit.component.css']
 })
 export class MenuEditComponent implements OnInit {
-  private menuService = inject(MenuService);
-
-  restaurantId = 'id_do_restaurante_logado'; // substituir pelo valor real do AuthService
+  restaurantId = 'id_do_restaurante_logado';
   menuDishes: Dish[] = [];
   allDishes: Dish[] = [];
   maxDishes = 10;
@@ -26,15 +28,20 @@ export class MenuEditComponent implements OnInit {
   }
 
   loadMenu() {
-    this.menuService.getMenuByRestaurant(this.restaurantId).subscribe(menu => {
-      this.menuDishes = menu.dishes;
-    });
+    // Mock: pratos já no menu
+    this.menuDishes = [
+      { _id: '1', name: 'Pizza Margherita', price: 8.5 },
+      { _id: '2', name: 'Sushi', price: 14 }
+    ];
   }
 
   loadAllDishes() {
-    this.menuService.getDishes().subscribe(dishes => {
-      this.allDishes = dishes;
-    });
+    // Mock: todos os pratos disponíveis
+    this.allDishes = [
+      { _id: '1', name: 'Pizza Margherita', price: 8.5 },
+      { _id: '2', name: 'Sushi', price: 14 },
+      { _id: '3', name: 'Salada', price: 6 }
+    ];
   }
 
   canAddDish(): boolean {
@@ -46,14 +53,12 @@ export class MenuEditComponent implements OnInit {
       alert('Limite de 10 pratos atingido!');
       return;
     }
-    this.menuService.addDishToMenu(this.restaurantId, dish._id).subscribe(() => {
-      this.loadMenu();
-    });
+    if (!this.menuDishes.find(d => d._id === dish._id)) {
+      this.menuDishes.push(dish);
+    }
   }
 
   removeDish(dish: Dish) {
-    this.menuService.removeDishFromMenu(this.restaurantId, dish._id).subscribe(() => {
-      this.loadMenu();
-    });
+    this.menuDishes = this.menuDishes.filter(d => d._id !== dish._id);
   }
 }

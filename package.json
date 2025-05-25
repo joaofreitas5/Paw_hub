@@ -23,6 +23,7 @@
     "@angular/platform-server": "^19.2.0",
     "@angular/router": "^19.2.0",
     "@angular/ssr": "^19.2.13",
+    "angular-in-memory-web-api": "^0.19.0",
     "bootstrap": "^5.3.6",
     "express": "^4.21.2",
     "ngx-toastr": "^19.0.0",
