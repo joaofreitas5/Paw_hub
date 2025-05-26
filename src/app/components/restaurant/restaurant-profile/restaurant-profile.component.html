@@ -7,7 +7,9 @@
   <p><b>Endereço:</b> {{ restaurant.address }}</p>
   <p><b>Telefone:</b> {{ restaurant.phone }}</p>
   <p><b>Email:</b> {{ restaurant.email }}</p>
+  <p><b>Validado:</b> {{ restaurant.validated ? 'Sim' : 'Não' }}</p>
   <!-- Botão para editar -->
   <button routerLink="/edit-restaurant">Editar restaurante</button>
-  <!-- Aqui podes incluir componentes de menus/categorias -->
+  <a routerLink="/menus">Gerir Menus</a> |
+  <a routerLink="/categories">Gerir Categorias</a>
 </div>

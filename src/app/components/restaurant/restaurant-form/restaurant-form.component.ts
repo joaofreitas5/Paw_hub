@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { RestaurantService } from '../../../core/services/restaurant-service/restaurant.service';
+import { RestaurantService } from '../../../services/restaurant.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -12,6 +12,8 @@ export class RestaurantFormComponent implements OnInit {
   restaurantForm!: FormGroup;
   loading = false;
   error?: string;
+  editing = false;
+  restaurantId?: string;
 
   constructor(
     private fb: FormBuilder,
@@ -29,13 +31,15 @@ export class RestaurantFormComponent implements OnInit {
       imageUrl: ['']
     });
 
-    // Pré-carregar dados se estiver em modo edição
-    this.restaurantService.getMyRestaurant().subscribe({
-      next: (res) => {
-        this.restaurantForm.patchValue(res);
-      },
-      error: () => {
-        // Se não existe, provavelmente é criação
+    // Se estiveres a editar, carrega os dados
+    // Ajusta para obter o restaurante do utilizador autenticado se necessário
+    this.restaurantService.getRestaurants().subscribe({
+      next: (restaurants) => {
+        if (restaurants.length > 0) {
+          this.editing = true;
+          this.restaurantId = restaurants[0].id;
+          this.restaurantForm.patchValue(restaurants[0]);
+        }
       }
     });
   }
@@ -43,7 +47,12 @@ export class RestaurantFormComponent implements OnInit {
   onSubmit() {
     if (this.restaurantForm.invalid) return;
     this.loading = true;
-    this.restaurantService.updateRestaurant('my', this.restaurantForm.value).subscribe({
+    const data = this.restaurantForm.value;
+    const obs = this.editing && this.restaurantId
+      ? this.restaurantService.updateRestaurant(this.restaurantId, data)
+      : this.restaurantService.createRestaurant(data);
+
+    obs.subscribe({
       next: () => {
         this.loading = false;
         this.router.navigate(['/restaurant-profile']);

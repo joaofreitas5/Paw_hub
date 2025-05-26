@@ -1,0 +1,25 @@
+<h2>Painel do Restaurante</h2>
+<div *ngIf="loading">A carregar...</div>
+<div *ngIf="restaurant">
+  <h3>{{ restaurant.name }}</h3>
+  <p><b>Validado:</b> {{ restaurant.validated ? 'Sim' : 'Não' }}</p>
+  <a routerLink="/edit-restaurant">Editar Restaurante</a> |
+  <a routerLink="/menus">Gerir Menus</a> |
+  <a routerLink="/dishes">Gerir Pratos</a> |
+  <a routerLink="/categories">Gerir Categorias</a>
+  <hr>
+  <h4>Menus</h4>
+  <ul>
+    <li *ngFor="let menu of menus">
+      {{ menu.category }} ({{ menu.items.length }} pratos)
+      <a [routerLink]="['/edit-menu', menu.id]">Editar</a>
+    </li>
+  </ul>
+  <h4>Encomendas Recentes</h4>
+  <ul>
+    <li *ngFor="let order of orders | slice:0:5">
+      #{{ order.id }} - {{ order.status }} - {{ order.total | currency:'EUR' }}
+      <a [routerLink]="['/orders', order.id]">Detalhes</a>
+    </li>
+  </ul>
+</div>

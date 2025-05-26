@@ -25,6 +25,10 @@ export class DishService {
     return this.http.put<Dish>(`${this.api}/${id}`, data);
   }
 
+  patchDishAvailability(id: string, available: boolean): Observable<Dish> {
+    return this.http.patch<Dish>(`${this.api}/${id}/availability`, { available });
+  }
+
   deleteDish(id: string): Observable<any> {
     return this.http.delete(`${this.api}/${id}`);
   }

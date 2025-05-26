@@ -1,0 +1,27 @@
+<h2>Gestão de Disponibilidade</h2>
+<div *ngIf="loading">A carregar...</div>
+<div *ngIf="error">{{ error }}</div>
+
+<h3>Menus</h3>
+<ul>
+  <li *ngFor="let menu of menus">
+    {{ menu.category }}
+    <button (click)="toggleMenuAvailability(menu)">
+      {{ menu['available'] ? 'Desativar' : 'Ativar' }}
+    </button>
+    <span *ngIf="menu['available']" style="color:green;">Disponível</span>
+    <span *ngIf="!menu['available']" style="color:red;">Indisponível</span>
+  </li>
+</ul>
+
+<h3>Pratos</h3>
+<ul>
+  <li *ngFor="let dish of dishes">
+    {{ dish.name }}
+    <button (click)="toggleDishAvailability(dish)">
+      {{ dish['available'] ? 'Desativar' : 'Ativar' }}
+    </button>
+    <span *ngIf="dish['available']" style="color:green;">Disponível</span>
+    <span *ngIf="!dish['available']" style="color:red;">Indisponível</span>
+  </li>
+</ul>

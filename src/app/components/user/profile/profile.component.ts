@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../core/services/user-service/user.service';
 import { User } from '../../models/user.model';
 
@@ -6,12 +6,17 @@ import { User } from '../../models/user.model';
   selector: 'app-profile',
   templateUrl: './profile.component.html'
 })
-export class ProfileComponent {
+export class ProfileComponent implements OnInit {
   user: User | null = null;
   feedback: string = '';
 
-  constructor(private userService: UserService) {
-    this.user = this.userService.getCurrentUser();
+  constructor(private userService: UserService) {}
+
+  ngOnInit() {
+    this.userService.getProfile().subscribe({
+      next: (user) => this.user = user,
+      error: () => this.feedback = 'Erro ao carregar perfil.'
+    });
   }
 
   applyForRestaurant() {

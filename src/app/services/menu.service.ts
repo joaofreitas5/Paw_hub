@@ -25,6 +25,10 @@ export class MenuService {
     return this.http.put<Menu>(`${this.api}/${id}`, data);
   }
 
+  patchMenuAvailability(id: string, available: boolean): Observable<Menu> {
+    return this.http.patch<Menu>(`${this.api}/${id}/availability`, { available });
+  }
+
   deleteMenu(id: string): Observable<any> {
     return this.http.delete(`${this.api}/${id}`);
   }

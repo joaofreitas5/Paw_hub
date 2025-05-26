@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CategoryService } from '../../../core/services/category-service/category-service.service';
 import { Category } from '../../../models/category.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-category-list',
@@ -17,7 +18,8 @@ export class CategoryListComponent implements OnInit {
 
   constructor(
     private categoryService: CategoryService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -30,7 +32,6 @@ export class CategoryListComponent implements OnInit {
 
   loadCategories() {
     this.loading = true;
-    // Aqui deves obter o restauranteId do utilizador autenticado
     const restaurantId = this.getRestaurantId();
     this.categoryService.getCategoriesByRestaurant(restaurantId).subscribe({
       next: (cats) => {
@@ -84,9 +85,7 @@ export class CategoryListComponent implements OnInit {
   }
 
   getRestaurantId(): string {
-    // Exemplo: usar o AuthService para obter o restaurante do user autenticado
-    // Ajusta conforme a tua estrutura real
-    const user = JSON.parse(localStorage.getItem('user_data') || '{}');
-    return user.restaurantId || '';
+    const user = this.authService.getUser();
+    return user?.restaurantId || '';
   }
 }

@@ -1,6 +1,6 @@
-<p>restaurant-form works!</p>
+<h2>{{ editing ? 'Editar Restaurante' : 'Criar Restaurante' }}</h2>
 <form [formGroup]="restaurantForm" (ngSubmit)="onSubmit()">
-  <label>Nome: <input formControlName="name" /></label>
+  <label>Nome: <input formControlName="name" required /></label>
   <div *ngIf="restaurantForm.get('name')?.invalid && restaurantForm.get('name')?.touched">Nome obrigatório</div>
 
   <label>Descrição: <textarea formControlName="description"></textarea></label>
@@ -9,6 +9,8 @@
   <label>Email: <input formControlName="email" /></label>
   <label>Imagem (URL): <input formControlName="imageUrl" /></label>
 
-  <button type="submit" [disabled]="loading || restaurantForm.invalid">Guardar</button>
+  <button type="submit" [disabled]="loading || restaurantForm.invalid">
+    {{ editing ? 'Guardar' : 'Criar' }}
+  </button>
   <div *ngIf="error">{{ error }}</div>
 </form>
