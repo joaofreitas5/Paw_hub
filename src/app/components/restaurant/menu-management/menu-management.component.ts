@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule, CurrencyPipe } from '@angular/common';
+import { User } from '../../../models/user.model';
+import { UserService } from '../../../core/services/user-service/user.service';
 
 interface Dish {
   name: string;
@@ -17,13 +19,21 @@ interface Menu {
   selector: 'app-menu-managment',
   templateUrl: './menu-management.component.html',
   styleUrls: ['./menu-management.component.css'],
-  imports: [CommonModule, CurrencyPipe]
+  imports: [CommonModule, CurrencyPipe],
 })
 export class MenuManagementComponent implements OnInit {
   menus: Menu[] = [];
+  user: User | null = null;
+
+  constructor(private userService: UserService) {
+    this.user = this.userService.getCurrentUser();
+  }
 
   ngOnInit() {
-    this.loadMenus();
+    if (!this.user?.isValidated) {
+      // Bloquear acesso, redirecionar, ou mostrar mensagem
+      window.location.href = '/not-authorized'; // ajusta conforme as tuas rotas
+    }
   }
 
   loadMenus() {
@@ -40,7 +50,7 @@ export class MenuManagementComponent implements OnInit {
       const newMenu: Menu = {
         id: Date.now(),
         name,
-        dishes: []
+        dishes: [],
       };
       this.menus.push(newMenu);
       this.saveMenus();
@@ -58,7 +68,9 @@ export class MenuManagementComponent implements OnInit {
   addDish(menu: Menu) {
     if (menu.dishes.length >= 10) return;
     const name = prompt('Nome do prato?');
-    const category = prompt('Categoria do prato? (carne, peixe, vegetariano, sobremesa)');
+    const category = prompt(
+      'Categoria do prato? (carne, peixe, vegetariano, sobremesa)'
+    );
     const price = Number(prompt('Preço do prato?'));
     if (name && category && price) {
       menu.dishes.push({ name, category, price });
@@ -70,7 +82,10 @@ export class MenuManagementComponent implements OnInit {
     const name = prompt('Novo nome do prato:', dish.name);
     const category = prompt('Nova categoria:', dish.category);
     const priceStr = prompt('Novo preço:', dish.price.toString());
-    const price = priceStr !== null && priceStr.trim() !== '' ? Number(priceStr) : dish.price;
+    const price =
+      priceStr !== null && priceStr.trim() !== ''
+        ? Number(priceStr)
+        : dish.price;
     if (name && category && price) {
       dish.name = name;
       dish.category = category;
@@ -80,7 +95,7 @@ export class MenuManagementComponent implements OnInit {
   }
 
   removeDish(menu: Menu, dish: Dish) {
-    menu.dishes = menu.dishes.filter(d => d !== dish);
+    menu.dishes = menu.dishes.filter((d) => d !== dish);
     this.saveMenus();
   }
 }

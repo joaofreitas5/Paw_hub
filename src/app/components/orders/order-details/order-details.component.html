@@ -1,0 +1,15 @@
+<div *ngIf="loading">A carregar detalhes...</div>
+<div *ngIf="error">{{ error }}</div>
+<div *ngIf="order">
+  <h2>Encomenda #{{ order.id }}</h2>
+  <p><b>Morada:</b> {{ order.address }}</p>
+  <p><b>Telefone:</b> {{ order.phone }}</p>
+  <p><b>Total:</b> {{ order.total | currency:'EUR' }}</p>
+  <ul>
+    <li *ngFor="let item of order.items">
+      {{ item.menu.name }} x {{ item.quantity }}
+    </li>
+  </ul>
+  <p><b>Notas:</b> {{ order.notes }}</p>
+  <p><b>Status:</b> {{ order.status }}</p>
+</div>

@@ -1,0 +1,10 @@
+<h2>{{ restaurantView ? 'Encomendas Recebidas' : 'Minhas Encomendas' }}</h2>
+<div *ngIf="loading">A carregar encomendas...</div>
+<ul>
+  <li *ngFor="let order of orders">
+    <span>{{ order.address }}</span> - 
+    <span>{{ order.total | currency:'EUR' }}</span>
+    <a [routerLink]="['/orders', order.id]">Ver detalhes</a>
+  </li>
+</ul>
+<p *ngIf="!loading && orders.length === 0">Nenhuma encomenda encontrada.</p>

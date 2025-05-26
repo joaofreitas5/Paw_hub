@@ -1,45 +1,50 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class AuthService {
-  register(email: string, password: string, role: string = 'client'): boolean {
-    const users = JSON.parse(localStorage.getItem('users') || '[]');
-    // Verifica se já existe
-    if (users.some((u: any) => u.email === email)) return false;
-    users.push({ email, password, role });
-    localStorage.setItem('users', JSON.stringify(users));
-    return true;
+  private tokenKey = 'jwt_token';
+  private userKey = 'user_data';
+
+  constructor(private http: HttpClient) {}
+
+  register(user: any): Observable<any> {
+    return this.http.post('/api/users/register', user);
   }
 
-  login(email: string, password: string): boolean {
-    const users = JSON.parse(localStorage.getItem('users') || '[]');
-    const found = users.find((u: any) => u.email === email && u.password === password);
-    if (found) {
-      localStorage.setItem('token', 'loggedIn');
-      localStorage.setItem('currentUser', email);
-      localStorage.setItem('role', found.role || 'client');
-      return true;
-    }
-    return false;
+  login(credentials: any): Observable<any> {
+    return new Observable(observer => {
+      this.http.post<any>('/api/login', credentials).subscribe({
+        next: (res) => {
+          if (res.token && res.user) {
+            localStorage.setItem(this.tokenKey, res.token);
+            localStorage.setItem(this.userKey, JSON.stringify(res.user));
+          }
+          observer.next(res);
+          observer.complete();
+        },
+        error: (err) => observer.error(err)
+      });
+    });
   }
 
   logout() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('currentUser');
-    localStorage.removeItem('role');
+    localStorage.removeItem(this.tokenKey);
+    localStorage.removeItem(this.userKey);
   }
 
   isLoggedIn(): boolean {
-    return !!localStorage.getItem('token');
+    return !!localStorage.getItem(this.tokenKey);
   }
 
-  getCurrentUser(): string | null {
-    return localStorage.getItem('currentUser');
+  getUser(): any {
+    const userStr = localStorage.getItem(this.userKey);
+    return userStr ? JSON.parse(userStr) : null;
   }
 
-  getRole(): string | null {
-    return localStorage.getItem('role');
+  // Opcional: para headers autenticados
+  getToken(): string | null {
+    return localStorage.getItem(this.tokenKey);
   }
 }

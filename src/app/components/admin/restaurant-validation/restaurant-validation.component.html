@@ -1,17 +1,8 @@
-<div class="restaurant-validation">
-  <h1>Validação de Restaurantes</h1>
-  <ul>
-    <li *ngFor="let restaurant of pendingRestaurants">
-      <strong>{{ restaurant.name }}</strong> - {{ restaurant.ownerEmail }}
-      <button (click)="approveRestaurant(restaurant)">Aprovar</button>
-      <button (click)="rejectRestaurant(restaurant)">Rejeitar</button>
-      <details>
-        <summary>Detalhes</summary>
-        <div>
-          <p>Endereço: {{ restaurant.address }}</p>
-          <p>Descrição: {{ restaurant.description }}</p>
-        </div>
-      </details>
-    </li>
-  </ul>
-</div>
+<h3>Restaurantes Pendentes</h3>
+<ul>
+  <li *ngFor="let rest of pendingRestaurants">
+    {{rest.name}} - {{rest.email}}
+    <button (click)="approve(rest._id)">Aprovar</button>
+    <button (click)="reject(rest._id)">Rejeitar</button>
+  </li>
+</ul>

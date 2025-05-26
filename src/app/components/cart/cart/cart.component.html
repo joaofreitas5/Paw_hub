@@ -1,35 +1,15 @@
-<div class="cart">
-  <h1>Carrinho</h1>
-  <table *ngIf="cart.length > 0">
-    <thead>
-      <tr>
-        <th>Prato</th>
-        <th>Preço</th>
-        <th>Quantidade</th>
-        <th>Total</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let item of cart">
-        <td>{{ item.name }}</td>
-        <td>{{ item.price | currency }}</td>
-        <td>
-          <input type="number" [value]="item.quantity" min="1"
-                 (change)="updateQuantity(item, $event)">
-        </td>
-        <td>{{ item.price * item.quantity | currency }}</td>
-        <td>
-          <button (click)="removeItem(item)">Remover</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <div *ngIf="cart.length === 0">
-    <p>O carrinho está vazio.</p>
-  </div>
-  <div>
-    <strong>Total: {{ getTotal() | currency }}</strong>
-  </div>
-  <button [routerLink]="['/cart/checkout']" [disabled]="cart.length === 0">Finalizar Compra</button>
+<h2>Carrinho</h2>
+<ul>
+  <li *ngFor="let item of cartService.items">
+    {{ item.menu.name }} ({{ item.quantity }}) - {{ item.menu.price * item.quantity | currency:'EUR' }}
+    <button (click)="removeItem(item.menu)">Remover</button>
+  </li>
+</ul>
+<p *ngIf="cartService.items.length === 0">O carrinho está vazio.</p>
+<p *ngIf="cartService.items.length > 0">
+  <b>Total:</b> {{ cartService.total() | currency:'EUR' }}
+</p>
+<div *ngIf="cartService.items.length > 0">
+  <a routerLink="/checkout">Finalizar encomenda</a>
+  <button (click)="clearCart()">Limpar carrinho</button>
 </div>

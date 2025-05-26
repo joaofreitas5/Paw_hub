@@ -1,14 +1,13 @@
-<mat-card>
-  <mat-card-title>Perfil</mat-card-title>
-  <mat-card-content>
-    <div *ngIf="email; else notLogged">
-      <p><strong>Email:</strong> {{ email }}</p>
-      <p><strong>Role:</strong> {{ role }}</p>
-      <button mat-raised-button color="primary" (click)="logout()">Logout</button>
-    </div>
-    <ng-template #notLogged>
-      <p>Não está autenticado.</p>
-      <a mat-button routerLink="/login">Fazer login</a>
-    </ng-template>
-  </mat-card-content>
-</mat-card>
+<h2>Perfil de Utilizador</h2>
+<p>Nome: {{ user?.personalInfo?.name }}</p>
+<p>Email: {{ user?.email }}</p>
+<!-- outros dados de perfil -->
+<button 
+  *ngIf="user && user.role === 'user' && !user.pendingRestaurantApproval"
+  (click)="applyForRestaurant()">
+  Quero ser restaurante
+</button>
+<div *ngIf="user?.pendingRestaurantApproval">
+  Pedido de restaurante pendente de aprovação.
+</div>
+<div *ngIf="feedback">{{ feedback }}</div>

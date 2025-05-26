@@ -1,39 +1,27 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterModule, Router } from '@angular/router';
-import { FormsModule } from '@angular/forms';
-import { AuthService } from '../../core/auth-service/auth.service';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
+import { UserService } from '../../core/services/user-service/user.service';
+import { User } from '../../models/user.model';
 
 @Component({
   selector: 'app-profile',
-  standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    RouterModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-  ],
-  templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.css'],
+  templateUrl: './profile.component.html'
 })
 export class ProfileComponent {
-  email: string | null = '';
-  role: string | null = '';
+  user: User | null = null;
+  feedback: string = '';
 
-  constructor(private authService: AuthService, private router: Router) {
-    this.email = this.authService.getCurrentUser();
-    this.role = this.authService.getRole();
+  constructor(private userService: UserService) {
+    this.user = this.userService.getCurrentUser();
   }
 
-  logout() {
-    this.authService.logout();
-    this.router.navigate(['/login']);
+  applyForRestaurant() {
+    if (!this.user) return;
+    this.userService.applyForRestaurant(this.user.id).subscribe({
+      next: () => {
+        this.feedback = 'Pedido enviado! Aguarde aprovação do admin.';
+        if (this.user) this.user.pendingRestaurantApproval = true;
+      },
+      error: () => this.feedback = 'Erro ao enviar pedido.'
+    });
   }
 }

@@ -1,0 +1,19 @@
+<div *ngIf="loading">A carregar categorias...</div>
+<div *ngIf="error">{{ error }}</div>
+
+<form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
+  <input formControlName="name" placeholder="Nome da categoria" required />
+  <input formControlName="description" placeholder="Descrição (opcional)" />
+  <button type="submit">
+    {{ editingCategory ? 'Guardar alterações' : 'Adicionar categoria' }}
+  </button>
+  <button *ngIf="editingCategory" type="button" (click)="cancelEdit()">Cancelar</button>
+</form>
+
+<ul>
+  <li *ngFor="let cat of categories">
+    <b>{{ cat.name }}</b> <span *ngIf="cat.description">- {{ cat.description }}</span>
+    <button (click)="editCategory(cat)">Editar</button>
+    <button (click)="deleteCategory(cat)">Eliminar</button>
+  </li>
+</ul>

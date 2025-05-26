@@ -1,50 +1,36 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { UserService } from '../../../core/services/user-service/user.service';
+import { User } from '../../../models/user.model';
+import { AdminService } from '../../../core/services/admin-service/admin-service.service';
 
-interface Restaurant {
-  id: number;
-  name: string;
-  ownerEmail: string;
-  address: string;
-  description: string;
-  validated: boolean;
-}
 
 @Component({
   selector: 'app-restaurant-validation',
   templateUrl: './restaurant-validation.component.html',
   styleUrls: ['./restaurant-validation.component.css'],
+  standalone: true,
   imports: [CommonModule]
 })
+
 export class RestaurantValidationComponent implements OnInit {
-  pendingRestaurants: Restaurant[] = [];
+  pendingRestaurants: any[] = [];
+
+  constructor(private adminService: AdminService) {}
 
   ngOnInit() {
-    this.loadRestaurants();
+    this.loadPending();
   }
 
-  loadRestaurants() {
-    const restaurants = JSON.parse(localStorage.getItem('restaurants') || '[]');
-    this.pendingRestaurants = restaurants.filter((r: Restaurant) => !r.validated);
+  loadPending() {
+    this.adminService.getPendingRestaurants().subscribe(data => this.pendingRestaurants = data);
   }
 
-  saveRestaurants(restaurants: Restaurant[]) {
-    localStorage.setItem('restaurants', JSON.stringify(restaurants));
-    this.loadRestaurants();
+  approve(id: string) {
+    this.adminService.approveRestaurant(id).subscribe(() => this.loadPending());
   }
 
-  approveRestaurant(restaurant: Restaurant) {
-    const restaurants = JSON.parse(localStorage.getItem('restaurants') || '[]');
-    const idx = restaurants.findIndex((r: Restaurant) => r.id === restaurant.id);
-    if (idx > -1) {
-      restaurants[idx].validated = true;
-      this.saveRestaurants(restaurants);
-    }
-  }
-
-  rejectRestaurant(restaurant: Restaurant) {
-    let restaurants = JSON.parse(localStorage.getItem('restaurants') || '[]');
-    restaurants = restaurants.filter((r: Restaurant) => r.id !== restaurant.id);
-    this.saveRestaurants(restaurants);
+  reject(id: string) {
+    this.adminService.rejectRestaurant(id).subscribe(() => this.loadPending());
   }
 }

@@ -26,21 +26,17 @@ import { MatIconModule } from '@angular/material/icon';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
+
 export class LoginComponent {
-  email = '';
-  password = '';
+  credentials = { username: '', password: '' };
   error = '';
 
   constructor(private authService: AuthService, private router: Router) {}
 
-  onSubmit() {
-    this.error = '';
-    const success = this.authService.login(this.email, this.password);
-    console.log('Login success:', success);
-    if (success) {
-      this.router.navigate(['/perfil']);
-    } else {
-      this.error = 'Credenciais inválidas!';
-    }
+  login() {
+    this.authService.login(this.credentials).subscribe({
+      next: () => this.router.navigate(['/']),
+      error: err => this.error = err.error?.message || 'Erro ao autenticar'
+    });
   }
 }

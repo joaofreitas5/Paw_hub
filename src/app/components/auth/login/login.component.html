@@ -1,16 +1,7 @@
-<mat-card>
-  <mat-card-title>Login</mat-card-title>
-  <form (ngSubmit)="onSubmit()">
-    <mat-form-field class="full-width">
-      <mat-label>Email</mat-label>
-      <input matInput type="email" [(ngModel)]="email" name="email" required />
-    </mat-form-field>
-    <mat-form-field class="full-width">
-      <mat-label>Password</mat-label>
-      <input matInput type="password" [(ngModel)]="password" name="password" required />
-    </mat-form-field>
-    <button mat-raised-button color="primary" type="submit">Entrar</button>
-    <div *ngIf="error" style="color: red;">{{error}}</div>
-  </form>
-  <a mat-button routerLink="/register">Não tem conta? Registe-se</a>
-</mat-card>
+<h2>Login</h2>
+<form (ngSubmit)="login()" #loginForm="ngForm">
+  <input [(ngModel)]="credentials.username" name="username" placeholder="Username" required>
+  <input [(ngModel)]="credentials.password" name="password" placeholder="Password" required type="password">
+  <button type="submit">Entrar</button>
+  <div *ngIf="error" class="error">{{error}}</div>
+</form>

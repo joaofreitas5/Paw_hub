@@ -1,0 +1,14 @@
+<p>restaurant-form works!</p>
+<form [formGroup]="restaurantForm" (ngSubmit)="onSubmit()">
+  <label>Nome: <input formControlName="name" /></label>
+  <div *ngIf="restaurantForm.get('name')?.invalid && restaurantForm.get('name')?.touched">Nome obrigatório</div>
+
+  <label>Descrição: <textarea formControlName="description"></textarea></label>
+  <label>Endereço: <input formControlName="address" /></label>
+  <label>Telefone: <input formControlName="phone" /></label>
+  <label>Email: <input formControlName="email" /></label>
+  <label>Imagem (URL): <input formControlName="imageUrl" /></label>
+
+  <button type="submit" [disabled]="loading || restaurantForm.invalid">Guardar</button>
+  <div *ngIf="error">{{ error }}</div>
+</form>

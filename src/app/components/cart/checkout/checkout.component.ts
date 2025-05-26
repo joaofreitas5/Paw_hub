@@ -1,49 +1,33 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-
-interface CartItem {
-  id: number;
-  name: string;
-  price: number;
-  quantity: number;
-}
+import { Component } from '@angular/core';
+import { CartService } from '../../../core/services/cart-service/cart.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-checkout',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
   templateUrl: './checkout.component.html',
   styleUrls: ['./checkout.component.css']
 })
-export class CheckoutComponent implements OnInit {
-  cart: CartItem[] = [];
-  address: string = '';
-  paymentMethod: string = 'mbway';
+export class CheckoutComponent {
+  paymentOption: string = 'card'; // ou 'mbway', etc
+  processing = false;
+  error?: string;
 
-  ngOnInit() {
-    this.cart = JSON.parse(localStorage.getItem('cart') || '[]');
-  }
+  constructor(
+    public cartService: CartService,
+    private router: Router
+  ) {}
 
-  getTotal() {
-    return this.cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
-  }
-
-  checkout() {
-    if (!this.address || this.cart.length === 0) return;
-    const orders = JSON.parse(localStorage.getItem('orders') || '[]');
-    const newOrder = {
-      id: Date.now(),
-      clientName: 'Utilizador', // Podes adaptar para buscar do perfil se tiveres
-      items: this.cart,
-      status: 'pending',
-      address: this.address,
-      payment: this.paymentMethod
-    };
-    orders.push(newOrder);
-    localStorage.setItem('orders', JSON.stringify(orders));
-    localStorage.removeItem('cart');
-    alert('Encomenda finalizada com sucesso!');
-    // Opcional: window.location.href = '/';
+  onSubmit() {
+    if (this.cartService.items.length === 0) {
+      this.error = 'O carrinho está vazio!';
+      return;
+    }
+    this.processing = true;
+    // Simulação de processamento de pagamento
+    setTimeout(() => {
+      this.processing = false;
+      this.cartService.clear();
+      this.router.navigate(['/order-success']);
+    }, 2000);
   }
 }

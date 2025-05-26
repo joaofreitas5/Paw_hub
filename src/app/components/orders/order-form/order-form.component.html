@@ -1,0 +1,8 @@
+<h2>Dados para entrega</h2>
+<form [formGroup]="orderForm" (ngSubmit)="onSubmit()">
+  <label>Morada: <input formControlName="address" required /></label>
+  <label>Telefone: <input formControlName="phone" required /></label>
+  <label>Notas (opcional): <textarea formControlName="notes"></textarea></label>
+  <button type="submit">Confirmar encomenda</button>
+  <div *ngIf="error">{{ error }}</div>
+</form>

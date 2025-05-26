@@ -1,0 +1,18 @@
+<p>menu-form works!</p>
+<form [formGroup]="menuForm" (ngSubmit)="onSubmit()">
+  <label>Nome: <input formControlName="name" required /></label>
+  <label>Descrição: <textarea formControlName="description"></textarea></label>
+  <label>Preço: <input type="number" formControlName="price" required /></label>
+  <label>Categoria:
+    <select formControlName="categoryId" required>
+      <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</option>
+    </select>
+  </label>
+  <label>Imagem (URL): <input formControlName="imageUrl" /></label>
+  <label>
+    Disponível: <input type="checkbox" formControlName="available" />
+  </label>
+  <button type="submit" [disabled]="menuForm.invalid || loading">
+    {{ editing ? 'Guardar alterações' : 'Adicionar prato' }}
+  </button>
+</form>

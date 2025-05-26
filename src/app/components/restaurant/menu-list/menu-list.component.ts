@@ -1,72 +1,76 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-
-interface MenuItem {
-  id: number;
-  name: string;
-  description: string;
-  price: number;
-  imageUrl: string;
-  category?: string;
-}
+import { MenuService } from '../../../core/services/menu-service/menu.service';
+import { Menu } from '../../../models/menu.model';
+import { AuthService } from '../../../core/auth-service/auth.service';
+import { Category } from '../../../models/category.model';
+import { CategoryService } from '../../../core/services/category-service/category-service.service';
 
 @Component({
   selector: 'app-menu-list',
   templateUrl: './menu-list.component.html',
-  imports: [CommonModule, FormsModule]
+  styleUrls: ['./menu-list.component.css']
 })
 export class MenuListComponent implements OnInit {
-  menu: MenuItem[] = [
-    { id: 1, name: 'Pizza Margherita', description: 'Clássica pizza italiana', price: 8.5, imageUrl: 'https://static.image/pizza.jpg', category: 'Italiana' },
-    { id: 2, name: 'Sushi', description: 'Combo de sushi variado', price: 14, imageUrl: 'https://static.image/sushi.jpg', category: 'Japonesa' }
-  ];
-
+  menus: Menu[] = [];
+  categories: Category[] = [];
+  loading = false;
+  error?: string;
   filters = {
-    category: '',
-    minPrice: null as number | null,
-    maxPrice: null as number | null,
-    sort: ''
+    name: '',
+    categoryId: '',
+    available: ''
   };
 
-  categories: string[] = ['Italiana', 'Japonesa', 'Portuguesa', 'Vegetariana'];
+  constructor(
+    private menuService: MenuService,
+    private categoryService: CategoryService,
+    private authService: AuthService
+  ) {}
 
-  constructor(private router: Router) {}
-
-  ngOnInit() {
-    this.loadMenu();
+  ngOnInit(): void {
+    this.loadMenus();
+    this.loadCategories();
   }
 
-  onFilterChange() {
-    this.loadMenu();
+  loadMenus() {
+    this.loading = true;
+    const restaurantId = this.getRestaurantId();
+    this.menuService.getMenusByRestaurant(restaurantId).subscribe({
+      next: (menus) => {
+        this.menus = menus;
+        this.loading = false;
+      },
+      error: () => {
+        this.error = 'Erro ao carregar menus';
+        this.loading = false;
+      }
+    });
   }
 
-  loadMenu() {
-    let filtered = [...this.menu];
-    if (this.filters.category) {
-      filtered = filtered.filter(item => item.category === this.filters.category);
-    }
-    if (this.filters.minPrice != null) {
-      filtered = filtered.filter(item => item.price >= (this.filters.minPrice ?? 0));
-    }
-    if (this.filters.maxPrice != null) {
-      filtered = filtered.filter(item => item.price <= (this.filters.maxPrice ?? Infinity));
-    }
-    if (this.filters.sort === 'asc') {
-      filtered = filtered.sort((a, b) => a.price - b.price);
-    }
-    if (this.filters.sort === 'desc') {
-      filtered = filtered.sort((a, b) => b.price - a.price);
-    }
-    this.menu = filtered;
+  loadCategories() {
+    const restaurantId = this.getRestaurantId();
+    this.categoryService.getCategoriesByRestaurant(restaurantId).subscribe({
+      next: (categories) => (this.categories = categories)
+    });
   }
 
-  goToEdit(item: MenuItem) {
-    this.router.navigate(['/menus/edit', item.id]);
+  onFiltersChanged(filters: any) {
+    this.filters = filters;
   }
 
-  goToDetails(item: MenuItem) {
-    this.router.navigate(['/menus/details', item.id]);
+  filteredMenus(): Menu[] {
+    return this.menus.filter(menu => {
+      const nameMatch = !this.filters.name || menu.name.toLowerCase().includes(this.filters.name.toLowerCase());
+      const categoryMatch = !this.filters.categoryId || menu.categoryId === this.filters.categoryId;
+      const availableMatch =
+        this.filters.available === '' ||
+        menu.available === (this.filters.available === 'true');
+      return nameMatch && categoryMatch && availableMatch;
+    });
+  }
+
+  getRestaurantId(): string {
+    const user = this.authService.getUser();
+    return user.restaurantId || '';
   }
 }

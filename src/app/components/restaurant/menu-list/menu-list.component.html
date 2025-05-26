@@ -1,11 +1,18 @@
-<h2>Menu</h2>
-<button routerLink="/menus/create">Adicionar novo prato</button>
-<div *ngFor="let item of menu" style="border:1px solid #ccc;padding:10px;margin:10px 0;">
-  <img [src]="item.imageUrl" alt="{{ item.name }}" width="100">
-  <h3>{{ item.name }}</h3>
-  <p>{{ item.description }}</p>
-  <strong>{{ item.price | currency: 'EUR' }}</strong>
-  <br>
-  <button (click)="goToEdit(item)">Editar</button>
-  <button (click)="goToDetails(item)">Detalhes</button>
-</div>
+<app-filters-panel
+  [categories]="categories"
+  (filtersChanged)="onFiltersChanged($event)">
+</app-filters-panel>
+
+<div *ngIf="loading">A carregar menus...</div>
+<div *ngIf="error">{{ error }}</div>
+
+<a routerLink="/add-menu">Adicionar prato</a>
+
+<ul>
+  <li *ngFor="let menu of filteredMenus()">
+    <b>{{ menu.name }}</b> - {{ menu.price | currency:'EUR':'symbol':'1.2-2' }}
+    <span *ngIf="!menu.available">(Indisponível)</span>
+    <a [routerLink]="['/menus', menu.id]">Detalhes</a>
+    <a [routerLink]="['/edit-menu', menu.id]">Editar</a>
+  </li>
+</ul>
