@@ -6,12 +6,16 @@
 <div *ngIf="loading">A carregar menus...</div>
 <div *ngIf="error">{{ error }}</div>
 
-<a routerLink="/add-menu">Adicionar prato</a>
+<a routerLink="/add-menu">Adicionar menu</a>
 
 <ul>
   <li *ngFor="let menu of filteredMenus()">
-    <b>{{ menu.name }}</b> - {{ menu.price | currency:'EUR':'symbol':'1.2-2' }}
-    <span *ngIf="!menu.available">(Indisponível)</span>
+    <b>{{ menu.category }}</b>
+    <ul>
+      <li *ngFor="let item of menu.items">
+        {{ item.name }} - {{ item.price | currency:'EUR':'symbol':'1.2-2' }}
+      </li>
+    </ul>
     <a [routerLink]="['/menus', menu.id]">Detalhes</a>
     <a [routerLink]="['/edit-menu', menu.id]">Editar</a>
   </li>

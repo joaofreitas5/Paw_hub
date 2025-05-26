@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { MenuService } from '../../../core/services/menu-service/menu.service';
+import { MenuService } from '../../../services/menu.service';
 import { Menu } from '../../../models/menu.model';
-import { AuthService } from '../../../core/auth-service/auth.service';
+import { AuthService } from '../../../services/auth.service';
 import { Category } from '../../../models/category.model';
-import { CategoryService } from '../../../core/services/category-service/category-service.service';
+import { CategoryService } from '../../../services/category-service.service';
 
 @Component({
   selector: 'app-menu-list',
@@ -17,7 +17,7 @@ export class MenuListComponent implements OnInit {
   error?: string;
   filters = {
     name: '',
-    categoryId: '',
+    category: '',
     available: ''
   };
 
@@ -60,12 +60,10 @@ export class MenuListComponent implements OnInit {
 
   filteredMenus(): Menu[] {
     return this.menus.filter(menu => {
-      const nameMatch = !this.filters.name || menu.name.toLowerCase().includes(this.filters.name.toLowerCase());
-      const categoryMatch = !this.filters.categoryId || menu.categoryId === this.filters.categoryId;
-      const availableMatch =
-        this.filters.available === '' ||
-        menu.available === (this.filters.available === 'true');
-      return nameMatch && categoryMatch && availableMatch;
+      const nameMatch = !this.filters.name || menu.items.some(item => item.name.toLowerCase().includes(this.filters.name.toLowerCase()));
+      const categoryMatch = !this.filters.category || menu.category === this.filters.category;
+      // Se tiveres campo available no menu, podes filtrar aqui
+      return nameMatch && categoryMatch;
     });
   }
 

@@ -1,0 +1,11 @@
+<h2>Pratos</h2>
+<div *ngIf="loading">A carregar pratos...</div>
+<div *ngIf="error">{{ error }}</div>
+<ul>
+  <li *ngFor="let dish of dishes">
+    <b>{{ dish.name }}</b> - {{ dish.price | currency:'EUR' }}
+    <a [routerLink]="['/dishes', dish.id]">Detalhes</a>
+    <a [routerLink]="['/edit-dish', dish.id]">Editar</a>
+  </li>
+</ul>
+<a routerLink="/add-dish">Adicionar prato</a>

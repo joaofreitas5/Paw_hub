@@ -1,0 +1,18 @@
+<div *ngIf="loading">A carregar prato...</div>
+<div *ngIf="error">{{ error }}</div>
+<div *ngIf="dish">
+  <h2>{{ dish.name }}</h2>
+  <img *ngIf="dish.image" [src]="dish.image" alt="Imagem do prato" width="200" />
+  <p>{{ dish.description }}</p>
+  <p><b>Preço:</b> {{ dish.price | currency:'EUR':'symbol':'1.2-2' }}</p>
+  <div *ngIf="dish.nutritionalInfo">
+    <small>
+      Calorias: {{ dish.nutritionalInfo.calories }},
+      Proteína: {{ dish.nutritionalInfo.protein }},
+      Gordura: {{ dish.nutritionalInfo.fat }},
+      Hidratos: {{ dish.nutritionalInfo.carbs }},
+      Sódio: {{ dish.nutritionalInfo.sodium }}
+    </small>
+  </div>
+  <a [routerLink]="['/edit-dish', dish.id]">Editar prato</a>
+</div>

@@ -1,18 +1,30 @@
-<p>menu-form works!</p>
+<h2>{{ editing ? 'Editar Menu' : 'Criar Menu' }}</h2>
 <form [formGroup]="menuForm" (ngSubmit)="onSubmit()">
-  <label>Nome: <input formControlName="name" required /></label>
-  <label>Descrição: <textarea formControlName="description"></textarea></label>
-  <label>Preço: <input type="number" formControlName="price" required /></label>
   <label>Categoria:
-    <select formControlName="categoryId" required>
-      <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</option>
+    <select formControlName="category" required>
+      <option *ngFor="let cat of categories" [value]="cat.name">{{ cat.name }}</option>
     </select>
   </label>
-  <label>Imagem (URL): <input formControlName="imageUrl" /></label>
-  <label>
-    Disponível: <input type="checkbox" formControlName="available" />
-  </label>
+  <div formArrayName="items">
+    <div *ngFor="let item of items.controls; let i = index" [formGroupName]="i" style="border:1px solid #ccc; margin:10px; padding:10px;">
+      <label>Nome: <input formControlName="name" required /></label>
+      <label>Descrição: <textarea formControlName="description"></textarea></label>
+      <label>Preço: <input type="number" formControlName="price" required /></label>
+      <label>Imagem (URL): <input formControlName="image" /></label>
+      <label>Dose: <input formControlName="doseType" /></label>
+      <fieldset formGroupName="nutritionalInfo">
+        <legend>Informação Nutricional</legend>
+        <label>Calorias: <input type="number" formControlName="calories" /></label>
+        <label>Proteína: <input type="number" formControlName="protein" /></label>
+        <label>Gordura: <input type="number" formControlName="fat" /></label>
+        <label>Hidratos: <input type="number" formControlName="carbs" /></label>
+        <label>Sódio: <input type="number" formControlName="sodium" /></label>
+      </fieldset>
+      <button type="button" (click)="removeMenuItem(i)" *ngIf="items.length > 1">Remover prato</button>
+    </div>
+    <button type="button" (click)="addMenuItem()">Adicionar prato</button>
+  </div>
   <button type="submit" [disabled]="menuForm.invalid || loading">
-    {{ editing ? 'Guardar alterações' : 'Adicionar prato' }}
+    {{ editing ? 'Guardar alterações' : 'Criar menu' }}
   </button>
 </form>

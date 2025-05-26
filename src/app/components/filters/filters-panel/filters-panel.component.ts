@@ -1,5 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Category } from '../../../models/category.model';
+
+export interface Filters {
+  name: string;
+  categoryId: string;
+  available: string;
+}
+
 @Component({
   selector: 'app-filters-panel',
   templateUrl: './filters-panel.component.html',
@@ -7,9 +14,9 @@ import { Category } from '../../../models/category.model';
 })
 export class FiltersPanelComponent implements OnInit {
   @Input() categories: Category[] = [];
-  @Output() filtersChanged = new EventEmitter<any>();
+  @Output() filtersChanged = new EventEmitter<Filters>();
 
-  filter = {
+  filter: Filters = {
     name: '',
     categoryId: '',
     available: ''

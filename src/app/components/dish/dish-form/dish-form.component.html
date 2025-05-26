@@ -1,0 +1,20 @@
+<h2>{{ editing ? 'Editar Prato' : 'Adicionar Prato' }}</h2>
+<form [formGroup]="dishForm" (ngSubmit)="onSubmit()">
+  <label>Nome: <input formControlName="name" required /></label>
+  <label>Descrição: <textarea formControlName="description"></textarea></label>
+  <label>Preço: <input type="number" formControlName="price" required /></label>
+  <label>Imagem (URL): <input formControlName="image" /></label>
+  <label>Dose: <input formControlName="doseType" /></label>
+  <label>Categoria: <input formControlName="category" /></label>
+  <fieldset formGroupName="nutritionalInfo">
+    <legend>Informação Nutricional</legend>
+    <label>Calorias: <input type="number" formControlName="calories" /></label>
+    <label>Proteína: <input type="number" formControlName="protein" /></label>
+    <label>Gordura: <input type="number" formControlName="fat" /></label>
+    <label>Hidratos: <input type="number" formControlName="carbs" /></label>
+    <label>Sódio: <input type="number" formControlName="sodium" /></label>
+  </fieldset>
+  <button type="submit" [disabled]="dishForm.invalid || loading">
+    {{ editing ? 'Guardar alterações' : 'Adicionar prato' }}
+  </button>
+</form>

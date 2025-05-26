@@ -23,20 +23,15 @@ import { MatButtonModule } from '@angular/material/button';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
 })
-
-@Component({
-  selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
-})
-
 export class RegisterComponent {
-  user = { username: '', email: '', password: '', role: 'client' };
+  user = { username: '', email: '', password: '', role: 'user' };
   error = '';
 
   constructor(private authService: AuthService, private router: Router) {}
 
   register() {
+    // Corrigir role se vier como 'client'
+    if (this.user.role === 'client') this.user.role = 'user';
     this.authService.register(this.user).subscribe({
       next: () => this.router.navigate(['/login']),
       error: err => this.error = err.error?.message || 'Erro ao registar'

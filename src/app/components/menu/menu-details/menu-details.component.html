@@ -1,10 +1,28 @@
-<div *ngIf="loading">A carregar prato...</div>
+<div *ngIf="loading">A carregar menu...</div>
 <div *ngIf="error">{{ error }}</div>
 <div *ngIf="menu">
-  <h2>{{ menu.name }}</h2>
-  <img *ngIf="menu.imageUrl" [src]="menu.imageUrl" alt="Imagem do prato" width="200" />
-  <p>{{ menu.description }}</p>
-  <p><b>Preço:</b> {{ menu.price | currency:'EUR':'symbol':'1.2-2' }}</p>
-  <p><b>Disponibilidade:</b> {{ menu.available ? 'Disponível' : 'Indisponível' }}</p>
-  <a [routerLink]="['/edit-menu', menu.id]">Editar prato</a>
+  <h2>{{ menu.category }}</h2>
+  <div *ngIf="dishes.length > 0">
+    <h3>Pratos</h3>
+    <ul>
+      <li *ngFor="let dish of dishes">
+        <b>{{ dish.name }}</b>
+        <span *ngIf="dish.image">
+          <img [src]="dish.image" alt="Imagem do prato" width="100" />
+        </span>
+        <div>{{ dish.description }}</div>
+        <div><b>Preço:</b> {{ dish.price | currency:'EUR':'symbol':'1.2-2' }}</div>
+        <div *ngIf="dish.nutritionalInfo">
+          <small>
+            Calorias: {{ dish.nutritionalInfo.calories }},
+            Proteína: {{ dish.nutritionalInfo.protein }},
+            Gordura: {{ dish.nutritionalInfo.fat }},
+            Hidratos: {{ dish.nutritionalInfo.carbs }},
+            Sódio: {{ dish.nutritionalInfo.sodium }}
+          </small>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <a [routerLink]="['/edit-menu', menu.id]">Editar menu</a>
 </div>

@@ -1,15 +1,15 @@
 <h2>Carrinho</h2>
 <ul>
-  <li *ngFor="let item of cartService.items">
-    {{ item.menu.name }} ({{ item.quantity }}) - {{ item.menu.price * item.quantity | currency:'EUR' }}
-    <button (click)="removeItem(item.menu)">Remover</button>
+  <li *ngFor="let item of items">
+    {{ item.name }} ({{ item.quantity }}) - {{ item.price * item.quantity | currency:'EUR' }}
+    <button (click)="removeItem(item)">Remover</button>
   </li>
 </ul>
-<p *ngIf="cartService.items.length === 0">O carrinho está vazio.</p>
-<p *ngIf="cartService.items.length > 0">
-  <b>Total:</b> {{ cartService.total() | currency:'EUR' }}
+<p *ngIf="items.length === 0">O carrinho está vazio.</p>
+<p *ngIf="items.length > 0">
+  <b>Total:</b> {{ total() | currency:'EUR' }}
 </p>
-<div *ngIf="cartService.items.length > 0">
+<div *ngIf="items.length > 0">
   <a routerLink="/checkout">Finalizar encomenda</a>
   <button (click)="clearCart()">Limpar carrinho</button>
 </div>

@@ -28,13 +28,13 @@ import { MatIconModule } from '@angular/material/icon';
 })
 
 export class LoginComponent {
-  credentials = { username: '', password: '' };
+  credentials = { email: '', password: '' };
   error = '';
 
   constructor(private authService: AuthService, private router: Router) {}
 
   login() {
-    this.authService.login(this.credentials).subscribe({
+    this.authService.login(this.credentials.email, this.credentials.password).subscribe({
       next: () => this.router.navigate(['/']),
       error: err => this.error = err.error?.message || 'Erro ao autenticar'
     });
