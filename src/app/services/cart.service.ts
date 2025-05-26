@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { Menu } from '../models/menu.model'; // Corrigido o path
+import { MenuItem } from '../models/menu.model'; // Corrigido para MenuItem
 
 export interface CartItem {
-  menuItem: string; // menu id
+  menuItem: string; // menu item id
   name: string;
   price: number;
   quantity: number;
@@ -26,17 +26,17 @@ export class CartService {
     });
   }
 
-  addItem(menu: Menu, quantity: number = 1): Observable<any> {
+  addItem(item: MenuItem, quantity: number = 1): Observable<any> {
     return this.http.post(this.api + '/add', {
-      menuItem: menu.id,
-      name: menu.name,
-      price: menu.price,
+      menuItem: item.name, // ou item.id se existir
+      name: item.name,
+      price: item.price,
       quantity
     });
   }
 
-  removeItem(menu: Menu): Observable<any> {
-    return this.http.post(this.api + '/remove', { menuItem: menu.id });
+  removeItem(item: MenuItem): Observable<any> {
+    return this.http.post(this.api + '/remove', { menuItem: item.name }); // ou item.id se existir
   }
 
   clear(): Observable<any> {

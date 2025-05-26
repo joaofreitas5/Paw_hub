@@ -19,4 +19,5 @@ export interface Menu {
   category: string;
   items: string[]; // Array de Dish IDs
   maxItems?: number;
+  available?: boolean;
 }

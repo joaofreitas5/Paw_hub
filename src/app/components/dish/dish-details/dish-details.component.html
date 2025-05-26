@@ -5,14 +5,14 @@
   <img *ngIf="dish.image" [src]="dish.image" alt="Imagem do prato" width="200" />
   <p>{{ dish.description }}</p>
   <p><b>Preço:</b> {{ dish.price | currency:'EUR':'symbol':'1.2-2' }}</p>
-  <div *ngIf="dish.nutritionalInfo">
+  <div *ngIf="dish?.nutritionalInfo">
     <small>
-      Calorias: {{ dish.nutritionalInfo.calories }},
-      Proteína: {{ dish.nutritionalInfo.protein }},
-      Gordura: {{ dish.nutritionalInfo.fat }},
-      Hidratos: {{ dish.nutritionalInfo.carbs }},
-      Sódio: {{ dish.nutritionalInfo.sodium }}
+      Calorias: {{ dish.nutritionalInfo?.calories }},
+      Proteína: {{ dish.nutritionalInfo?.protein }},
+      Gordura: {{ dish.nutritionalInfo?.fat }},
+      Hidratos: {{ dish.nutritionalInfo?.carbs }},
+      Sódio: {{ dish.nutritionalInfo?.sodium }}
     </small>
   </div>
-  <a [routerLink]="['/edit-dish', dish.id]">Editar prato</a>
+  <a *ngIf="dish" [routerLink]="['/edit-dish', dish.id]">Editar prato</a>
 </div>

@@ -14,4 +14,5 @@ export interface Dish {
   doseType?: string;
   restaurant: string;
   category?: string;
+  available?: boolean;
 }
