@@ -25,20 +25,19 @@ import { User } from '../../../models/user.model';
   styleUrls: ['./register.component.css'],
 })
 export class RegisterComponent {
-  user: Partial<User> = { 
-    username: '', 
-    email: '', 
-    password: '', 
-    role: 'user' as 'user' | 'restaurant' | 'admin' 
+  user: Partial<User> = {
+    username: '',
+    email: '',
+    password: '',
+    role: 'user' // Setting default role
   };
   error = '';
 
   constructor(private authService: AuthService, private router: Router) {}
 
   register() {
-    // Validate role before sending
-    if (this.user.role !== 'user' && this.user.role !== 'restaurant' && this.user.role !== 'admin') {
-      this.user.role = 'user';
+    if (!this.user.role) {
+      this.user.role = 'user'; // Ensure role is set
     }
     
     this.authService.register(this.user).subscribe({

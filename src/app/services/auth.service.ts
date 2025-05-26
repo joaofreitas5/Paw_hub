@@ -35,7 +35,12 @@ export class AuthService {
   }
 
   register(user: Partial<User>): Observable<any> {
-    return this.http.post(`${this.api}/register`, user, this.getHttpOptions());
+    // Ensure role is included
+    const userData = {
+      ...user,
+      role: user.role || 'user'
+    };
+    return this.http.post(`${this.api}/register`, userData, this.getHttpOptions());
   }
 
   logout() {
