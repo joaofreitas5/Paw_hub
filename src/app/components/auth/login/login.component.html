@@ -1,7 +1,39 @@
 <h2>Login</h2>
-<form (ngSubmit)="login()" #loginForm="ngForm">
-  <input [(ngModel)]="credentials.email" name="email" placeholder="Email" required type="email">
-  <input [(ngModel)]="credentials.password" name="password" placeholder="Password" required type="password">
-  <button type="submit">Entrar</button>
-  <div *ngIf="error" class="error">{{error}}</div>
-</form>
+<div class="login-wrapper">
+  <mat-card class="login-card">
+    <mat-card-header>
+      <mat-card-title>
+        <mat-icon class="login-icon">login</mat-icon>
+        Login
+      </mat-card-title>
+    </mat-card-header>
+    
+    <mat-card-content>
+      <form (ngSubmit)="login()" #loginForm="ngForm">
+        <mat-form-field class="form-field" appearance="outline">
+          <mat-label>Email</mat-label>
+          <input matInput [(ngModel)]="credentials.email" name="email" required type="email">
+          <mat-icon matSuffix>email</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field class="form-field" appearance="outline">
+          <mat-label>Password</mat-label>
+          <input matInput [(ngModel)]="credentials.password" name="password" required [type]="hidePassword ? 'password' : 'text'">
+          <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" type="button">
+            <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" class="submit-btn" type="submit">
+          Entrar
+        </button>
+      </form>
+
+      <mat-error *ngIf="error">{{error}}</mat-error>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <a mat-button routerLink="/register">Criar conta</a>
+    </mat-card-actions>
+  </mat-card>
+</div>

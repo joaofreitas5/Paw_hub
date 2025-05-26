@@ -10,11 +10,14 @@
     "baseUrl": "src"
   },
   "files": [
-    "src/main.ts",
-    "src/main.server.ts",
-    "src/server.ts"
+    "src/main.ts"
   ],
   "include": [
     "src/**/*.d.ts"
+  ],
+  "exclude": [
+    "src/app/app.module.ts",
+    "src/test.ts",
+    "src/**/*.spec.ts"
   ]
 }

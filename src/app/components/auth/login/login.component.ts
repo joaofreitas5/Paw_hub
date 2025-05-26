@@ -30,6 +30,7 @@ import { MatIconModule } from '@angular/material/icon';
 export class LoginComponent {
   credentials = { email: '', password: '' };
   error = '';
+  hidePassword = true;  // Added for password visibility toggle
 
   constructor(private authService: AuthService, private router: Router) {}
 
