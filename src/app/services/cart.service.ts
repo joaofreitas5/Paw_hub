@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { Menu } from '../../../models/menu.model';
+import { Menu } from '../models/menu.model'; // Corrigido o path
 
 export interface CartItem {
   menuItem: string; // menu id

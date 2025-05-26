@@ -3,8 +3,9 @@ import { AuthService } from '../auth-service/auth.service';
 import { Router } from '@angular/router';
 import { inject } from '@angular/core';
 
-export const ClientGuard: CanActivateFn = () => {
+export const UserGuard: CanActivateFn = () => {
   const authService = inject(AuthService);
   const router = inject(Router);
-  return authService.getRole() === 'client' || router.parseUrl('/');
+  const user = authService.getUser();
+  return user && user.role === 'user' ? true : router.parseUrl('/');
 };

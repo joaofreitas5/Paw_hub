@@ -28,4 +28,12 @@ export class OrderService {
   deleteOrder(id: string): Observable<any> {
     return this.http.delete(`${this.api}/${id}`);
   }
+
+  getOrdersByUser(userId: string): Observable<Order[]> {
+    return this.http.get<Order[]>(`${this.api}?user=${userId}`);
+  }
+
+  getOrdersByRestaurant(restaurantId: string): Observable<Order[]> {
+    return this.http.get<Order[]>(`${this.api}?restaurant=${restaurantId}`);
+  }
 }

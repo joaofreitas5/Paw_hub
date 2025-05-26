@@ -28,4 +28,8 @@ export class MenuService {
   deleteMenu(id: string): Observable<any> {
     return this.http.delete(`${this.api}/${id}`);
   }
+
+  getMenusByRestaurant(restaurantId: string): Observable<Menu[]> {
+    return this.http.get<Menu[]>(`${this.api}?restaurant=${restaurantId}`);
+  }
 }

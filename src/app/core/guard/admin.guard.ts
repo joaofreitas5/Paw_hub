@@ -1,18 +1,14 @@
-import { Injectable } from '@angular/core';
-import { CanActivateFn, Router } from '@angular/router';
+import { CanActivateFn } from '@angular/router';
 import { inject } from '@angular/core';
 import { AuthService } from '../auth-service/auth.service';
+import { Router } from '@angular/router';
 
-
-export const AdminGuard: CanActivateFn = (route, state) => {
+export const AdminGuard: CanActivateFn = () => {
   const authService = inject(AuthService);
   const router = inject(Router);
-
-  // Exemplo: supõe-se que AuthService tem método isLoggedIn() e getUser()
   if (authService.isLoggedIn() && authService.getUser()?.role === 'admin') {
     return true;
   } else {
-    router.navigate(['/login']);
-    return false;
+    return router.parseUrl('/login');
   }
 };

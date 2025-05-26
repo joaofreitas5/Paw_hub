@@ -1,18 +1,14 @@
-import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
-import { UserService } from '../services/user-service/user.service';
+import { CanActivateFn } from '@angular/router';
+import { inject } from '@angular/core';
+import { AuthService } from '../auth-service/auth.service';
+import { Router } from '@angular/router';
 
-
-@Injectable({ providedIn: 'root' })
-export class RestaurantGuard implements CanActivate {
-  constructor(private userService: UserService, private router: Router) {}
-
-  canActivate(): boolean {
-    const user = this.userService.getCurrentUser();
-    if (user && user.role === 'restaurant' && user.isValidated) {
-      return true;
-    }
-    this.router.navigate(['/profile']);
-    return false;
+export const RestaurantGuard: CanActivateFn = () => {
+  const authService = inject(AuthService);
+  const router = inject(Router);
+  const user = authService.getUser();
+  if (user && user.role === 'restaurant' && user.isValidated) {
+    return true;
   }
-}
+  return router.parseUrl('/profile');
+};

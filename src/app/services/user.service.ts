@@ -24,4 +24,8 @@ export class UserService {
   deleteUser(id: string): Observable<any> {
     return this.http.delete(`${this.api}/${id}`);
   }
+
+  getProfile(): Observable<User> {
+    return this.http.get<User>(`${this.api}/profile`);
+  }
 }
