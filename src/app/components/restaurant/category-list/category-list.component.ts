@@ -1,13 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { CategoryService } from '../../../core/services/category-service/category-service.service';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
+import { CategoryService } from '../../../services/category-service.service';
+import { AuthService } from '../../../services/auth.service';
 import { Category } from '../../../models/category.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-category-list',
   templateUrl: './category-list.component.html',
-  styleUrls: ['./category-list.component.css']
+  styleUrls: ['./category-list.component.css'],
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule]
 })
 export class CategoryListComponent implements OnInit {
   categories: Category[] = [];
@@ -34,8 +38,8 @@ export class CategoryListComponent implements OnInit {
     this.loading = true;
     const restaurantId = this.getRestaurantId();
     this.categoryService.getCategoriesByRestaurant(restaurantId).subscribe({
-      next: (cats) => {
-        this.categories = cats;
+      next: (categories: Category[]) => {
+        this.categories = categories;
         this.loading = false;
       },
       error: () => {
@@ -86,6 +90,9 @@ export class CategoryListComponent implements OnInit {
 
   getRestaurantId(): string {
     const user = this.authService.getUser();
-    return user?.restaurantId || '';
+    if (user?.role === 'restaurant') {
+      return user.id || '';
+    }
+    return '';
   }
 }

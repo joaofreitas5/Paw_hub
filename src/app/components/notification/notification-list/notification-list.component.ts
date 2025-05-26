@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { NotificationService } from '../../../services/notification.service';
 import { Notification } from '../../../models/notification.model';
 
 @Component({
   selector: 'app-notification-list',
   templateUrl: './notification-list.component.html',
+  standalone: true,
+  imports: [CommonModule],
   styleUrls: ['./notification-list.component.css']
 })
 export class NotificationListComponent implements OnInit {

@@ -21,4 +21,5 @@ export interface User {
   personalInfo?: PersonalInfo;
   orderHistory?: OrderHistory[];
   restaurantValidation?: boolean;
+  restaurantId?: string; // Add this for restaurant users
 }

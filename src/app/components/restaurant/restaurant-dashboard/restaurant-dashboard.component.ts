@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { RestaurantService } from '../../../services/restaurant.service';
 import { MenuService } from '../../../services/menu.service';
 import { OrderService } from '../../../services/order.service';
@@ -9,7 +11,9 @@ import { Order } from '../../../models/order.model';
 @Component({
   selector: 'app-restaurant-dashboard',
   templateUrl: './restaurant-dashboard.component.html',
-  styleUrls: ['./restaurant-dashboard.component.css']
+  styleUrls: ['./restaurant-dashboard.component.css'],
+  standalone: true,
+  imports: [CommonModule, RouterModule]
 })
 export class RestaurantDashboardComponent implements OnInit {
   restaurant?: Restaurant;

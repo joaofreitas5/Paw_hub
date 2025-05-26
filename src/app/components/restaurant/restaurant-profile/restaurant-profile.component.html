@@ -1,13 +1,13 @@
 <div *ngIf="loading">A carregar...</div>
 <div *ngIf="error">{{ error }}</div>
 <div *ngIf="restaurant">
-  <h2>{{ restaurant.name }}</h2>
-  <img *ngIf="restaurant.imageUrl" [src]="restaurant.imageUrl" alt="Imagem restaurante" width="200" />
-  <p>{{ restaurant.description }}</p>
-  <p><b>Endereço:</b> {{ restaurant.address }}</p>
-  <p><b>Telefone:</b> {{ restaurant.phone }}</p>
-  <p><b>Email:</b> {{ restaurant.email }}</p>
-  <p><b>Validado:</b> {{ restaurant.validated ? 'Sim' : 'Não' }}</p>
+  <h2>{{ restaurant?.name }}</h2>
+  <img *ngIf="restaurant?.imageUrl" [src]="restaurant?.imageUrl" alt="Imagem restaurante" width="200" />
+  <p>{{ restaurant?.description }}</p>
+  <p><b>Endereço:</b> {{ restaurant?.address }}</p>
+  <p><b>Telefone:</b> {{ restaurant?.phone }}</p>
+  <p><b>Email:</b> {{ restaurant?.email }}</p>
+  <p><b>Validado:</b> {{ restaurant?.validated ? 'Sim' : 'Não' }}</p>
   <!-- Botão para editar -->
   <button routerLink="/edit-restaurant">Editar restaurante</button>
   <a routerLink="/menus">Gerir Menus</a> |

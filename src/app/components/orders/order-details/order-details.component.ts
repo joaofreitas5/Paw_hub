@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { OrderService } from '../../../services/order.service';
 import { Order } from '../../../models/order.model';
@@ -6,7 +7,9 @@ import { Order } from '../../../models/order.model';
 @Component({
   selector: 'app-order-details',
   templateUrl: './order-details.component.html',
-  styleUrls: ['./order-details.component.css']
+  styleUrls: ['./order-details.component.css'],
+  standalone: true,
+  imports: [CommonModule]
 })
 export class OrderDetailsComponent implements OnInit {
   order?: Order;
@@ -21,8 +24,8 @@ export class OrderDetailsComponent implements OnInit {
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
-      this.orderService.getOrderById(id).subscribe({
-        next: order => {
+      this.orderService.getOrder(id).subscribe({
+        next: (order: Order) => {
           this.order = order;
           this.loading = false;
         },

@@ -5,6 +5,10 @@ export interface OrderItem {
   name: string;
   quantity: number;
   price: number;
+  menu?: {    // Added
+    name: string;
+    // other menu properties if needed
+  };
 }
 
 export interface Order {
@@ -17,5 +21,7 @@ export interface Order {
   paymentMethod?: string;
   notes?: string;
   deliveryAddress?: string;
+  address?: string; // Added
+  phone?: string;  // Added
   createdAt?: string;
 }

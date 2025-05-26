@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../../../core/services/user-service/user.service';
+import { UserService } from '../../../services/user.service';
 import { OrderService } from '../../../services/order.service';
 import { User } from '../../../models/user.model';
 import { Order } from '../../../models/order.model';
@@ -21,7 +21,7 @@ export class UserProfileComponent implements OnInit {
 
   ngOnInit() {
     this.userService.getProfile().subscribe({
-      next: user => {
+      next: (user: User) => {
         this.user = user;
         if (user?.id) {
           this.orderService.getOrdersByUser(user.id).subscribe({

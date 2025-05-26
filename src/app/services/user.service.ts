@@ -28,4 +28,8 @@ export class UserService {
   getProfile(): Observable<User> {
     return this.http.get<User>(`${this.api}/profile`);
   }
+
+  applyForRestaurant(userId: string): Observable<any> {
+    return this.http.post(`${this.api}/${userId}/apply-restaurant`, {});
+  }
 }

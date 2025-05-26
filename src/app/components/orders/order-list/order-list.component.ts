@@ -20,17 +20,21 @@ export class OrderListComponent implements OnInit {
 
   ngOnInit(): void {
     this.loading = true;
+    const user = this.authService.getUser();
+    if (!user) {
+      this.loading = false;
+      return;
+    }
+
     if (this.restaurantView) {
       // Para restaurante, carrega todas as encomendas recebidas
-      const restaurantId = this.authService.getUser().restaurantId;
-      this.orderService.getOrdersByRestaurant(restaurantId).subscribe(res => {
+      this.orderService.getOrdersByRestaurant(user.id).subscribe(res => {
         this.orders = res;
         this.loading = false;
       });
     } else {
       // Para cliente, carrega as suas encomendas
-      const userId = this.authService.getUser().id;
-      this.orderService.getOrdersByUser(userId).subscribe(res => {
+      this.orderService.getOrdersByUser(user.id).subscribe(res => {
         this.orders = res;
         this.loading = false;
       });
