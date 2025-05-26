@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CartService } from '../../../core/services/cart-service/cart.service';
-import { OrderService } from '../../../core/services/order-service/order.service';
+import { CartService } from '../../../services/cart.service';
+import { OrderService } from '../../../services/order.service';
 import { Router } from '@angular/router';
 
 @Component({
