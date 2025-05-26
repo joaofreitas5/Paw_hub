@@ -39,7 +39,7 @@ import { OrderListComponent } from './components/orders/order-list/order-list.co
 import { OrderDetailsComponent } from './components/orders/order-details/order-details.component';
 
 // Notificações (opcional)
-import { NotificationListComponent } from './components/notifications/notification-list/notification-list.component';
+import {  } from './services/notification.service';
 
 export const routes: Routes = [
   // Auth & user

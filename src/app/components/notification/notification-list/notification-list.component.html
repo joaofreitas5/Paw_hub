@@ -1,0 +1,10 @@
+<h2>Notificações</h2>
+<ul>
+  <li *ngFor="let n of notifications">
+    <span [style.fontWeight]="n.read ? 'normal' : 'bold'">
+      {{ n.message }} ({{ n.createdAt | date:'short' }})
+    </span>
+    <button *ngIf="!n.read" (click)="markAsRead(n.id)">Marcar como lida</button>
+    <button (click)="deleteNotification(n.id)">Apagar</button>
+  </li>
+</ul>
