@@ -7,6 +7,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { User } from '../../../models/user.model';
 
 @Component({
   selector: 'app-register',
@@ -24,14 +25,22 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrls: ['./register.component.css'],
 })
 export class RegisterComponent {
-  user = { username: '', email: '', password: '', role: 'user' };
+  user: Partial<User> = { 
+    username: '', 
+    email: '', 
+    password: '', 
+    role: 'user' as 'user' | 'restaurant' | 'admin' 
+  };
   error = '';
 
   constructor(private authService: AuthService, private router: Router) {}
 
   register() {
-    // Corrigir role se vier como 'client'
-    if (this.user.role === 'client') this.user.role = 'user';
+    // Validate role before sending
+    if (this.user.role !== 'user' && this.user.role !== 'restaurant' && this.user.role !== 'admin') {
+      this.user.role = 'user';
+    }
+    
     this.authService.register(this.user).subscribe({
       next: () => this.router.navigate(['/login']),
       error: err => this.error = err.error?.message || 'Erro ao registar'

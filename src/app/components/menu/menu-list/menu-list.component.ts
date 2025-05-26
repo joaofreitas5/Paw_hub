@@ -4,6 +4,8 @@ import { Menu } from '../../../models/menu.model';
 import { AuthService } from '../../../services/auth.service';
 import { Category } from '../../../models/category.model';
 import { CategoryService } from '../../../services/category-service.service';
+import { Dish } from '../../../models/dish.model';
+import { DishService } from '../../../services/dish.service';
 
 @Component({
   selector: 'app-menu-list',
@@ -13,6 +15,7 @@ import { CategoryService } from '../../../services/category-service.service';
 export class MenuListComponent implements OnInit {
   menus: Menu[] = [];
   categories: Category[] = [];
+  dishes: Dish[] = [];
   loading = false;
   error?: string;
   filters = {
@@ -24,12 +27,14 @@ export class MenuListComponent implements OnInit {
   constructor(
     private menuService: MenuService,
     private categoryService: CategoryService,
-    private authService: AuthService
+    private authService: AuthService,
+    private dishService: DishService
   ) {}
 
   ngOnInit(): void {
     this.loadMenus();
     this.loadCategories();
+    this.loadDishes();
   }
 
   loadMenus() {
@@ -54,21 +59,30 @@ export class MenuListComponent implements OnInit {
     });
   }
 
+  loadDishes() {
+    this.dishService.getDishes().subscribe({
+      next: (dishes: Dish[]) => this.dishes = dishes
+    });
+  }
+
   onFiltersChanged(filters: any) {
     this.filters = filters;
   }
 
   filteredMenus(): Menu[] {
     return this.menus.filter(menu => {
-      const nameMatch = !this.filters.name || menu.items.some(item => item.name.toLowerCase().includes(this.filters.name.toLowerCase()));
+      const nameMatch = !this.filters.name || 
+        menu.items.some((itemId: string) => {
+          const dish = this.dishes.find((d: Dish) => d.id === itemId);
+          return dish?.name.toLowerCase().includes(this.filters.name.toLowerCase());
+        });
       const categoryMatch = !this.filters.category || menu.category === this.filters.category;
-      // Se tiveres campo available no menu, podes filtrar aqui
       return nameMatch && categoryMatch;
     });
   }
 
   getRestaurantId(): string {
     const user = this.authService.getUser();
-    return user.restaurantId || '';
+    return user?.restaurantId || user?.id || '';
   }
 }

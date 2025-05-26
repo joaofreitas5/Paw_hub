@@ -2,10 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MenuService } from '../../../services/menu.service';
+import { DishService } from '../../../services/dish.service';
 import { CategoryService } from '../../../services/category-service.service';
 import { AuthService } from '../../../services/auth.service';
 import { Menu, MenuItem } from '../../../models/menu.model';
 import { Category } from '../../../models/category.model';
+import { Dish } from '../../../models/dish.model';
 
 @Component({
   selector: 'app-menu-form',
@@ -22,6 +24,7 @@ export class MenuFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private menuService: MenuService,
+    private dishService: DishService,
     private categoryService: CategoryService,
     private authService: AuthService,
     private route: ActivatedRoute,
@@ -41,29 +44,37 @@ export class MenuFormComponent implements OnInit {
       this.editing = true;
       this.menuService.getMenu(this.menuId).subscribe(menu => {
         this.menuForm.patchValue({ category: menu.category });
-        // Preencher items
-        const itemsArray = this.menuForm.get('items') as FormArray;
-        menu.items.forEach(item => {
-          itemsArray.push(this.fb.group({
-            name: [item.name, Validators.required],
-            description: [item.description],
-            price: [item.price, [Validators.required, Validators.min(0)]],
-            image: [item.image],
-            nutritionalInfo: this.fb.group({
-              calories: [item.nutritionalInfo?.calories],
-              protein: [item.nutritionalInfo?.protein],
-              fat: [item.nutritionalInfo?.fat],
-              carbs: [item.nutritionalInfo?.carbs],
-              sodium: [item.nutritionalInfo?.sodium]
-            }),
-            doseType: [item.doseType]
-          }));
-        });
+        if (menu.items?.length > 0) {
+          this.dishService.getDishes({ ids: menu.items.join(',') }).subscribe({
+            next: (dishes: Dish[]) => {
+              const itemsArray = this.menuForm.get('items') as FormArray;
+              dishes.forEach((dish: Dish) => {
+                itemsArray.push(this.createDishFormGroup(dish));
+              });
+            }
+          });
+        }
       });
     } else {
-      // Adiciona pelo menos um prato por defeito
       this.addMenuItem();
     }
+  }
+
+  private createDishFormGroup(dish?: Dish): FormGroup {
+    return this.fb.group({
+      name: [dish?.name || '', Validators.required],
+      description: [dish?.description || ''],
+      price: [dish?.price || 0, [Validators.required, Validators.min(0)]],
+      image: [dish?.image || ''],
+      nutritionalInfo: this.fb.group({
+        calories: [dish?.nutritionalInfo?.calories || null],
+        protein: [dish?.nutritionalInfo?.protein || null],
+        fat: [dish?.nutritionalInfo?.fat || null],
+        carbs: [dish?.nutritionalInfo?.carbs || null],
+        sodium: [dish?.nutritionalInfo?.sodium || null]
+      }),
+      doseType: [dish?.doseType || '']
+    });
   }
 
   get items() {
@@ -98,29 +109,36 @@ export class MenuFormComponent implements OnInit {
 
   getRestaurantId(): string {
     const user = this.authService.getUser();
-    return user.restaurantId || '';
+    if (!user) return '';
+    return user.restaurantId || user.id || '';
   }
 
   onSubmit() {
     if (this.menuForm.invalid) return;
-    this.loading = true;
+    
+    const formValue = this.menuForm.value;
     const restaurantId = this.getRestaurantId();
-    const data: Menu = {
-      ...this.menuForm.value,
-      restaurant: restaurantId
+    
+    const menuData = {
+      restaurant: restaurantId,
+      category: formValue.category,
+      items: formValue.items.map((item: MenuItem) => ({
+        name: item.name,
+        description: item.description,
+        price: item.price,
+        image: item.image,
+        nutritionalInfo: item.nutritionalInfo,
+        doseType: item.doseType
+      }))
     };
 
     const obs = this.editing && this.menuId
-      ? this.menuService.updateMenu(this.menuId, data)
-      : this.menuService.createMenu(data);
+      ? this.menuService.updateMenu(this.menuId, menuData)
+      : this.menuService.createMenu(menuData);
 
     obs.subscribe({
-      next: () => {
-        this.router.navigate(['/menus']);
-      },
-      error: () => {
-        this.loading = false;
-      }
+      next: () => this.router.navigate(['/menus']),
+      error: () => this.loading = false
     });
   }
 }

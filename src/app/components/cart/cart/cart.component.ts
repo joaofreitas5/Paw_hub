@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CartService, CartItem } from '../../../services/cart.service';
-import { Menu } from '../../../models/menu.model';
+import { MenuItem } from '../../../models/menu.model';
 
 
 @Component({
@@ -18,8 +18,8 @@ export class CartComponent implements OnInit {
     this.cartService.load();
   }
 
-  removeItem(menu: Menu) {
-    this.cartService.removeItem(menu).subscribe(() => this.cartService.load());
+  removeItem(item: MenuItem) {
+    this.cartService.removeItem(item).subscribe(() => this.cartService.load());
   }
 
   clearCart() {
