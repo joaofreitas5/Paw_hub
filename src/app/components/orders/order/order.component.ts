@@ -1,17 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
-interface Order {
-  id: number;
-  clientName: string;
-  restaurantId: number;
-  items: { name: string; quantity: number; price: number }[];
-  status: 'pending' | 'accepted' | 'dispatched' | 'delivered';
-  address: string;
-  payment: string;
-  createdAt: string;
-}
+import { OrderService } from '../../../services/order.service';
+import { CartService, CartItem } from '../../../core/services/cart-service/cart.service';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-order',
@@ -19,30 +11,41 @@ interface Order {
   imports: [CommonModule, FormsModule],
   templateUrl: './order.component.html'
 })
-export class OrderComponent {
-  // Exemplo: obter do "carrinho" ou seleção anterior
-  cart = JSON.parse(localStorage.getItem('cart') || '[]');
+export class OrderComponent implements OnInit {
+  cart: CartItem[] = [];
   address = '';
   payment = '';
-  clientName = 'João Silva'; // Exemplo; idealmente viria do login
-  restaurantId = 1; // Exemplo; normalmente viria do contexto da seleção
+  error?: string;
+
+  constructor(
+    private orderService: OrderService,
+    private cartService: CartService,
+    private authService: AuthService
+  ) {}
+
+  ngOnInit() {
+    this.cartService.items$.subscribe(items => this.cart = items);
+    this.cartService.load();
+  }
 
   placeOrder() {
-    const allOrders: Order[] = JSON.parse(localStorage.getItem('orders') || '[]');
-    const newOrder: Order = {
-      id: Date.now(),
-      clientName: this.clientName,
-      restaurantId: this.restaurantId,
+    if (!this.address || !this.payment || this.cart.length === 0) {
+      this.error = 'Preencha todos os campos e adicione itens ao carrinho.';
+      return;
+    }
+    const order = {
       items: this.cart,
-      status: 'pending',
-      address: this.address,
-      payment: this.payment,
-      createdAt: new Date().toISOString()
+      deliveryAddress: this.address,
+      paymentMethod: this.payment
     };
-    allOrders.push(newOrder);
-    localStorage.setItem('orders', JSON.stringify(allOrders));
-    localStorage.removeItem('cart');
-    // Redirecionar ou avisar o utilizador
-    alert('Encomenda efetuada com sucesso!');
+    this.orderService.createOrder(order).subscribe({
+      next: () => {
+        this.cartService.clear().subscribe(() => this.cartService.load());
+        alert('Encomenda efetuada com sucesso!');
+      },
+      error: () => {
+        this.error = 'Erro ao efetuar encomenda.';
+      }
+    });
   }
 }

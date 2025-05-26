@@ -18,4 +18,5 @@ export interface User {
   pendingRestaurantApproval?: boolean;
   personalInfo?: PersonalInfo;
   orderHistory?: OrderHistory[];
+  userID?: string;
 }

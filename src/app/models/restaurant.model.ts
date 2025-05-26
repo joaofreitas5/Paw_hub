@@ -9,8 +9,6 @@ export interface Restaurant {
   phone?: string;
   email: string;
   imageUrl?: string;
-  categories?: Category[];
-  menus?: Menu[];
-  ownerId: string;
+  owner?: string; // user id
   validated?: boolean;
 }

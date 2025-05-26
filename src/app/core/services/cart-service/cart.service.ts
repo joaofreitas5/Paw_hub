@@ -1,47 +1,50 @@
 import { Injectable } from '@angular/core';
-import { CartItem } from '../../../models/order.model';
+import { HttpClient } from '@angular/common/http';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { Menu } from '../../../models/menu.model';
+
+export interface CartItem {
+  menuItem: string; // menu id
+  name: string;
+  price: number;
+  quantity: number;
+}
 
 @Injectable({ providedIn: 'root' })
 export class CartService {
-  items: CartItem[] = [];
+  private api = '/api/cart';
+  private itemsSubject = new BehaviorSubject<CartItem[]>([]);
+  items$ = this.itemsSubject.asObservable();
 
-  constructor() {
+  constructor(private http: HttpClient) {
     this.load();
   }
 
-  addItem(menu: Menu, quantity: number = 1): void {
-    const existing = this.items.find(i => i.menu.id === menu.id);
-    if (existing) {
-      existing.quantity += quantity;
-    } else {
-      this.items.push({ menu, quantity });
-    }
-    this.save();
+  load() {
+    this.http.get<{ items: CartItem[] }>(this.api).subscribe(cart => {
+      this.itemsSubject.next(cart.items || []);
+    });
   }
 
-  removeItem(menu: Menu): void {
-    this.items = this.items.filter(i => i.menu.id !== menu.id);
-    this.save();
+  addItem(menu: Menu, quantity: number = 1): Observable<any> {
+    return this.http.post(this.api + '/add', {
+      menuItem: menu.id,
+      name: menu.name,
+      price: menu.price,
+      quantity
+    });
   }
 
-  clear(): void {
-    this.items = [];
-    this.save();
+  removeItem(menu: Menu): Observable<any> {
+    return this.http.post(this.api + '/remove', { menuItem: menu.id });
+  }
+
+  clear(): Observable<any> {
+    return this.http.post(this.api + '/clear', {});
   }
 
   total(): number {
-    return this.items.reduce((sum, item) => sum + item.menu.price * item.quantity, 0);
-  }
-
-  private save() {
-    localStorage.setItem('cart', JSON.stringify(this.items));
-  }
-
-  private load() {
-    const data = localStorage.getItem('cart');
-    if (data) {
-      this.items = JSON.parse(data);
-    }
+    const items = this.itemsSubject.value;
+    return items.reduce((sum, item) => sum + item.price * item.quantity, 0);
   }
 }

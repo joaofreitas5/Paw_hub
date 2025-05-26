@@ -5,7 +5,7 @@ import { Menu } from '../models/menu.model';
 
 @Injectable({ providedIn: 'root' })
 export class MenuService {
-  private api = '/api/menu';
+  private api = '/menu';
 
   constructor(private http: HttpClient) {}
 
