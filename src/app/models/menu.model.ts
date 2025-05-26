@@ -1,10 +1,22 @@
-export interface Menu {
-  id: string;
+export interface MenuItem {
   name: string;
   description?: string;
   price: number;
-  category?: string;
-  imageUrl?: string;
-  available?: boolean;
-  restaurantId?: string;
+  image?: string;
+  nutritionalInfo?: {
+    calories?: number;
+    protein?: number;
+    fat?: number;
+    carbs?: number;
+    sodium?: number;
+  };
+  doseType?: string;
+}
+
+export interface Menu {
+  id: string;
+  restaurant: string;
+  category: string;
+  items: MenuItem[];
+  maxItems?: number;
 }

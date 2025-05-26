@@ -13,10 +13,12 @@ export interface User {
   id: string;
   username: string;
   email: string;
+  password?: string;
   role: 'user' | 'restaurant' | 'admin';
+  userID?: string;
   isValidated?: boolean;
   pendingRestaurantApproval?: boolean;
   personalInfo?: PersonalInfo;
   orderHistory?: OrderHistory[];
-  userID?: string;
+  restaurantValidation?: boolean;
 }

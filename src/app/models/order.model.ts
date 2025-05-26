@@ -1,7 +1,7 @@
 import { Menu } from './menu.model';
 
 export interface OrderItem {
-  menuItem: string;
+  menuItem: string; // Changed to ObjectId (string)
   name: string;
   quantity: number;
   price: number;
@@ -13,7 +13,7 @@ export interface Order {
   restaurant: string;
   items: OrderItem[];
   total: number;
-  status: 'pending' | 'preparing' | 'delivered' | 'completed' | 'cancelled';
+  status: 'pending' | 'preparing' | 'delivered' | 'completed' | 'cancelled'; // Status options clarified
   paymentMethod?: string;
   notes?: string;
   deliveryAddress?: string;
