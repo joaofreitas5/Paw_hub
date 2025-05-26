@@ -1,19 +1,33 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { User } from '../models/user.model';
 
+interface AuthResponse {
+  token: string;
+  user: User;
+}
+
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private api = '/login';
+  private api = '/api/auth'; // Atualizado para usar /api
   private tokenKey = 'paw_token';
   private userKey = 'paw_user';
 
   constructor(private http: HttpClient) {}
 
-  login(email: string, password: string): Observable<any> {
-    return this.http.post<any>(`${this.api}/login`, { email, password }).pipe(
-      tap(res => {
+  private getHttpOptions() {
+    return {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      }),
+      withCredentials: true // Important for CORS with credentials
+    };
+  }
+
+  login(email: string, password: string): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.api}/login`, { email, password }, this.getHttpOptions()).pipe(
+      tap((res: AuthResponse) => {
         localStorage.setItem(this.tokenKey, res.token);
         localStorage.setItem(this.userKey, JSON.stringify(res.user));
       })
@@ -21,7 +35,7 @@ export class AuthService {
   }
 
   register(user: Partial<User>): Observable<any> {
-    return this.http.post(`${this.api}/register`, user);
+    return this.http.post(`${this.api}/register`, user, this.getHttpOptions());
   }
 
   logout() {

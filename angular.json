@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "frontoffice": {
+    "Paw_hub": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -30,12 +30,7 @@
               "@angular/material/prebuilt-themes/azure-blue.css",
               "src/styles.css"
             ],
-            "scripts": [],
-            "server": "src/main.server.ts",
-            "outputMode": "server",
-            "ssr": {
-              "entry": "src/server.ts"
-            }
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -63,12 +58,16 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "proxyConfig": "proxy.conf.json",
+            "buildTarget": "Paw_hub:build:development"
+          },
           "configurations": {
             "production": {
-              "buildTarget": "frontoffice:build:production"
+              "buildTarget": "Paw_hub:build:production"
             },
             "development": {
-              "buildTarget": "frontoffice:build:development"
+              "buildTarget": "Paw_hub:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -95,6 +94,14 @@
               "src/styles.css"
             ],
             "scripts": []
+          }
+        },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist/frontoffice/server",
+            "main": "server.ts",
+            "tsConfig": "tsconfig.server.json"
           }
         }
       }

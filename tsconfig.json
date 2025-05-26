@@ -24,12 +24,14 @@
     "strictInputAccessModifiers": true,
     "strictTemplates": true
   },
+  "files": [
+    "src/main.ts"
+  ],
   "include": [
     "src/**/*.ts"
   ],
-  
   "exclude": [
-    "src/app/app.module.ts",
-    "node_modules"
+    "node_modules",
+    "src/**/*.spec.ts"
   ]
 }

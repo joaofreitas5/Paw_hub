@@ -1,66 +1,59 @@
-import {
-  AngularNodeAppEngine,
-  createNodeRequestHandler,
-  isMainModule,
-  writeResponseToNodeResponse,
-} from '@angular/ssr/node';
-import express from 'express';
-import { dirname, resolve } from 'node:path';
-import { fileURLToPath } from 'node:url';
-
-const serverDistFolder = dirname(fileURLToPath(import.meta.url));
-const browserDistFolder = resolve(serverDistFolder, '../browser');
+import { APP_BASE_HREF } from '@angular/common';
+import { renderApplication } from '@angular/platform-server';
+import express, { Request, Response, NextFunction } from 'express';
+import { fileURLToPath } from 'url';
+import { dirname, join, resolve } from 'path';
+import { readFileSync } from 'fs';
+import bootstrap from './main.server';
 
 const app = express();
-const angularApp = new AngularNodeAppEngine();
+const serverDistFolder = dirname(fileURLToPath(import.meta.url));
+const browserDistFolder = resolve(serverDistFolder, '../browser');
+const indexHtml = join(browserDistFolder, 'index.html');
 
-/**
- * Example Express Rest API endpoints can be defined here.
- * Uncomment and define endpoints as necessary.
- *
- * Example:
- * ```ts
- * app.get('/api/**', (req, res) => {
- *   // Handle API request
- * });
- * ```
- */
-
-/**
- * Serve static files from /browser
- */
-app.use(
+// Serve static files from /browser
+app.get(
+  '*.*',
   express.static(browserDistFolder, {
     maxAge: '1y',
-    index: false,
-    redirect: false,
   }),
 );
 
-/**
- * Handle all other requests by rendering the Angular application.
- */
-app.use('/**', (req, res, next) => {
-  angularApp
-    .handle(req)
-    .then((response) =>
-      response ? writeResponseToNodeResponse(response, res) : next(),
-    )
-    .catch(next);
+// All regular routes use the Universal engine
+app.get('*', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { protocol, originalUrl, baseUrl, headers } = req;
+
+    const documentHtml = await renderApplication(bootstrap, {
+      document: await readFileSync(indexHtml, 'utf-8'),
+      url: `${protocol}://${headers.host}${originalUrl}`,
+      platformProviders: [
+        {
+          provide: APP_BASE_HREF,
+          useValue: baseUrl,
+        },
+      ],
+    });
+
+    res.send(documentHtml);
+  } catch (err: unknown) {
+    next(err);
+  }
 });
 
-/**
- * Start the server if this module is the main entry point.
- * The server listens on the port defined by the `PORT` environment variable, or defaults to 4000.
- */
-if (isMainModule(import.meta.url)) {
+function run(): void {
   const port = process.env['PORT'] || 4000;
   app.listen(port, () => {
     console.log(`Node Express server listening on http://localhost:${port}`);
   });
 }
 
-/**
- * Request handler used by the Angular CLI (for dev-server and during build) or Firebase Cloud Functions.
- */
-export const reqHandler = createNodeRequestHandler(app);
+// Development vs production
+const mainModule = require.main;
+const moduleFilename = mainModule?.filename || '';
+
+if (moduleFilename === fileURLToPath(import.meta.url)) {
+  run();
+}
+
+export default app;

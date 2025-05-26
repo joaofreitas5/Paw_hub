@@ -1,0 +1,18 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./out-tsc/server",
+    "target": "es2019",
+    "types": [
+      "node"
+    ],
+    "module": "commonjs"
+  },
+  "files": [
+    "src/main.server.ts"
+  ],
+  "include": [
+    "src/app/app.config.server.ts",
+    "src/**/*.server.ts"
+  ]
+}
