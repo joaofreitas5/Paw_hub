@@ -7,9 +7,10 @@ export interface Restaurant {
   description?: string;
   address?: string;
   phone?: string;
-  email?: string;
+  email: string;
   imageUrl?: string;
   categories?: Category[];
   menus?: Menu[];
   ownerId: string;
+  validated?: boolean;
 }

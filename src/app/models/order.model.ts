@@ -6,14 +6,12 @@ export interface CartItem {
 }
 
 export interface Order {
-  id?: string;
-  userId: string;
+  id: string;
+  user: string; // user id
   restaurantId: string;
+  items: any[];
+  status: string;
   address: string;
-  phone: string;
-  notes?: string;
-  items: CartItem[];
-  total: number;
-  status: 'pendente' | 'em preparação' | 'enviado' | 'entregue' | 'cancelado';
-  createdAt?: Date | string;
+  payment: string;
+  createdAt: string;
 }

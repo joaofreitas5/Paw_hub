@@ -3,8 +3,8 @@ export interface Menu {
   name: string;
   description?: string;
   price: number;
-  categoryId: string;
+  category?: string;
   imageUrl?: string;
-  available: boolean;
-  restaurantId: string;
+  available?: boolean;
+  restaurantId?: string;
 }
