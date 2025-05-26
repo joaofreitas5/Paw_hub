@@ -3,11 +3,14 @@ import { UserService } from '../../../services/user.service';
 import { OrderService } from '../../../services/order.service';
 import { User } from '../../../models/user.model';
 import { Order } from '../../../models/order.model';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
-  styleUrls: ['./user-profile.component.css']
+  styleUrls: ['./user-profile.component.css'],
+  standalone: true,
+  imports: [CommonModule]
 })
 export class UserProfileComponent implements OnInit {
   user: User | null = null;

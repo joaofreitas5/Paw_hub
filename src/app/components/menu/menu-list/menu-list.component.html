@@ -12,8 +12,10 @@
   <li *ngFor="let menu of filteredMenus()">
     <b>{{ menu.category }}</b>
     <ul>
-      <li *ngFor="let item of menu.items">
-        {{ item.name }} - {{ item.price | currency:'EUR':'symbol':'1.2-2' }}
+      <li *ngFor="let itemId of menu.items">
+        <ng-container *ngIf="getDish(itemId) as dish">
+          {{ dish.name }} - {{ dish.price | currency:'EUR':'symbol':'1.2-2' }}
+        </ng-container>
       </li>
     </ul>
     <a [routerLink]="['/menus', menu.id]">Detalhes</a>

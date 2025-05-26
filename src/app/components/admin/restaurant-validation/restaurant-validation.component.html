@@ -2,7 +2,7 @@
 <ul>
   <li *ngFor="let rest of pendingRestaurants">
     {{rest.name}} - {{rest.email}}
-    <button (click)="approve(rest._id)">Aprovar</button>
-    <button (click)="reject(rest._id)">Rejeitar</button>
+    <button (click)="approve(rest.id)">Aprovar</button>
+    <button (click)="reject(rest.id)">Rejeitar</button>
   </li>
 </ul>

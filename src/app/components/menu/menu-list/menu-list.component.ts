@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { FiltersPanelComponent } from '../../filters/filters-panel/filters-panel.component';
 import { MenuService } from '../../../services/menu.service';
 import { Menu } from '../../../models/menu.model';
 import { AuthService } from '../../../services/auth.service';
@@ -10,7 +13,9 @@ import { DishService } from '../../../services/dish.service';
 @Component({
   selector: 'app-menu-list',
   templateUrl: './menu-list.component.html',
-  styleUrls: ['./menu-list.component.css']
+  styleUrls: ['./menu-list.component.css'],
+  standalone: true,
+  imports: [CommonModule, RouterModule, FiltersPanelComponent]
 })
 export class MenuListComponent implements OnInit {
   menus: Menu[] = [];
@@ -84,5 +89,9 @@ export class MenuListComponent implements OnInit {
   getRestaurantId(): string {
     const user = this.authService.getUser();
     return user?.restaurantId || user?.id || '';
+  }
+
+  getDish(id: string): Dish | undefined {
+    return this.dishes.find(d => d.id === id);
   }
 }

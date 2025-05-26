@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { MenuService } from '../../../services/menu.service';
 import { DishService } from '../../../services/dish.service';
 import { Menu } from '../../../models/menu.model';
@@ -7,7 +8,9 @@ import { Dish } from '../../../models/dish.model';
 @Component({
   selector: 'app-availability-management',
   templateUrl: './availability-management.component.html',
-  styleUrls: ['./availability-management.component.css']
+  styleUrls: ['./availability-management.component.css'],
+  standalone: true,
+  imports: [CommonModule]
 })
 export class AvailabilityManagementComponent implements OnInit {
   menus: Menu[] = [];

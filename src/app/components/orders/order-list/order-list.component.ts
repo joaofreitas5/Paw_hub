@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { OrderService } from '../../../services//order.service';
 import { AuthService } from '../../../services/auth.service';
 import { Order } from '../../../models/order.model';
@@ -6,7 +8,9 @@ import { Order } from '../../../models/order.model';
 @Component({
   selector: 'app-order-list',
   templateUrl: './order-list.component.html',
-  styleUrls: ['./order-list.component.css']
+  styleUrls: ['./order-list.component.css'],
+  standalone: true,
+  imports: [CommonModule, RouterModule]
 })
 export class OrderListComponent implements OnInit {
   @Input() restaurantView?: boolean = false;

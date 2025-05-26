@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DishService } from '../../../services/dish.service';
 import { Dish } from '../../../models/dish.model';
@@ -7,7 +8,9 @@ import { Dish } from '../../../models/dish.model';
 @Component({
   selector: 'app-dish-form',
   templateUrl: './dish-form.component.html',
-  styleUrls: ['./dish-form.component.css']
+  styleUrls: ['./dish-form.component.css'],
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule]
 })
 export class DishFormComponent implements OnInit {
   dishForm!: FormGroup;

@@ -1,14 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { CartService, CartItem } from '../../../services/cart.service';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { OrderService } from '../../../services/order.service';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-checkout',
   templateUrl: './checkout.component.html',
-  styleUrls: ['./checkout.component.css']
+  styleUrls: ['./checkout.component.css'],
+  standalone: true,
+  imports: [CommonModule, FormsModule, RouterModule]
 })
 export class CheckoutComponent implements OnInit {
+  deliveryAddress = '';
   paymentOption: string = 'card';
   processing = false;
   error?: string;

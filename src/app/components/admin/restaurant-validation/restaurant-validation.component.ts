@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UserService } from '../../../core/services/user-service/user.service';
-import { User } from '../../../models/user.model';
-import { AdminService } from '../../../core/services/admin-service/admin-service.service';
-
+import { AdminService } from '../../../services/admin-service.service';
+import { Restaurant } from '../../../models/restaurant.model';
 
 @Component({
   selector: 'app-restaurant-validation',
@@ -14,7 +12,7 @@ import { AdminService } from '../../../core/services/admin-service/admin-service
 })
 
 export class RestaurantValidationComponent implements OnInit {
-  pendingRestaurants: any[] = [];
+  pendingRestaurants: Restaurant[] = [];
 
   constructor(private adminService: AdminService) {}
 
@@ -23,7 +21,9 @@ export class RestaurantValidationComponent implements OnInit {
   }
 
   loadPending() {
-    this.adminService.getPendingRestaurants().subscribe(data => this.pendingRestaurants = data);
+    this.adminService.getPendingRestaurants().subscribe((restaurants: Restaurant[]) => {
+      this.pendingRestaurants = restaurants;
+    });
   }
 
   approve(id: string) {

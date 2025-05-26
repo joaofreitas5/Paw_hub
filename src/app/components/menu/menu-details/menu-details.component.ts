@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { MenuService } from '../../../services/menu.service';
 import { DishService } from '../../../services/dish.service';
@@ -8,7 +10,9 @@ import { Dish } from '../../../models/dish.model';
 @Component({
   selector: 'app-menu-details',
   templateUrl: './menu-details.component.html',
-  styleUrls: ['./menu-details.component.css']
+  styleUrls: ['./menu-details.component.css'],
+  standalone: true,
+  imports: [CommonModule, RouterModule]
 })
 export class MenuDetailsComponent implements OnInit {
   menu?: Menu;

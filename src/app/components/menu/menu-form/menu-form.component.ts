@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MenuService } from '../../../services/menu.service';
 import { DishService } from '../../../services/dish.service';
@@ -12,7 +13,9 @@ import { Dish } from '../../../models/dish.model';
 @Component({
   selector: 'app-menu-form',
   templateUrl: './menu-form.component.html',
-  styleUrls: ['./menu-form.component.css']
+  styleUrls: ['./menu-form.component.css'],
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule]
 })
 export class MenuFormComponent implements OnInit {
   menuForm!: FormGroup;
