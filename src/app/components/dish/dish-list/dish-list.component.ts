@@ -1,9 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { DishService } from '../../../services/dish.service';
 import { Dish } from '../../../models/dish.model';
 
 @Component({
   selector: 'app-dish-list',
+  standalone: true,
+  imports: [CommonModule, RouterModule],
   templateUrl: './dish-list.component.html',
   styleUrls: ['./dish-list.component.css']
 })
