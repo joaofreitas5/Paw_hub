@@ -1,29 +1,42 @@
-<h2>Registo</h2>
-<form (ngSubmit)="register()" #registerForm="ngForm">
-  <input
-    [(ngModel)]="user.username"
-    name="username"
-    placeholder="Username"
-    required
-  />
-  <input
-    [(ngModel)]="user.email"
-    name="email"
-    placeholder="Email"
-    required
-    type="email"
-  />
-  <input
-    [(ngModel)]="user.password"
-    name="password"
-    placeholder="Password"
-    required
-    type="password"
-  />
-  <select [(ngModel)]="user.role" name="role">
-    <option value="user">Cliente</option>
-    <option value="restaurant">Restaurante</option>
-  </select>
-  <button type="submit">Registar</button>
-  <div *ngIf="error" class="error">{{ error }}</div>
-</form>
+<div class="register-form">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Registo</mat-card-title>
+    </mat-card-header>
+    
+    <mat-card-content>
+      <form (ngSubmit)="register()" #registerForm="ngForm">
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Username</mat-label>
+          <input matInput [(ngModel)]="user.username" name="username" required>
+        </mat-form-field>
+
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Email</mat-label>
+          <input matInput [(ngModel)]="user.email" name="email" required type="email">
+        </mat-form-field>
+
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Password</mat-label>
+          <input matInput [(ngModel)]="user.password" name="password" required type="password">
+        </mat-form-field>
+
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Tipo de Conta</mat-label>
+          <mat-select [(ngModel)]="user.role" name="role">
+            <mat-option value="user">Cliente</mat-option>
+            <mat-option value="restaurant">Restaurante</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" type="submit">Registar</button>
+        
+        <mat-error *ngIf="error">{{ error }}</mat-error>
+      </form>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <a mat-button routerLink="/login">Já tem conta? Faça login</a>
+    </mat-card-actions>
+  </mat-card>
+</div>
