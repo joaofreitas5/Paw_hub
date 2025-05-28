@@ -41,8 +41,14 @@ import { OrderDetailsComponent } from './components/orders/order-details/order-d
 // Notificações (opcional)
 import {  NotificationListComponent } from './components/notification/notification-list/notification-list.component';
 
+// Home
+import { HomepageComponent } from './components/homepage/homepage.component';
+
 
 export const routes: Routes = [
+  // Home
+  { path: 'homepage', component: HomepageComponent },
+
   // Auth & user
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
@@ -90,6 +96,6 @@ export const routes: Routes = [
   { path: 'notifications', component: NotificationListComponent, canActivate: [AuthGuard] },
 
   // Default
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: '**', redirectTo: 'login' }
+  { path: '', redirectTo: 'homepage', pathMatch: 'full' },
+  { path: '**', redirectTo: 'homepage' }
 ];
