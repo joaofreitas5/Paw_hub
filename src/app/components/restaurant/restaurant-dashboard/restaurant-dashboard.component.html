@@ -3,23 +3,33 @@
 <div *ngIf="restaurant">
   <h3>{{ restaurant.name }}</h3>
   <p><b>Validado:</b> {{ restaurant.validated ? 'Sim' : 'Não' }}</p>
-  <a routerLink="/edit-restaurant">Editar Restaurante</a> |
-  <a routerLink="/menus">Gerir Menus</a> |
-  <a routerLink="/dishes">Gerir Pratos</a> |
-  <a routerLink="/categories">Gerir Categorias</a>
-  <hr>
+  <div class="dashboard-actions">
+    <a mat-stroked-button color="primary" routerLink="/edit-restaurant">Editar Restaurante</a>
+    <a mat-stroked-button color="accent" routerLink="/menus">Gerir Menus</a>
+    <a mat-stroked-button color="accent" routerLink="/dishes">Gerir Pratos</a>
+    <a mat-stroked-button color="accent" routerLink="/categories">Gerir Categorias</a>
+  </div>
+  <mat-divider></mat-divider>
   <h4>Menus</h4>
-  <ul>
-    <li *ngFor="let menu of menus">
-      {{ menu.category }} ({{ menu.items.length }} pratos)
-      <a [routerLink]="['/edit-menu', menu.id]">Editar</a>
-    </li>
-  </ul>
+  <mat-list>
+    <mat-list-item *ngFor="let menu of menus">
+      <div matLine>
+        {{ menu.category }} ({{ menu.items.length }} pratos)
+      </div>
+      <div matLine>
+        <a mat-button color="primary" [routerLink]="['/edit-menu', menu.id]">Editar</a>
+      </div>
+    </mat-list-item>
+  </mat-list>
   <h4>Encomendas Recentes</h4>
-  <ul>
-    <li *ngFor="let order of orders | slice:0:5">
-      #{{ order.id }} - {{ order.status }} - {{ order.total | currency:'EUR' }}
-      <a [routerLink]="['/orders', order.id]">Detalhes</a>
-    </li>
-  </ul>
+  <mat-list>
+    <mat-list-item *ngFor="let order of orders | slice:0:5">
+      <div matLine>
+        #{{ order.id }} - {{ order.status }} - {{ order.total | currency:'EUR' }}
+      </div>
+      <div matLine>
+        <a mat-button color="primary" [routerLink]="['/orders', order.id]">Detalhes</a>
+      </div>
+    </mat-list-item>
+  </mat-list>
 </div>

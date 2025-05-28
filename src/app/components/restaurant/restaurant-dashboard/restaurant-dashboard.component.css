@@ -1,1 +1,50 @@
-/* Empty file to satisfy Angular's requirement */
+h2 {
+  margin-bottom: 18px;
+  text-align: center;
+}
+
+h3 {
+  margin-top: 12px;
+  margin-bottom: 8px;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.dashboard-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+mat-list {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  margin-bottom: 18px;
+  padding: 8px 0;
+}
+
+mat-list-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+mat-list-item:last-child {
+  border-bottom: none;
+}
+
+[matLine] {
+  margin-bottom: 4px;
+}
+
+a[mat-button] {
+  margin-top: 4px;
+}
+
+mat-divider {
+  margin: 18px 0;
+}

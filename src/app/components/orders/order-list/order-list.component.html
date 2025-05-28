@@ -1,10 +1,17 @@
 <h2>{{ restaurantView ? 'Encomendas Recebidas' : 'Minhas Encomendas' }}</h2>
-<div *ngIf="loading">A carregar encomendas...</div>
-<ul>
-  <li *ngFor="let order of orders">
-    <span>{{ order.address }}</span> - 
-    <span>{{ order.total | currency:'EUR' }}</span>
-    <a [routerLink]="['/orders', order.id]">Ver detalhes</a>
-  </li>
-</ul>
+<div *ngIf="loading">
+  <mat-progress-spinner mode="indeterminate" diameter="32"></mat-progress-spinner>
+  <span style="margin-left: 10px;">A carregar encomendas...</span>
+</div>
+<mat-list *ngIf="!loading && orders.length > 0">
+  <mat-list-item *ngFor="let order of orders">
+    <div matLine>
+      <span>{{ order.address }}</span> - 
+      <span>{{ order.total | currency:'EUR' }}</span>
+    </div>
+    <div matLine>
+      <a mat-button color="primary" [routerLink]="['/orders', order.id]">Ver detalhes</a>
+    </div>
+  </mat-list-item>
+</mat-list>
 <p *ngIf="!loading && orders.length === 0">Nenhuma encomenda encontrada.</p>

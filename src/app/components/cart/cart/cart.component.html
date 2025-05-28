@@ -1,15 +1,23 @@
 <h2>Carrinho</h2>
-<ul>
-  <li *ngFor="let item of items">
-    {{ item.name }} ({{ item.quantity }}) - {{ item.price * item.quantity | currency:'EUR' }}
-    <button (click)="removeItem(item)">Remover</button>
-  </li>
-</ul>
+
+<mat-list *ngIf="items.length > 0">
+  <mat-list-item *ngFor="let item of items">
+    <div matLine>
+      {{ item.name }} ({{ item.quantity }}) - {{ item.price * item.quantity | currency:'EUR' }}
+    </div>
+    <button mat-icon-button color="warn" (click)="removeItem(item)" aria-label="Remover item">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </mat-list-item>
+</mat-list>
+
 <p *ngIf="items.length === 0">O carrinho está vazio.</p>
-<p *ngIf="items.length > 0">
+
+<div *ngIf="items.length > 0" style="margin-top: 16px;">
   <b>Total:</b> {{ total() | currency:'EUR' }}
-</p>
-<div *ngIf="items.length > 0">
-  <a routerLink="/checkout">Finalizar encomenda</a>
-  <button (click)="clearCart()">Limpar carrinho</button>
+</div>
+
+<div *ngIf="items.length > 0" style="margin-top: 16px;">
+  <a mat-raised-button color="primary" routerLink="/checkout">Finalizar encomenda</a>
+  <button mat-stroked-button color="warn" (click)="clearCart()">Limpar carrinho</button>
 </div>

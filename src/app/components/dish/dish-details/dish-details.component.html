@@ -1,18 +1,31 @@
-<div *ngIf="loading">A carregar prato...</div>
-<div *ngIf="error">{{ error }}</div>
-<div *ngIf="dish">
-  <h2>{{ dish.name }}</h2>
-  <img *ngIf="dish.image" [src]="dish.image" alt="Imagem do prato" width="200" />
-  <p>{{ dish.description }}</p>
-  <p><b>Preço:</b> {{ dish.price | currency:'EUR':'symbol':'1.2-2' }}</p>
-  <div *ngIf="dish?.nutritionalInfo">
-    <small>
-      Calorias: {{ dish.nutritionalInfo?.calories }},
-      Proteína: {{ dish.nutritionalInfo?.protein }},
-      Gordura: {{ dish.nutritionalInfo?.fat }},
-      Hidratos: {{ dish.nutritionalInfo?.carbs }},
-      Sódio: {{ dish.nutritionalInfo?.sodium }}
-    </small>
-  </div>
-  <a *ngIf="dish" [routerLink]="['/edit-dish', dish.id]">Editar prato</a>
+<div *ngIf="loading">
+  <mat-progress-spinner mode="indeterminate" diameter="40"></mat-progress-spinner>
+  <span style="margin-left: 12px;">A carregar prato...</span>
 </div>
+<div *ngIf="error">
+  <mat-card class="error-card">
+    {{ error }}
+  </mat-card>
+</div>
+<mat-card *ngIf="dish">
+  <mat-card-header>
+    <mat-card-title>{{ dish.name }}</mat-card-title>
+  </mat-card-header>
+  <img *ngIf="dish.image" mat-card-image [src]="dish.image" alt="Imagem do prato" />
+  <mat-card-content>
+    <p>{{ dish.description }}</p>
+    <p><b>Preço:</b> {{ dish.price | currency:'EUR':'symbol':'1.2-2' }}</p>
+    <div *ngIf="dish?.nutritionalInfo" class="nutritional-info">
+      <mat-chip-list>
+        <mat-chip color="primary" selected>Calorias: {{ dish.nutritionalInfo?.calories }}</mat-chip>
+        <mat-chip color="primary" selected>Proteína: {{ dish.nutritionalInfo?.protein }}</mat-chip>
+        <mat-chip color="primary" selected>Gordura: {{ dish.nutritionalInfo?.fat }}</mat-chip>
+        <mat-chip color="primary" selected>Hidratos: {{ dish.nutritionalInfo?.carbs }}</mat-chip>
+        <mat-chip color="primary" selected>Sódio: {{ dish.nutritionalInfo?.sodium }}</mat-chip>
+      </mat-chip-list>
+    </div>
+  </mat-card-content>
+  <mat-card-actions>
+    <a mat-stroked-button color="accent" *ngIf="dish" [routerLink]="['/edit-dish', dish.id]">Editar prato</a>
+  </mat-card-actions>
+</mat-card>

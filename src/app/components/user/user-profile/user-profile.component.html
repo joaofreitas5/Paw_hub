@@ -1,12 +1,15 @@
 <h2>Perfil</h2>
-<div *ngIf="user">
-  <p><strong>Username:</strong> {{user.username}}</p>
-  <p><strong>Email:</strong> {{user.email}}</p>
-  <p><strong>Role:</strong> {{user.role}}</p>
-</div>
+<mat-card>
+  <mat-card-content>
+    <p><strong>Username:</strong> {{user.username}}</p>
+    <p><strong>Email:</strong> {{user.email}}</p>
+    <p><strong>Role:</strong> {{user.role}}</p>
+  </mat-card-content>
+</mat-card>
+
 <h3>Histórico de Encomendas</h3>
-<ul>
-  <li *ngFor="let order of orders">
+<mat-list>
+  <mat-list-item *ngFor="let order of orders">
     Encomenda #{{order.id}} - {{order.status}} - Total: {{order.total}}€
-  </li>
-</ul>
+  </mat-list-item>
+</mat-list>

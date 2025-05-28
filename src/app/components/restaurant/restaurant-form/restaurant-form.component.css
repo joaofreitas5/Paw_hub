@@ -1,0 +1,29 @@
+.restaurant-form {
+  max-width: 480px;
+  margin: 32px auto;
+  padding: 24px 20px 32px 20px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+button[mat-raised-button] {
+  min-width: 160px;
+  align-self: flex-end;
+}
+
+.error-msg {
+  color: #b71c1c;
+  background: #ffeaea;
+  padding: 10px;
+  border-radius: 6px;
+  margin-top: 12px;
+  text-align: center;
+}
