@@ -8,9 +8,10 @@ import { DishDetailsComponent } from './components/restaurant/dish-details/dish-
 import { MenuEditComponent } from './components/restaurant/menu-edit/menu-edit.component';
 import { CartComponent } from './components/cart/cart/cart.component';
 import { CheckoutComponent } from './components/cart/checkout/checkout.component';
+import { HomepageComponent } from './components/homepage/homepage.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: '',  component: HomepageComponent, pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'menus', component: MenuListComponent },
