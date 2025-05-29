@@ -1,20 +1,11 @@
 <h2>Pratos</h2>
-<div *ngIf="loading">
-  <mat-progress-spinner mode="indeterminate" diameter="32"></mat-progress-spinner>
-  <span style="margin-left: 10px;">A carregar pratos...</span>
-</div>
-<div *ngIf="error">
-  <mat-card class="error-card">{{ error }}</mat-card>
-</div>
-<mat-list *ngIf="!loading && !error">
-  <mat-list-item *ngFor="let dish of dishes">
-    <div matLine>
-      <b>{{ dish.name }}</b> - {{ dish.price | currency:'EUR' }}
-    </div>
-    <div matLine>
-      <a mat-button color="primary" [routerLink]="['/dishes', dish.id]">Detalhes</a>
-      <a mat-stroked-button color="accent" [routerLink]="['/edit-dish', dish.id]">Editar</a>
-    </div>
-  </mat-list-item>
-</mat-list>
-<a mat-raised-button color="primary" routerLink="/add-dish" style="margin-top: 18px;">Adicionar prato</a>
+<div *ngIf="loading">A carregar pratos...</div>
+<div *ngIf="error">{{ error }}</div>
+<ul>
+  <li *ngFor="let dish of dishes">
+    <b>{{ dish.name }}</b> - {{ dish.price | currency:'EUR' }}
+    <a [routerLink]="['/dishes', dish.id]">Detalhes</a>
+    <a [routerLink]="['/edit-dish', dish.id]">Editar</a>
+  </li>
+</ul>
+<a routerLink="/add-dish">Adicionar prato</a>

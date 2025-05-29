@@ -1,37 +1,27 @@
 <h2>Gestão de Disponibilidade</h2>
 <div *ngIf="loading">A carregar...</div>
-<div *ngIf="error" class="error-msg">{{ error }}</div>
+<div *ngIf="error">{{ error }}</div>
 
 <h3>Menus</h3>
-<mat-list>
-  <mat-list-item *ngFor="let menu of menus">
-    <div matLine>
-      <b>{{ menu.category }}</b>
-      <span class="status" [ngClass]="menu['available'] ? 'available' : 'unavailable'">
-        {{ menu['available'] ? 'Disponível' : 'Indisponível' }}
-      </span>
-    </div>
-    <div matLine>
-      <button mat-stroked-button color="{{ menu['available'] ? 'warn' : 'primary' }}" (click)="toggleMenuAvailability(menu)">
-        {{ menu['available'] ? 'Desativar' : 'Ativar' }}
-      </button>
-    </div>
-  </mat-list-item>
-</mat-list>
+<ul>
+  <li *ngFor="let menu of menus">
+    {{ menu.category }}
+    <button (click)="toggleMenuAvailability(menu)">
+      {{ menu['available'] ? 'Desativar' : 'Ativar' }}
+    </button>
+    <span *ngIf="menu['available']" style="color:green;">Disponível</span>
+    <span *ngIf="!menu['available']" style="color:red;">Indisponível</span>
+  </li>
+</ul>
 
 <h3>Pratos</h3>
-<mat-list>
-  <mat-list-item *ngFor="let dish of dishes">
-    <div matLine>
-      <b>{{ dish.name }}</b>
-      <span class="status" [ngClass]="dish['available'] ? 'available' : 'unavailable'">
-        {{ dish['available'] ? 'Disponível' : 'Indisponível' }}
-      </span>
-    </div>
-    <div matLine>
-      <button mat-stroked-button color="{{ dish['available'] ? 'warn' : 'primary' }}" (click)="toggleDishAvailability(dish)">
-        {{ dish['available'] ? 'Desativar' : 'Ativar' }}
-      </button>
-    </div>
-  </mat-list-item>
-</mat-list>
+<ul>
+  <li *ngFor="let dish of dishes">
+    {{ dish.name }}
+    <button (click)="toggleDishAvailability(dish)">
+      {{ dish['available'] ? 'Desativar' : 'Ativar' }}
+    </button>
+    <span *ngIf="dish['available']" style="color:green;">Disponível</span>
+    <span *ngIf="!dish['available']" style="color:red;">Indisponível</span>
+  </li>
+</ul>

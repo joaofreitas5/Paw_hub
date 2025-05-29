@@ -1,67 +1,30 @@
 <h2>{{ editing ? 'Editar Menu' : 'Criar Menu' }}</h2>
 <form [formGroup]="menuForm" (ngSubmit)="onSubmit()">
-  <mat-form-field appearance="outline" style="width: 100%;">
-    <mat-label>Categoria</mat-label>
-    <mat-select formControlName="category" required>
-      <mat-option *ngFor="let cat of categories" [value]="cat.name">{{ cat.name }}</mat-option>
-    </mat-select>
-  </mat-form-field>
+  <label>Categoria:
+    <select formControlName="category" required>
+      <option *ngFor="let cat of categories" [value]="cat.name">{{ cat.name }}</option>
+    </select>
+  </label>
   <div formArrayName="items">
-    <div *ngFor="let item of items.controls; let i = index" [formGroupName]="i" class="menu-item-card">
-      <mat-form-field appearance="outline" style="width: 100%;">
-        <mat-label>Nome</mat-label>
-        <input matInput formControlName="name" required />
-      </mat-form-field>
-      <mat-form-field appearance="outline" style="width: 100%;">
-        <mat-label>Descrição</mat-label>
-        <textarea matInput formControlName="description"></textarea>
-      </mat-form-field>
-      <mat-form-field appearance="outline" style="width: 100%;">
-        <mat-label>Preço</mat-label>
-        <input matInput type="number" formControlName="price" required />
-      </mat-form-field>
-      <mat-form-field appearance="outline" style="width: 100%;">
-        <mat-label>Imagem (URL)</mat-label>
-        <input matInput formControlName="image" />
-      </mat-form-field>
-      <mat-form-field appearance="outline" style="width: 100%;">
-        <mat-label>Dose</mat-label>
-        <input matInput formControlName="doseType" />
-      </mat-form-field>
-      <fieldset formGroupName="nutritionalInfo" class="nutritional-fieldset">
+    <div *ngFor="let item of items.controls; let i = index" [formGroupName]="i" style="border:1px solid #ccc; margin:10px; padding:10px;">
+      <label>Nome: <input formControlName="name" required /></label>
+      <label>Descrição: <textarea formControlName="description"></textarea></label>
+      <label>Preço: <input type="number" formControlName="price" required /></label>
+      <label>Imagem (URL): <input formControlName="image" /></label>
+      <label>Dose: <input formControlName="doseType" /></label>
+      <fieldset formGroupName="nutritionalInfo">
         <legend>Informação Nutricional</legend>
-        <div class="nutritional-fields">
-          <mat-form-field appearance="outline">
-            <mat-label>Calorias</mat-label>
-            <input matInput type="number" formControlName="calories" />
-          </mat-form-field>
-          <mat-form-field appearance="outline">
-            <mat-label>Proteína</mat-label>
-            <input matInput type="number" formControlName="protein" />
-          </mat-form-field>
-          <mat-form-field appearance="outline">
-            <mat-label>Gordura</mat-label>
-            <input matInput type="number" formControlName="fat" />
-          </mat-form-field>
-          <mat-form-field appearance="outline">
-            <mat-label>Hidratos</mat-label>
-            <input matInput type="number" formControlName="carbs" />
-          </mat-form-field>
-          <mat-form-field appearance="outline">
-            <mat-label>Sódio</mat-label>
-            <input matInput type="number" formControlName="sodium" />
-          </mat-form-field>
-        </div>
+        <label>Calorias: <input type="number" formControlName="calories" /></label>
+        <label>Proteína: <input type="number" formControlName="protein" /></label>
+        <label>Gordura: <input type="number" formControlName="fat" /></label>
+        <label>Hidratos: <input type="number" formControlName="carbs" /></label>
+        <label>Sódio: <input type="number" formControlName="sodium" /></label>
       </fieldset>
-      <button mat-stroked-button color="warn" type="button" (click)="removeMenuItem(i)" *ngIf="items.length > 1" style="margin-top: 10px;">
-        Remover prato
-      </button>
+      <button type="button" (click)="removeMenuItem(i)" *ngIf="items.length > 1">Remover prato</button>
     </div>
-    <button mat-raised-button color="accent" type="button" (click)="addMenuItem()" style="margin: 18px 0;">
-      Adicionar prato
-    </button>
+    <button type="button" (click)="addMenuItem()">Adicionar prato</button>
   </div>
-  <button mat-raised-button color="primary" type="submit" [disabled]="menuForm.invalid || loading" style="margin-top: 24px;">
+  <button type="submit" [disabled]="menuForm.invalid || loading">
     {{ editing ? 'Guardar alterações' : 'Criar menu' }}
   </button>
 </form>

@@ -1,25 +1,21 @@
 <div class="filters-panel">
-  <mat-form-field appearance="outline">
-    <mat-label>Pesquisar por nome</mat-label>
-    <input matInput type="text" [(ngModel)]="filter.name" (ngModelChange)="onFiltersChange()" />
-  </mat-form-field>
+  <input
+    type="text"
+    placeholder="Pesquisar por nome"
+    [(ngModel)]="filter.name"
+    (ngModelChange)="onFiltersChange()"
+  />
 
-  <mat-form-field appearance="outline">
-    <mat-label>Categoria</mat-label>
-    <mat-select [(ngModel)]="filter.categoryId" (selectionChange)="onFiltersChange()">
-      <mat-option value="">Todas as categorias</mat-option>
-      <mat-option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</mat-option>
-    </mat-select>
-  </mat-form-field>
+  <select [(ngModel)]="filter.categoryId" (ngModelChange)="onFiltersChange()">
+    <option value="">Todas as categorias</option>
+    <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</option>
+  </select>
 
-  <mat-form-field appearance="outline">
-    <mat-label>Disponibilidade</mat-label>
-    <mat-select [(ngModel)]="filter.available" (selectionChange)="onFiltersChange()">
-      <mat-option value="">Todos</mat-option>
-      <mat-option value="true">Disponível</mat-option>
-      <mat-option value="false">Indisponível</mat-option>
-    </mat-select>
-  </mat-form-field>
+  <select [(ngModel)]="filter.available" (ngModelChange)="onFiltersChange()">
+    <option value="">Todos</option>
+    <option value="true">Disponível</option>
+    <option value="false">Indisponível</option>
+  </select>
 
-  <button mat-stroked-button color="primary" type="button" (click)="clearFilters()">Limpar filtros</button>
+  <button type="button" (click)="clearFilters()">Limpar filtros</button>
 </div>

@@ -1,43 +1,28 @@
-<div *ngIf="loading">
-  <mat-progress-spinner mode="indeterminate" diameter="36"></mat-progress-spinner>
-  <span style="margin-left: 10px;">A carregar menu...</span>
-</div>
-<div *ngIf="error">
-  <mat-card class="error-card">{{ error }}</mat-card>
-</div>
+<div *ngIf="loading">A carregar menu...</div>
+<div *ngIf="error">{{ error }}</div>
 <div *ngIf="menu">
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title>{{ menu.category }}</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <div *ngIf="dishes.length > 0">
-        <h3>Pratos</h3>
-        <mat-list>
-          <mat-list-item *ngFor="let dish of dishes">
-            <div class="dish-info">
-              <b>{{ dish.name }}</b>
-              <span *ngIf="dish.image" class="dish-img">
-                <img [src]="dish.image" alt="Imagem do prato" width="90" />
-              </span>
-              <div>{{ dish.description }}</div>
-              <div><b>Preço:</b> {{ dish.price | currency:'EUR':'symbol':'1.2-2' }}</div>
-              <div *ngIf="dish.nutritionalInfo">
-                <mat-chip-list>
-                  <mat-chip color="primary" selected>Calorias: {{ dish.nutritionalInfo.calories }}</mat-chip>
-                  <mat-chip color="primary" selected>Proteína: {{ dish.nutritionalInfo.protein }}</mat-chip>
-                  <mat-chip color="primary" selected>Gordura: {{ dish.nutritionalInfo.fat }}</mat-chip>
-                  <mat-chip color="primary" selected>Hidratos: {{ dish.nutritionalInfo.carbs }}</mat-chip>
-                  <mat-chip color="primary" selected>Sódio: {{ dish.nutritionalInfo.sodium }}</mat-chip>
-                </mat-chip-list>
-              </div>
-            </div>
-          </mat-list-item>
-        </mat-list>
-      </div>
-    </mat-card-content>
-    <mat-card-actions>
-      <a mat-stroked-button color="accent" [routerLink]="['/edit-menu', menu.id]">Editar menu</a>
-    </mat-card-actions>
-  </mat-card>
+  <h2>{{ menu.category }}</h2>
+  <div *ngIf="dishes.length > 0">
+    <h3>Pratos</h3>
+    <ul>
+      <li *ngFor="let dish of dishes">
+        <b>{{ dish.name }}</b>
+        <span *ngIf="dish.image">
+          <img [src]="dish.image" alt="Imagem do prato" width="100" />
+        </span>
+        <div>{{ dish.description }}</div>
+        <div><b>Preço:</b> {{ dish.price | currency:'EUR':'symbol':'1.2-2' }}</div>
+        <div *ngIf="dish.nutritionalInfo">
+          <small>
+            Calorias: {{ dish.nutritionalInfo.calories }},
+            Proteína: {{ dish.nutritionalInfo.protein }},
+            Gordura: {{ dish.nutritionalInfo.fat }},
+            Hidratos: {{ dish.nutritionalInfo.carbs }},
+            Sódio: {{ dish.nutritionalInfo.sodium }}
+          </small>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <a [routerLink]="['/edit-menu', menu.id]">Editar menu</a>
 </div>

@@ -1,32 +1,19 @@
 <div *ngIf="loading">A carregar categorias...</div>
-<div *ngIf="error" class="error-msg">{{ error }}</div>
+<div *ngIf="error">{{ error }}</div>
 
-<form [formGroup]="categoryForm" (ngSubmit)="onSubmit()" class="category-form">
-  <mat-form-field appearance="outline">
-    <mat-label>Nome da categoria</mat-label>
-    <input matInput formControlName="name" required />
-  </mat-form-field>
-  <mat-form-field appearance="outline">
-    <mat-label>Descrição (opcional)</mat-label>
-    <input matInput formControlName="description" />
-  </mat-form-field>
-  <button mat-raised-button color="primary" type="submit">
+<form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
+  <input formControlName="name" placeholder="Nome da categoria" required />
+  <input formControlName="description" placeholder="Descrição (opcional)" />
+  <button type="submit">
     {{ editingCategory ? 'Guardar alterações' : 'Adicionar categoria' }}
   </button>
-  <button mat-stroked-button color="warn" *ngIf="editingCategory" type="button" (click)="cancelEdit()">Cancelar</button>
+  <button *ngIf="editingCategory" type="button" (click)="cancelEdit()">Cancelar</button>
 </form>
 
-<mat-list>
-  <mat-list-item *ngFor="let cat of categories">
-    <div matLine>
-      <b>{{ cat.name }}</b>
-      <span *ngIf="cat.description">- {{ cat.description }}</span>
-    </div>
-    <div matLine class="category-actions">
-      <button mat-button color="accent" (click)="editCategory(cat)">Editar</button>
-      <button mat-icon-button color="warn" (click)="deleteCategory(cat)" aria-label="Eliminar">
-        <mat-icon>delete</mat-icon>
-      </button>
-    </div>
-  </mat-list-item>
-</mat-list>
+<ul>
+  <li *ngFor="let cat of categories">
+    <b>{{ cat.name }}</b> <span *ngIf="cat.description">- {{ cat.description }}</span>
+    <button (click)="editCategory(cat)">Editar</button>
+    <button (click)="deleteCategory(cat)">Eliminar</button>
+  </li>
+</ul>

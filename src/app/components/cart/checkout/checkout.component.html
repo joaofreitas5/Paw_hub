@@ -1,27 +1,34 @@
 <h2>Checkout</h2>
-<form (ngSubmit)="onSubmit()" #checkoutForm="ngForm">
-  <mat-form-field appearance="outline" style="width: 100%;">
-    <mat-label>Morada de entrega</mat-label>
-    <input matInput type="text" [(ngModel)]="deliveryAddress" name="deliveryAddress" required />
-  </mat-form-field>
-
-  <mat-radio-group [(ngModel)]="paymentOption" name="payment" required>
-    <mat-radio-button value="card">Cartão</mat-radio-button>
-    <mat-radio-button value="mbway">MB Way</mat-radio-button>
-    <mat-radio-button value="money">Dinheiro na entrega</mat-radio-button>
-  </mat-radio-group>
-
+<form (ngSubmit)="onSubmit()">
+  <div>
+    <label>
+      Morada de entrega:
+      <input type="text" [(ngModel)]="deliveryAddress" name="deliveryAddress" required />
+    </label>
+  </div>
+  <div>
+    <label>
+      <input type="radio" name="payment" value="card" [(ngModel)]="paymentOption" required />
+      Cartão
+    </label>
+    <label>
+      <input type="radio" name="payment" value="mbway" [(ngModel)]="paymentOption" />
+      MB Way
+    </label>
+    <label>
+      <input type="radio" name="payment" value="money" [(ngModel)]="paymentOption" />
+      Dinheiro na entrega
+    </label>
+  </div>
   <h3>Itens do Carrinho</h3>
-  <mat-list>
-    <mat-list-item *ngFor="let item of items">
+  <ul>
+    <li *ngFor="let item of items">
       {{ item.name }} ({{ item.quantity }}) - {{ item.price * item.quantity | currency:'EUR' }}
-    </mat-list-item>
-  </mat-list>
-
+    </li>
+  </ul>
   <p *ngIf="items.length > 0">
     <b>Total:</b> {{ cartService.total() | currency:'EUR' }}
   </p>
-
-  <button mat-raised-button color="primary" type="submit" [disabled]="processing">Pagar</button>
+  <button type="submit" [disabled]="processing">Pagar</button>
   <div *ngIf="error">{{ error }}</div>
 </form>
