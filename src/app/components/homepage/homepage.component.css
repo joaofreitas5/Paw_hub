@@ -1,0 +1,15 @@
+.homepage-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+}
+
+mat-card {
+  width: 400px;
+  padding: 24px;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
