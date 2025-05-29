@@ -3,22 +3,33 @@
   (filtersChanged)="onFiltersChanged($event)">
 </app-filters-panel>
 
-<div *ngIf="loading">A carregar menus...</div>
-<div *ngIf="error">{{ error }}</div>
+<div *ngIf="loading">
+  <mat-progress-spinner mode="indeterminate" diameter="32"></mat-progress-spinner>
+  <span style="margin-left: 10px;">A carregar menus...</span>
+</div>
+<div *ngIf="error">
+  <mat-card class="error-card">{{ error }}</mat-card>
+</div>
 
-<a routerLink="/add-menu">Adicionar menu</a>
+<a mat-raised-button color="primary" routerLink="/add-menu" style="margin-bottom: 18px;">Adicionar menu</a>
 
-<ul>
-  <li *ngFor="let menu of filteredMenus()">
-    <b>{{ menu.category }}</b>
-    <ul>
-      <li *ngFor="let itemId of menu.items">
+<mat-accordion *ngIf="!loading && !error">
+  <mat-expansion-panel *ngFor="let menu of filteredMenus()">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <b>{{ menu.category }}</b>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <mat-list>
+      <mat-list-item *ngFor="let itemId of menu.items">
         <ng-container *ngIf="getDish(itemId) as dish">
           {{ dish.name }} - {{ dish.price | currency:'EUR':'symbol':'1.2-2' }}
         </ng-container>
-      </li>
-    </ul>
-    <a [routerLink]="['/menus', menu.id]">Detalhes</a>
-    <a [routerLink]="['/edit-menu', menu.id]">Editar</a>
-  </li>
-</ul>
+      </mat-list-item>
+    </mat-list>
+    <div class="menu-actions">
+      <a mat-button color="primary" [routerLink]="['/menus', menu.id]">Detalhes</a>
+      <a mat-stroked-button color="accent" [routerLink]="['/edit-menu', menu.id]">Editar</a>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>

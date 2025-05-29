@@ -1,13 +1,17 @@
 <h2>Perfil de Utilizador</h2>
-<p>Nome: {{ user?.personalInfo?.name }}</p>
-<p>Email: {{ user?.email }}</p>
-<!-- outros dados de perfil -->
-<button 
-  *ngIf="user && user.role === 'user' && !user.pendingRestaurantApproval"
-  (click)="applyForRestaurant()">
-  Quero ser restaurante
-</button>
-<div *ngIf="user?.pendingRestaurantApproval">
-  Pedido de restaurante pendente de aprovação.
-</div>
-<div *ngIf="feedback">{{ feedback }}</div>
+<mat-card>
+  <mat-card-content>
+    <p><b>Nome:</b> {{ user?.personalInfo?.name }}</p>
+    <p><b>Email:</b> {{ user?.email }}</p>
+    <!-- outros dados de perfil -->
+    <div *ngIf="user && user.role === 'user' && !user.pendingRestaurantApproval">
+      <button mat-raised-button color="primary" (click)="applyForRestaurant()">
+        Quero ser restaurante
+      </button>
+    </div>
+    <div *ngIf="user?.pendingRestaurantApproval" class="pending-msg">
+      Pedido de restaurante pendente de aprovação.
+    </div>
+    <div *ngIf="feedback" class="feedback-msg">{{ feedback }}</div>
+  </mat-card-content>
+</mat-card>

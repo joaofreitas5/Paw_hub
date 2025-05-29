@@ -1,0 +1,30 @@
+h2 {
+  text-align: center;
+  margin-bottom: 18px;
+}
+
+mat-card {
+  max-width: 420px;
+  margin: 0 auto;
+  padding-bottom: 12px;
+}
+
+mat-card-content p {
+  margin: 8px 0;
+}
+
+button[mat-raised-button] {
+  margin-top: 18px;
+}
+
+.pending-msg {
+  color: #b8860b;
+  margin-top: 14px;
+  font-weight: 500;
+}
+
+.feedback-msg {
+  color: #388e3c;
+  margin-top: 14px;
+  font-weight: 500;
+}

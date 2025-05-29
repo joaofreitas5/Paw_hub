@@ -1,0 +1,21 @@
+.filters-panel {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  align-items: flex-end;
+  margin-bottom: 24px;
+  background: #fff;
+  padding: 18px 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+mat-form-field {
+  min-width: 180px;
+  flex: 1 1 180px;
+}
+
+button[mat-stroked-button] {
+  min-width: 140px;
+  height: 40px;
+}

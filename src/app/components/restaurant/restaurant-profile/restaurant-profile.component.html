@@ -1,15 +1,22 @@
 <div *ngIf="loading">A carregar...</div>
-<div *ngIf="error">{{ error }}</div>
+<div *ngIf="error" class="error-msg">{{ error }}</div>
 <div *ngIf="restaurant">
-  <h2>{{ restaurant.name }}</h2>
-  <img *ngIf="restaurant.imageUrl" [src]="restaurant.imageUrl" alt="Imagem restaurante" width="200" />
-  <p>{{ restaurant.description }}</p>
-  <p><b>Endereço:</b> {{ restaurant.address }}</p>
-  <p><b>Telefone:</b> {{ restaurant.phone }}</p>
-  <p><b>Email:</b> {{ restaurant.email }}</p>
-  <p><b>Validado:</b> {{ restaurant.validated ? 'Sim' : 'Não' }}</p>
-  <!-- Botão para editar -->
-  <button routerLink="/edit-restaurant">Editar restaurante</button>
-  <a routerLink="/menus">Gerir Menus</a> |
-  <a routerLink="/categories">Gerir Categorias</a>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{ restaurant.name }}</mat-card-title>
+    </mat-card-header>
+    <img *ngIf="restaurant.imageUrl" mat-card-image [src]="restaurant.imageUrl" alt="Imagem restaurante" width="200" />
+    <mat-card-content>
+      <p>{{ restaurant.description }}</p>
+      <p><b>Endereço:</b> {{ restaurant.address }}</p>
+      <p><b>Telefone:</b> {{ restaurant.phone }}</p>
+      <p><b>Email:</b> {{ restaurant.email }}</p>
+      <p><b>Validado:</b> {{ restaurant.validated ? 'Sim' : 'Não' }}</p>
+    </mat-card-content>
+    <mat-card-actions>
+      <a mat-stroked-button color="primary" routerLink="/edit-restaurant">Editar restaurante</a>
+      <a mat-stroked-button color="accent" routerLink="/menus">Gerir Menus</a>
+      <a mat-stroked-button color="accent" routerLink="/categories">Gerir Categorias</a>
+    </mat-card-actions>
+  </mat-card>
 </div>
