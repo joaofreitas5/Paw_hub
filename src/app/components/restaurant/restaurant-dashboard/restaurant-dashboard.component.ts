@@ -43,8 +43,10 @@ export class RestaurantDashboardComponent implements OnInit {
       next: (restaurants) => {
         this.restaurant = restaurants[0];
         if (this.restaurant) {
-          this.menuService.getMenusByRestaurant(this.restaurant.id).subscribe(menus => this.menus = menus);
-          this.orderService.getOrdersByRestaurant(this.restaurant.id).subscribe(orders => this.orders = orders);
+          // Corrigido: usa type assertion para _id ou id
+          const restaurantId = (this.restaurant as any)._id ?? this.restaurant.id ?? '';
+          this.menuService.getMenusByRestaurant(restaurantId).subscribe(menus => this.menus = menus);
+          this.orderService.getOrdersByRestaurant(restaurantId).subscribe(orders => this.orders = orders);
         }
         this.loading = false;
       },

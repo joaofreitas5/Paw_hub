@@ -2,7 +2,19 @@
 <ul>
   <li *ngFor="let rest of pendingRestaurants">
     {{rest.name}} - {{rest.email}}
-    <button (click)="approve(rest.id)">Aprovar</button>
-    <button (click)="reject(rest.id)">Rejeitar</button>
+    <button (click)="approve(rest.id ?? rest._id ?? '')" [disabled]="!(rest.id || rest._id)">Aprovar</button>
+    <button (click)="reject(rest.id ?? rest._id ?? '')" [disabled]="!(rest.id || rest._id)">Rejeitar</button>
+  </li>
+</ul>
+
+<h3>Pedidos Pendentes de Utilizador para Restaurante</h3>
+<ul>
+  <li *ngFor="let user of pendingUsers">
+    {{user.username}} - {{user.email}}
+    <button (click)="approveUser(user.id ?? user._id ?? '')" [disabled]="!(user.id || user._id)">Aprovar</button>
+    <button (click)="rejectUser(user.id ?? user._id ?? '')" [disabled]="!(user.id || user._id)">Rejeitar</button>
+  </li>
+  <li *ngIf="pendingUsers.length === 0">
+    Nenhum pedido pendente de utilizador para restaurante.
   </li>
 </ul>

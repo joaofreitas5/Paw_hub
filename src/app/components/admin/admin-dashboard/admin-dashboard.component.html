@@ -17,3 +17,13 @@
     </li>
   </ul>
 </div>
+<div *ngIf="pendingRestaurantUsers.length > 0">
+  <h3>Pedidos de Utilizador para Restaurante</h3>
+  <ul>
+    <li *ngFor="let u of pendingRestaurantUsers">
+      {{ u.username }} - {{ u.email }}
+      <button mat-button color="primary" (click)="approveRestaurantUser(u._id)">Aprovar</button>
+      <button mat-button color="warn" (click)="rejectRestaurantUser(u._id)">Rejeitar</button>
+    </li>
+  </ul>
+</div>

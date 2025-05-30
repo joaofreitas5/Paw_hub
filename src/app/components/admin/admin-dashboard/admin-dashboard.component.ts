@@ -21,6 +21,7 @@ import { RestaurantService } from '../../../services/restaurant.service';
 })
 export class AdminDashboardComponent implements OnInit {
   pendingRestaurants: any[] = [];
+  pendingRestaurantUsers: any[] = [];
 
   constructor(
     private authService: AuthService,
@@ -29,14 +30,34 @@ export class AdminDashboardComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.restaurantService.getPendingRestaurants().subscribe({
-      next: (restaurants) => this.pendingRestaurants = restaurants,
-      error: () => this.pendingRestaurants = []
-    });
+    // Só carrega restaurantes pendentes se o utilizador estiver autenticado
+    if (this.authService.isLoggedIn()) {
+      this.restaurantService.getPendingRestaurants().subscribe({
+        next: (restaurants) => this.pendingRestaurants = restaurants,
+        error: () => this.pendingRestaurants = []
+      });
+      // Buscar utilizadores pendentes de aprovação como restaurante
+      this.restaurantService.getPendingRestaurantUsers().subscribe({
+        next: (users) => this.pendingRestaurantUsers = users,
+        error: () => this.pendingRestaurantUsers = []
+      });
+    }
   }
 
   logout() {
     this.authService.logout();
     this.router.navigate(['/homepage']);
+  }
+
+  approveRestaurantUser(id: string) {
+    this.restaurantService.approveRestaurantUser(id).subscribe(() => {
+      this.pendingRestaurantUsers = this.pendingRestaurantUsers.filter(u => u._id !== id);
+    });
+  }
+
+  rejectRestaurantUser(id: string) {
+    this.restaurantService.rejectRestaurantUser(id).subscribe(() => {
+      this.pendingRestaurantUsers = this.pendingRestaurantUsers.filter(u => u._id !== id);
+    });
   }
 }

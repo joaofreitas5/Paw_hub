@@ -48,7 +48,7 @@
       <mat-form-field class="form-field" appearance="outline">
         <mat-label>Restaurante</mat-label>
         <mat-select [(ngModel)]="selectedRestaurantId" name="restaurant">
-          <mat-option *ngFor="let r of restaurants" [value]="r.id">
+          <mat-option *ngFor="let r of restaurants" [value]="r._id || r.id">
             {{r.name}}
           </mat-option>
         </mat-select>

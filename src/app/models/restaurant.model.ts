@@ -17,7 +17,8 @@ export interface MenuItem {
 }
 
 export interface Restaurant {
-  id: string;
+  id?: string;
+  _id?: string; // <-- Adiciona isto
   name: string;
   owner: string; // user id
   deliveryTime?: number;

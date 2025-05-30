@@ -91,7 +91,7 @@ export class CategoryListComponent implements OnInit {
   getRestaurantId(): string {
     const user = this.authService.getUser();
     if (user?.role === 'restaurant') {
-      return user.id || '';
+      return user._id || user.id || '';
     }
     return '';
   }
