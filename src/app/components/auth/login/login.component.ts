@@ -36,7 +36,17 @@ export class LoginComponent {
 
   login() {
     this.authService.login(this.credentials.email, this.credentials.password).subscribe({
-      next: () => this.router.navigate(['/']),
+      next: _ => {
+        const user = this.authService.getUser && this.authService.getUser();
+        const role = user?.role;
+        if (role === 'admin') {
+          this.router.navigate(['/admin']);
+        } else if (role === 'restaurant' && user?.isValidated) {
+          this.router.navigate(['/restaurant-profile']);
+        } else {
+          this.router.navigate(['/profile']);
+        }
+      },
       error: err => this.error = err.error?.message || 'Erro ao autenticar'
     });
   }

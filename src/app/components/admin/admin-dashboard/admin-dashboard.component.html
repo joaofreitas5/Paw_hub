@@ -1,6 +1,10 @@
-<h2>Painel de Administração</h2>
+<mat-toolbar color="primary">
+  <span>Painel de Administração</span>
+  <span class="spacer"></span>
+  <button mat-button (click)="logout()">Logout</button>
+</mat-toolbar>
 <nav>
-  <a routerLink="/admin/validate-restaurants">Validar Restaurantes</a> |
-  <a routerLink="/admin/users">Utilizadores</a>
+  <a mat-button routerLink="/admin/validate-restaurants">Validar Restaurantes</a>
+  <a mat-button routerLink="/admin/users">Utilizadores</a>
 </nav>
 <router-outlet></router-outlet>

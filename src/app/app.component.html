@@ -1,12 +1,12 @@
 <h1>HOOOME is working!!</h1>
 
 <nav *ngIf="authService.isLoggedIn()">
-  <a routerLink="/menus">Menus</a>
-  <a (click)="logout()">Logout</a>
+  <a routerLink="/menus" mat-button>Menus</a>
+  <a (click)="logout()" mat-button>Logout</a>
 </nav>
 <nav *ngIf="!authService.isLoggedIn()">
-  <a routerLink="/login">Login</a>
-  <a routerLink="/register">Register</a>
+  <a routerLink="/login" mat-button>Login</a>
+  <a routerLink="/register" mat-button>Register</a>
 </nav>
 
 <router-outlet></router-outlet>

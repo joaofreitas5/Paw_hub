@@ -1,0 +1,4 @@
+/* Sugestão para o seu CSS global ou componente */
+.spacer {
+  flex: 1 1 auto;
+}

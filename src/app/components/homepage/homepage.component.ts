@@ -3,12 +3,13 @@ import { CommonModule } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { RouterModule } from '@angular/router';
 
 
 @Component({
   selector: 'app-homepage',
   standalone: true,
-  imports: [CommonModule, MatToolbarModule, MatButtonModule, MatCardModule],
+  imports: [CommonModule, MatToolbarModule, MatButtonModule, MatCardModule, RouterModule],
   templateUrl: './homepage.component.html',
   styleUrls: ['./homepage.component.css']
 })
