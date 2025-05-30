@@ -4,7 +4,6 @@
     Perfil
   </mat-card-title>
   <mat-card-content>
-    <pre style="color: #888; font-size: 12px;">{{ user | json }}</pre> <!-- debug: mostra o objeto user -->
     <div *ngIf="user; else loadingOrError">
       <mat-list>
         <mat-list-item>

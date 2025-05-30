@@ -7,8 +7,12 @@ export const AuthInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: 
   const authService = inject(AuthService);
   const token = authService.getToken();
 
-  // Não adiciona token em chamadas de login/registo
-  if (token && !req.url.includes('/login') && !req.url.includes('/register')) {
+  // Só adiciona o token se NÃO for login nem register (independentemente de query params)
+  if (
+    token &&
+    !req.url.match(/\/auth\/login(\?|$)/) &&
+    !req.url.match(/\/auth\/register(\?|$)/)
+  ) {
     const cloned = req.clone({
       setHeaders: {
         Authorization: `Bearer ${token}`

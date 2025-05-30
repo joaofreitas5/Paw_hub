@@ -1,13 +1,13 @@
 {
+  "/auth": {
+    "target": "http://localhost:3000",
+    "secure": false
+  },
   "/users": {
     "target": "http://localhost:3000",
     "secure": false
   },
   "/restaurants": {
-    "target": "http://localhost:3000",
-    "secure": false
-  },
-  "/api": {
     "target": "http://localhost:3000",
     "secure": false
   }

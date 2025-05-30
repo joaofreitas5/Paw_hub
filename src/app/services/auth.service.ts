@@ -10,7 +10,7 @@ interface AuthResponse {
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private api = '/api/auth'; // Atualizado para usar /api
+  private api = '/auth';
   private tokenKey = 'paw_token';
   private userKey = 'paw_user';
 
@@ -20,8 +20,7 @@ export class AuthService {
     return {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
-      }),
-      withCredentials: true // Important for CORS with credentials
+      })
     };
   }
 
