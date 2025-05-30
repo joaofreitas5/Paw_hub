@@ -20,8 +20,8 @@ import { RestaurantService } from '../../../services/restaurant.service';
   ]
 })
 export class AdminDashboardComponent implements OnInit {
-  pendingRestaurants: any[] = [];
-  pendingRestaurantUsers: any[] = [];
+  pendingUsers: any[] = [];
+  unvalidatedRestaurants: any[] = [];
 
   constructor(
     private authService: AuthService,
@@ -32,14 +32,15 @@ export class AdminDashboardComponent implements OnInit {
   ngOnInit() {
     // Só carrega restaurantes pendentes se o utilizador estiver autenticado
     if (this.authService.isLoggedIn()) {
-      this.restaurantService.getPendingRestaurants().subscribe({
-        next: (restaurants) => this.pendingRestaurants = restaurants,
-        error: () => this.pendingRestaurants = []
-      });
-      // Buscar utilizadores pendentes de aprovação como restaurante
+      // Utilizadores pendentes de aprovação para restaurante
       this.restaurantService.getPendingRestaurantUsers().subscribe({
-        next: (users) => this.pendingRestaurantUsers = users,
-        error: () => this.pendingRestaurantUsers = []
+        next: (users) => this.pendingUsers = users,
+        error: () => this.pendingUsers = []
+      });
+      // Restaurantes (users) não validados
+      this.restaurantService.getUnvalidatedRestaurantUsers().subscribe({
+        next: (users) => this.unvalidatedRestaurants = users,
+        error: () => this.unvalidatedRestaurants = []
       });
     }
   }
@@ -51,13 +52,27 @@ export class AdminDashboardComponent implements OnInit {
 
   approveRestaurantUser(id: string) {
     this.restaurantService.approveRestaurantUser(id).subscribe(() => {
-      this.pendingRestaurantUsers = this.pendingRestaurantUsers.filter(u => u._id !== id);
+      this.pendingUsers = this.pendingUsers.filter(u => u._id !== id && u.id !== id);
+      // Opcional: também podes atualizar a lista de não validados
+      this.ngOnInit();
     });
   }
 
   rejectRestaurantUser(id: string) {
     this.restaurantService.rejectRestaurantUser(id).subscribe(() => {
-      this.pendingRestaurantUsers = this.pendingRestaurantUsers.filter(u => u._id !== id);
+      this.pendingUsers = this.pendingUsers.filter(u => u._id !== id && u.id !== id);
+    });
+  }
+
+  validateRestaurantUser(id: string) {
+    this.restaurantService.approveRestaurantUser(id).subscribe(() => {
+      this.unvalidatedRestaurants = this.unvalidatedRestaurants.filter(u => u._id !== id && u.id !== id);
+    });
+  }
+
+  rejectUnvalidatedRestaurantUser(id: string) {
+    this.restaurantService.rejectRestaurantUser(id).subscribe(() => {
+      this.unvalidatedRestaurants = this.unvalidatedRestaurants.filter(u => u._id !== id && u.id !== id);
     });
   }
 }

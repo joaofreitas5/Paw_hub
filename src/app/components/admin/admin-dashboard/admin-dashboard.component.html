@@ -4,7 +4,7 @@
   <button mat-button (click)="logout()">Logout</button>
 </mat-toolbar>
 <nav>
-  <a mat-button routerLink="/admin/validate-restaurants">Validar Restaurantes</a>
+  <a mat-button routerLink="/admin/validar-restaurantes">Aprovar Restaurantes</a>
   <a mat-button routerLink="/admin/users">Utilizadores</a>
 </nav>
 <router-outlet></router-outlet>
@@ -24,6 +24,35 @@
       {{ u.username }} - {{ u.email }}
       <button mat-button color="primary" (click)="approveRestaurantUser(u._id)">Aprovar</button>
       <button mat-button color="warn" (click)="rejectRestaurantUser(u._id)">Rejeitar</button>
+    </li>
+  </ul>
+</div>
+<div *ngIf="unvalidatedRestaurantUsers.length > 0">
+  <h3>Utilizadores Restaurante Não Validados</h3>
+  <ul>
+    <li *ngFor="let u of unvalidatedRestaurantUsers">
+      {{ u.username }} - {{ u.email }}
+      <button mat-button color="primary" (click)="validateRestaurantUser(u._id ?? u.id)">Validar</button>
+    </li>
+  </ul>
+</div>
+<div *ngIf="pendingUsers.length > 0">
+  <h3>Pedidos Pendentes de Utilizador para Restaurante</h3>
+  <ul>
+    <li *ngFor="let u of pendingUsers">
+      {{ u.username }} - {{ u.email }}
+      <button mat-button color="primary" (click)="approveRestaurantUser(u._id ?? u.id)">Aprovar</button>
+      <button mat-button color="warn" (click)="rejectRestaurantUser(u._id ?? u.id)">Rejeitar</button>
+    </li>
+  </ul>
+</div>
+
+<div *ngIf="unvalidatedRestaurants.length > 0">
+  <h3>Restaurantes Não Validados</h3>
+  <ul>
+    <li *ngFor="let r of unvalidatedRestaurants">
+      {{ r.username }} - {{ r.email }}
+      <button mat-button color="primary" (click)="validateRestaurantUser(r._id ?? r.id)">Validar</button>
     </li>
   </ul>
 </div>

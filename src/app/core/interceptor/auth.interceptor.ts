@@ -1,4 +1,3 @@
-import { Injectable } from '@angular/core';
 import { HttpInterceptorFn, HttpRequest, HttpHandlerFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
@@ -10,7 +9,8 @@ export const AuthInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: 
   if (
     token &&
     !req.url.match(/\/auth\/login(\?|$)/) &&
-    !req.url.match(/\/auth\/register(\?|$)/)
+    !req.url.match(/\/auth\/register(\?|$)/) &&
+    !req.url.match(/\.(jpg|jpeg|png|gif|svg|css|js|ico)$/)
   ) {
     const cloned = req.clone({
       setHeaders: {

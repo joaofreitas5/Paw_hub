@@ -17,10 +17,9 @@ export interface User {
   password?: string;
   role: 'user' | 'restaurant' | 'admin';
   userID?: string;
-  isValidated?: boolean;
+  isValidated?: boolean; // <-- usa só este
   pendingRestaurantApproval?: boolean;
   personalInfo?: PersonalInfo;
   orderHistory?: OrderHistory[];
-  restaurantValidation?: boolean;
   restaurantId?: string; // Add this for restaurant users
 }

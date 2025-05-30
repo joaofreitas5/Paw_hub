@@ -83,6 +83,10 @@ export const routes: Routes = [
       { path: 'users', component: UserListComponent, canActivate: [AdminGuard] }
     ]
   },
+  {
+    path: 'admin/validar-restaurantes',
+    loadComponent: () => import('./components/admin/restaurant-validation/restaurant-validation.component').then(m => m.RestaurantValidationComponent)
+  },
 
   // Encomendas e checkout
   { path: 'cart', component: CartComponent, canActivate: [AuthGuard] },

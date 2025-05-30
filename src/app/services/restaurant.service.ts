@@ -65,6 +65,11 @@ export class RestaurantService {
     return this.http.post(`/admin/reject-restaurant-user/${id}`, {}, this.getAuthHeaders());
   }
 
+  // Listar utilizadores restaurante não validados
+  getUnvalidatedRestaurantUsers() {
+    return this.http.get<any[]>('/admin/unvalidated-restaurant-users', this.getAuthHeaders());
+  }
+
   getProtectedData() {
     return this.http.get('/admin/pending-restaurant-users', this.getAuthHeaders());
   }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RestaurantService } from '../../../services/restaurant.service';
-import { Restaurant } from '../../../models/restaurant.model';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-restaurant-validation',
@@ -11,61 +11,26 @@ import { Restaurant } from '../../../models/restaurant.model';
   imports: [CommonModule]
 })
 export class RestaurantValidationComponent implements OnInit {
-  pendingRestaurants: any[] = [];
-  pendingUsers: any[] = []; // Adiciona array para utilizadores pendentes
+  pendingUsers: any[] = [];
   error?: string;
 
-  constructor(private restaurantService: RestaurantService) {}
+  constructor(
+    private restaurantService: RestaurantService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit() {
-    this.loadPending();
-    this.loadPendingUsers(); // Carrega utilizadores pendentes
-  }
-
-  loadPending() {
-    console.log('Calling getPendingRestaurants...');
-    this.restaurantService.getPendingRestaurants().subscribe({
-      next: (restaurants) => this.pendingRestaurants = restaurants,
-      error: (err) => {
-        this.error = 'Erro ao carregar restaurantes pendentes';
-        console.error(err);
-      }
-    });
+    if (this.authService.isLoggedIn() && this.authService.getUserRole() === 'admin') {
+      this.loadPendingUsers();
+    } else {
+      this.error = 'Acesso restrito a administradores.';
+    }
   }
 
   loadPendingUsers() {
     this.restaurantService.getPendingRestaurantUsers().subscribe({
-      next: (users) => {
-        this.pendingUsers = users;
-        console.log('pendingUsers array após preenchimento:', this.pendingUsers); // Novo debug
-        if (!Array.isArray(this.pendingUsers) || this.pendingUsers.length === 0) {
-          console.warn('pendingUsers está vazio ou não é array!', this.pendingUsers);
-        }
-      },
-      error: (err) => {
-        this.error = 'Erro ao carregar utilizadores pendentes';
-        console.error('Erro no loadPendingUsers:', err); // Debug de erro
-      }
-    });
-  }
-
-  approve(id: string) {
-    this.restaurantService.approveRestaurant(id).subscribe({
-      next: () => this.loadPending(),
-      error: (err) => {
-        this.error = 'Erro ao aprovar restaurante';
-        console.error(err);
-      }
-    });
-  }
-
-  reject(id: string) {
-    this.restaurantService.rejectRestaurant(id).subscribe({
-      next: () => this.loadPending(),
-      error: (err) => {
-        this.error = 'Erro ao rejeitar restaurante';
-        console.error(err);
-      }
+      next: (users) => this.pendingUsers = users,
+      error: (err) => { this.error = 'Erro ao carregar utilizadores pendentes'; }
     });
   }
 
