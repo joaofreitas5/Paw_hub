@@ -28,4 +28,8 @@ export class RestaurantService {
   deleteRestaurant(id: string): Observable<any> {
     return this.http.delete(`${this.api}/${id}`);
   }
+
+  getValidatedRestaurants(): Observable<Restaurant[]> {
+    return this.http.get<Restaurant[]>(`${this.api}?validated=true`);
+  }
 }

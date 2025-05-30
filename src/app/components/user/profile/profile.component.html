@@ -1,13 +1,44 @@
-<h2>Perfil de Utilizador</h2>
-<p>Nome: {{ user?.personalInfo?.name }}</p>
-<p>Email: {{ user?.email }}</p>
-<!-- outros dados de perfil -->
-<button 
-  *ngIf="user && user.role === 'user' && !user.pendingRestaurantApproval"
-  (click)="applyForRestaurant()">
-  Quero ser restaurante
-</button>
-<div *ngIf="user?.pendingRestaurantApproval">
-  Pedido de restaurante pendente de aprovação.
-</div>
-<div *ngIf="feedback">{{ feedback }}</div>
+<mat-card>
+  <mat-card-title>
+    <mat-icon>person</mat-icon>
+    Perfil
+  </mat-card-title>
+  <mat-card-content>
+    <div *ngIf="user">
+      <p><strong>Username:</strong> {{user.username}}</p>
+      <p><strong>Email:</strong> {{user.email}}</p>
+      <p><strong>Role:</strong> {{user.role}}</p>
+    </div>
+
+    <button 
+      mat-raised-button color="accent"
+      *ngIf="user && user.role === 'user' && !user.pendingRestaurantApproval"
+      (click)="applyForRestaurant()">
+      Quero ser restaurante
+    </button>
+    <div *ngIf="user?.pendingRestaurantApproval">
+      Pedido de restaurante pendente de aprovação.
+    </div>
+    <div *ngIf="feedback">{{ feedback }}</div>
+
+    <h3>Histórico de Encomendas</h3>
+    <ul>
+      <li *ngFor="let order of orders">
+        Encomenda #{{order.id}} - {{order.status}} - Total: {{order.total}}€
+      </li>
+    </ul>
+
+    <h3>Fazer nova encomenda</h3>
+    <mat-form-field class="form-field" appearance="outline">
+      <mat-label>Restaurante</mat-label>
+      <mat-select [(ngModel)]="selectedRestaurantId" name="restaurant">
+        <mat-option *ngFor="let r of restaurants" [value]="r.id">
+          {{r.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button mat-raised-button color="primary" (click)="makeOrder()" [disabled]="!selectedRestaurantId">
+      Fazer Encomenda
+    </button>
+  </mat-card-content>
+</mat-card>

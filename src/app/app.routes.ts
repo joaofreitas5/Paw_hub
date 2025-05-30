@@ -6,7 +6,6 @@ import { RestaurantGuard } from './core/guard/restaurant.guard';
 // Auth & user
 import { LoginComponent } from './components/auth/login/login.component';
 import { RegisterComponent } from './components/auth/register/register.component';
-import { UserProfileComponent } from './components/user/user-profile/user-profile.component';
 import { ProfileComponent } from './components/user/profile/profile.component';
 
 // Admin
@@ -53,7 +52,7 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
-  { path: 'user-profile', component: UserProfileComponent, canActivate: [AuthGuard] },
+  
 
   // Restaurante (perfil, dashboard, edição)
   { path: 'restaurant-profile', component: RestaurantProfileComponent, canActivate: [RestaurantGuard] },

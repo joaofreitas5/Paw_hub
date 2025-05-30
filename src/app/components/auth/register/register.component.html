@@ -1,40 +1,58 @@
-<div class="register-form">
-  <mat-card>
+<div class="register-wrapper">
+  <mat-card class="register-card">
     <mat-card-header>
-      <mat-card-title>Registo</mat-card-title>
+      <mat-card-title>
+        <mat-icon class="register-icon">person_add</mat-icon>
+        Registo
+      </mat-card-title>
     </mat-card-header>
-    
     <mat-card-content>
       <form (ngSubmit)="register()" #registerForm="ngForm">
-        <mat-form-field class="full-width" appearance="outline">
+        <mat-form-field class="form-field" appearance="outline">
           <mat-label>Username</mat-label>
           <input matInput [(ngModel)]="user.username" name="username" required>
         </mat-form-field>
 
-        <mat-form-field class="full-width" appearance="outline">
+        <mat-form-field class="form-field" appearance="outline">
           <mat-label>Email</mat-label>
-          <input matInput [(ngModel)]="user.email" name="email" required type="email">
+          <input
+            matInput
+            type="email"
+            name="email"
+            [(ngModel)]="user.email"
+            required
+            pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+            #email="ngModel"
+          />
+          <mat-icon matSuffix>email</mat-icon>
+          <div *ngIf="email.invalid && email.touched">
+            <span *ngIf="email.errors?.['required']">Email é obrigatório.</span>
+            <span *ngIf="email.errors?.['pattern']">Formato de email inválido.</span>
+          </div>
         </mat-form-field>
 
-        <mat-form-field class="full-width" appearance="outline">
+        <mat-form-field class="form-field" appearance="outline">
           <mat-label>Password</mat-label>
-          <input matInput [(ngModel)]="user.password" name="password" required type="password">
+          <input
+            matInput
+            [(ngModel)]="user.password"
+            name="password"
+            required
+            type="password"
+            minlength="3"
+            #password="ngModel"
+          >
+          <mat-icon matSuffix>lock</mat-icon>
+          <div *ngIf="password.invalid && password.touched">
+            <span *ngIf="password.errors?.['required']">Password é obrigatória.</span>
+            <span *ngIf="password.errors?.['minlength']">Password deve ter pelo menos 3 caracteres.</span>
+          </div>
         </mat-form-field>
 
-        <mat-form-field class="full-width" appearance="outline">
-          <mat-label>Tipo de Conta</mat-label>
-          <mat-select [(ngModel)]="user.role" name="role">
-            <mat-option value="user">Cliente</mat-option>
-            <mat-option value="restaurant">Restaurante</mat-option>
-          </mat-select>
-        </mat-form-field>
-
-        <button mat-raised-button color="primary" type="submit">Registar</button>
-        
+        <button mat-raised-button color="primary" class="submit-btn" type="submit">Registar</button>
         <mat-error *ngIf="error">{{ error }}</mat-error>
       </form>
     </mat-card-content>
-
     <mat-card-actions>
       <a mat-button routerLink="/login">Já tem conta? Faça login</a>
     </mat-card-actions>
