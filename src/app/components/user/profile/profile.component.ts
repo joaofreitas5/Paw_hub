@@ -43,23 +43,40 @@ export class ProfileComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    console.log('ProfileComponent ngOnInit');
     this.userService.getProfile().subscribe({
       next: (user: User) => {
+        console.log('getProfile() response:', user);
         this.user = user;
-        const userId = user?._id ?? '';
+        const userId = user?._id ?? user?.id ?? '';
         if (userId) {
           this.orderService.getOrdersByUser(userId).subscribe({
-            next: orders => this.orders = orders,
-            error: () => this.feedback = 'Erro ao carregar encomendas.'
+            next: orders => {
+              console.log('getOrdersByUser() response:', orders);
+              this.orders = orders;
+            },
+            error: err => {
+              console.error('Erro ao carregar encomendas:', err);
+              this.feedback = 'Erro ao carregar encomendas.';
+            }
           });
         }
       },
-      error: () => this.feedback = 'Erro ao carregar perfil.'
+      error: err => {
+        console.error('Erro ao carregar perfil:', err);
+        this.feedback = 'Erro ao carregar perfil.';
+      }
     });
 
     this.restaurantService.getValidatedRestaurants().subscribe({
-      next: (restaurants: Restaurant[]) => this.restaurants = restaurants,
-      error: () => this.feedback = 'Erro ao carregar restaurantes.'
+      next: (restaurants: Restaurant[]) => {
+        console.log('getValidatedRestaurants() response:', restaurants);
+        this.restaurants = restaurants;
+      },
+      error: err => {
+        console.error('Erro ao carregar restaurantes:', err);
+        this.feedback = 'Erro ao carregar restaurantes.';
+      }
     });
   }
 

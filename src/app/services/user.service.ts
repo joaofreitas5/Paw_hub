@@ -36,6 +36,10 @@ export class UserService {
   }
 
   getProfile(): Observable<User> {
+    // ERRADO se usas proxy:
+    // return this.http.get<User>('/api/users/me', this.getHttpOptions());
+
+    // CERTO se usas proxy:
     return this.http.get<User>('/users/me', this.getHttpOptions());
   }
 
