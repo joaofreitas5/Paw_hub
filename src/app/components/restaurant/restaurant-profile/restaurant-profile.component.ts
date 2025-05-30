@@ -3,13 +3,22 @@ import { RestaurantService } from '../../../services/restaurant.service';
 import { Restaurant } from '../../../models/restaurant.model';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-restaurant-profile',
   templateUrl: './restaurant-profile.component.html',
   styleUrls: ['./restaurant-profile.component.css'],
   standalone: true,
-  imports: [CommonModule, RouterModule]
+  imports: [
+    CommonModule,
+    RouterModule,
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule
+  ]
 })
 export class RestaurantProfileComponent implements OnInit {
   restaurant?: Restaurant;

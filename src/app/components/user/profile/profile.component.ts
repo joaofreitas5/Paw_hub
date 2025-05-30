@@ -10,6 +10,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
+import { MatListModule } from '@angular/material/list';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -22,6 +24,8 @@ import { FormsModule } from '@angular/forms';
     MatButtonModule,
     MatIconModule,
     MatSelectModule,
+    MatListModule,
+    MatProgressSpinnerModule,
     FormsModule
   ]
 })
@@ -42,8 +46,9 @@ export class ProfileComponent implements OnInit {
     this.userService.getProfile().subscribe({
       next: (user: User) => {
         this.user = user;
-        if (user?.id) {
-          this.orderService.getOrdersByUser(user.id).subscribe({
+        const userId = user?._id ?? '';
+        if (userId) {
+          this.orderService.getOrdersByUser(userId).subscribe({
             next: orders => this.orders = orders,
             error: () => this.feedback = 'Erro ao carregar encomendas.'
           });
@@ -60,7 +65,9 @@ export class ProfileComponent implements OnInit {
 
   applyForRestaurant() {
     if (!this.user) return;
-    this.userService.applyForRestaurant(this.user.id).subscribe({
+    const userId = this.user._id ?? '';
+    if (!userId) return;
+    this.userService.applyForRestaurant(userId).subscribe({
       next: () => {
         this.feedback = 'Pedido enviado! Aguarde aprovação do admin.';
         if (this.user) this.user.pendingRestaurantApproval = true;

@@ -1,8 +1,24 @@
-<h2>Dados para entrega</h2>
-<form [formGroup]="orderForm" (ngSubmit)="onSubmit()">
-  <label>Morada: <input formControlName="address" required /></label>
-  <label>Telefone: <input formControlName="phone" required /></label>
-  <label>Notas (opcional): <textarea formControlName="notes"></textarea></label>
-  <button type="submit">Confirmar encomenda</button>
-  <div *ngIf="error">{{ error }}</div>
-</form>
+<mat-card>
+  <mat-card-title>
+    <mat-icon>shopping_cart</mat-icon>
+    Dados para entrega
+  </mat-card-title>
+  <mat-card-content>
+    <form [formGroup]="orderForm" (ngSubmit)="onSubmit()">
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label>Morada</mat-label>
+        <input matInput formControlName="address" required>
+      </mat-form-field>
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label>Telefone</mat-label>
+        <input matInput formControlName="phone" required>
+      </mat-form-field>
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label>Notas (opcional)</mat-label>
+        <textarea matInput formControlName="notes"></textarea>
+      </mat-form-field>
+      <button mat-raised-button color="primary" type="submit">Confirmar encomenda</button>
+      <mat-error *ngIf="error">{{ error }}</mat-error>
+    </form>
+  </mat-card-content>
+</mat-card>

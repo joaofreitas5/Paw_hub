@@ -1,21 +1,29 @@
-<h2>Checkout</h2>
-<ul>
-  <li *ngFor="let item of cart">
-    {{item.name}} x{{item.quantity}} - {{item.price | currency}}
-  </li>
-</ul>
-<label>
-  Morada:
-  <input [(ngModel)]="address" required />
-</label>
-<br />
-<label>
-  Pagamento:
-  <select [(ngModel)]="payment" required>
-    <option value="mbway">MBWay</option>
-    <option value="multibanco">Multibanco</option>
-    <option value="dinheiro">Dinheiro</option>
-  </select>
-</label>
-<br />
-<button (click)="placeOrder()" [disabled]="!address || !payment">Confirmar Encomenda</button>
+<mat-card>
+  <mat-card-title>
+    <mat-icon>shopping_cart</mat-icon>
+    Checkout
+  </mat-card-title>
+  <mat-card-content>
+    <ul>
+      <li *ngFor="let item of cart">
+        {{item.name}} x{{item.quantity}} - {{item.price | currency}}
+      </li>
+    </ul>
+    <mat-form-field class="form-field" appearance="outline">
+      <mat-label>Morada</mat-label>
+      <input matInput [(ngModel)]="address" required>
+    </mat-form-field>
+    <mat-form-field class="form-field" appearance="outline">
+      <mat-label>Pagamento</mat-label>
+      <mat-select [(ngModel)]="payment" required>
+        <mat-option value="mbway">MBWay</mat-option>
+        <mat-option value="multibanco">Multibanco</mat-option>
+        <mat-option value="dinheiro">Dinheiro</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button mat-raised-button color="primary" (click)="placeOrder()" [disabled]="!address || !payment">
+      Confirmar Encomenda
+    </button>
+    <mat-error *ngIf="error">{{ error }}</mat-error>
+  </mat-card-content>
+</mat-card>

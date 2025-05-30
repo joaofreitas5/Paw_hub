@@ -1,14 +1,19 @@
-<div *ngIf="loading">A carregar detalhes...</div>
-<div *ngIf="error">{{ error }}</div>
-<div *ngIf="order">
-  <h2>Encomenda #{{ order.id }}</h2>
-  <p><b>Morada:</b> {{ order.deliveryAddress }}</p>
-  <p><b>Total:</b> {{ order.total | currency:'EUR' }}</p>
-  <ul>
-    <li *ngFor="let item of order.items">
-      {{ item.name }} x {{ item.quantity }}
-    </li>
-  </ul>
-  <p><b>Notas:</b> {{ order.notes }}</p>
-  <p><b>Status:</b> {{ order.status }}</p>
-</div>
+<mat-card>
+  <mat-card-title>
+    <mat-icon>receipt_long</mat-icon>
+    Encomenda #{{ order?.id }}
+  </mat-card-title>
+  <mat-card-content *ngIf="order">
+    <p><b>Morada:</b> {{ order.deliveryAddress }}</p>
+    <p><b>Total:</b> {{ order.total | currency:'EUR' }}</p>
+    <ul>
+      <li *ngFor="let item of order.items">
+        {{ item.name }} x {{ item.quantity }}
+      </li>
+    </ul>
+    <p><b>Notas:</b> {{ order.notes }}</p>
+    <p><b>Status:</b> {{ order.status }}</p>
+  </mat-card-content>
+  <mat-card-content *ngIf="loading">A carregar detalhes...</mat-card-content>
+  <mat-card-content *ngIf="error">{{ error }}</mat-card-content>
+</mat-card>

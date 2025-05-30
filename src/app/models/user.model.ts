@@ -10,7 +10,8 @@ export interface OrderHistory {
 }
 
 export interface User {
-  id: string;
+  _id?: string;
+  id?: string;
   username: string;
   email: string;
   password?: string;

@@ -7,13 +7,24 @@ import { OrderService } from '../../../services/order.service';
 import { Restaurant } from '../../../models/restaurant.model';
 import { Menu } from '../../../models/menu.model';
 import { Order } from '../../../models/order.model';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
 
 @Component({
   selector: 'app-restaurant-dashboard',
   templateUrl: './restaurant-dashboard.component.html',
   styleUrls: ['./restaurant-dashboard.component.css'],
   standalone: true,
-  imports: [CommonModule, RouterModule]
+  imports: [
+    CommonModule,
+    RouterModule,
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule,
+    MatListModule
+  ]
 })
 export class RestaurantDashboardComponent implements OnInit {
   restaurant?: Restaurant;

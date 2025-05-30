@@ -1,15 +1,25 @@
+<mat-card *ngIf="restaurant">
+  <mat-card-title>
+    <mat-icon>store</mat-icon>
+    {{ restaurant.name }}
+  </mat-card-title>
+  <mat-card-content>
+    <img *ngIf="restaurant.imageUrl" [src]="restaurant.imageUrl" alt="Imagem restaurante" width="200" style="margin-bottom: 16px;" />
+    <p>{{ restaurant.description }}</p>
+    <p><b>Endereço:</b> {{ restaurant.address }}</p>
+    <p><b>Telefone:</b> {{ restaurant.phone }}</p>
+    <p><b>Email:</b> {{ restaurant.email }}</p>
+    <p><b>Validado:</b> 
+      <mat-icon color="primary" *ngIf="restaurant.validated">check_circle</mat-icon>
+      <mat-icon color="warn" *ngIf="!restaurant.validated">cancel</mat-icon>
+      {{ restaurant.validated ? 'Sim' : 'Não' }}
+    </p>
+    <div style="margin-top: 16px;">
+      <button mat-raised-button color="primary" routerLink="/edit-restaurant">Editar restaurante</button>
+      <a mat-button routerLink="/menus">Gerir Menus</a>
+      <a mat-button routerLink="/categories">Gerir Categorias</a>
+    </div>
+  </mat-card-content>
+</mat-card>
 <div *ngIf="loading">A carregar...</div>
 <div *ngIf="error">{{ error }}</div>
-<div *ngIf="restaurant">
-  <h2>{{ restaurant.name }}</h2>
-  <img *ngIf="restaurant.imageUrl" [src]="restaurant.imageUrl" alt="Imagem restaurante" width="200" />
-  <p>{{ restaurant.description }}</p>
-  <p><b>Endereço:</b> {{ restaurant.address }}</p>
-  <p><b>Telefone:</b> {{ restaurant.phone }}</p>
-  <p><b>Email:</b> {{ restaurant.email }}</p>
-  <p><b>Validado:</b> {{ restaurant.validated ? 'Sim' : 'Não' }}</p>
-  <!-- Botão para editar -->
-  <button routerLink="/edit-restaurant">Editar restaurante</button>
-  <a routerLink="/menus">Gerir Menus</a> |
-  <a routerLink="/categories">Gerir Categorias</a>
-</div>

@@ -1,16 +1,43 @@
-<h2>{{ editing ? 'Editar Restaurante' : 'Criar Restaurante' }}</h2>
-<form [formGroup]="restaurantForm" (ngSubmit)="onSubmit()">
-  <label>Nome: <input formControlName="name" required /></label>
-  <div *ngIf="restaurantForm.get('name')?.invalid && restaurantForm.get('name')?.touched">Nome obrigatório</div>
+<mat-card>
+  <mat-card-title>
+    <mat-icon>store</mat-icon>
+    {{ editing ? 'Editar Restaurante' : 'Criar Restaurante' }}
+  </mat-card-title>
+  <mat-card-content>
+    <form [formGroup]="restaurantForm" (ngSubmit)="onSubmit()">
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label>Nome</mat-label>
+        <input matInput formControlName="name" required>
+      </mat-form-field>
+      <div *ngIf="restaurantForm.get('name')?.invalid && restaurantForm.get('name')?.touched" style="color:red;">
+        Nome obrigatório
+      </div>
 
-  <label>Descrição: <textarea formControlName="description"></textarea></label>
-  <label>Endereço: <input formControlName="address" /></label>
-  <label>Telefone: <input formControlName="phone" /></label>
-  <label>Email: <input formControlName="email" /></label>
-  <label>Imagem (URL): <input formControlName="imageUrl" /></label>
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label>Descrição</mat-label>
+        <textarea matInput formControlName="description"></textarea>
+      </mat-form-field>
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label>Endereço</mat-label>
+        <input matInput formControlName="address">
+      </mat-form-field>
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label>Telefone</mat-label>
+        <input matInput formControlName="phone">
+      </mat-form-field>
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email">
+      </mat-form-field>
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label>Imagem (URL)</mat-label>
+        <input matInput formControlName="imageUrl">
+      </mat-form-field>
 
-  <button type="submit" [disabled]="loading || restaurantForm.invalid">
-    {{ editing ? 'Guardar' : 'Criar' }}
-  </button>
-  <div *ngIf="error">{{ error }}</div>
-</form>
+      <button mat-raised-button color="primary" type="submit" [disabled]="loading || restaurantForm.invalid">
+        {{ editing ? 'Guardar' : 'Criar' }}
+      </button>
+      <mat-error *ngIf="error">{{ error }}</mat-error>
+    </form>
+  </mat-card-content>
+</mat-card>
