@@ -32,4 +32,8 @@ export class RestaurantService {
   getValidatedRestaurants(): Observable<Restaurant[]> {
     return this.http.get<Restaurant[]>(`${this.api}?validated=true`);
   }
+
+  getPendingRestaurants(): Observable<Restaurant[]> {
+    return this.http.get<Restaurant[]>('/restaurants/pending');
+  }
 }

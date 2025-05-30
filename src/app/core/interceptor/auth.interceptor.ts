@@ -7,6 +7,9 @@ export const AuthInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: 
   const authService = inject(AuthService);
   const token = authService.getToken();
 
+  // Debug: mostra o token e a URL de cada request
+  console.log('AuthInterceptor:', { url: req.url, token });
+
   // Só adiciona o token se NÃO for login nem register (independentemente de query params)
   if (
     token &&

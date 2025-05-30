@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AdminService } from '../../../services/admin-service.service';
+import { RestaurantService } from '../../../services/restaurant.service'; // Corrigido
 import { Restaurant } from '../../../models/restaurant.model';
 
 @Component({
@@ -10,27 +10,31 @@ import { Restaurant } from '../../../models/restaurant.model';
   standalone: true,
   imports: [CommonModule]
 })
-
 export class RestaurantValidationComponent implements OnInit {
   pendingRestaurants: Restaurant[] = [];
+  error?: string;
 
-  constructor(private adminService: AdminService) {}
+  constructor(private restaurantService: RestaurantService) {} // Corrigido
 
   ngOnInit() {
     this.loadPending();
   }
 
   loadPending() {
-    this.adminService.getPendingRestaurants().subscribe((restaurants: Restaurant[]) => {
-      this.pendingRestaurants = restaurants;
+    this.restaurantService.getPendingRestaurants().subscribe({
+      next: (restaurants) => this.pendingRestaurants = restaurants,
+      error: (err) => {
+        this.error = 'Erro ao carregar restaurantes pendentes';
+        console.error(err);
+      }
     });
   }
 
   approve(id: string) {
-    this.adminService.approveRestaurant(id).subscribe(() => this.loadPending());
+    // Implementa a lógica de aprovação conforme o teu backend
   }
 
   reject(id: string) {
-    this.adminService.rejectRestaurant(id).subscribe(() => this.loadPending());
+    // Implementa a lógica de rejeição conforme o teu backend
   }
 }

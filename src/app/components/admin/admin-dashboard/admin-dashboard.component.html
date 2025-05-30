@@ -8,3 +8,12 @@
   <a mat-button routerLink="/admin/users">Utilizadores</a>
 </nav>
 <router-outlet></router-outlet>
+<div *ngIf="pendingRestaurants.length > 0">
+  <h3>Restaurantes Pendentes de Validação</h3>
+  <ul>
+    <li *ngFor="let r of pendingRestaurants">
+      {{ r.name }} - {{ r.email }}
+      <!-- Adiciona botão para validar se necessário -->
+    </li>
+  </ul>
+</div>
